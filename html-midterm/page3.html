@@ -1,6 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang = "end">
 <head>
 <!-- This is missing a title, meta, and a link to a css stylesheet found in the css subfolder. Please add them.-->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/cars.css">
+<title>Mid-term Page 3</title>
 </head>
 <body>
     <div class="navbar">
@@ -11,6 +17,8 @@
         <a href="/html-midterm/page3.html">Page 3</a>
         <span> | </span>
         <a href="/html-midterm/page4.html">Page 4</a>
+        <span> | </span>
+        <a href="/html-midterm/page5.html">Page 5</a>
         <span> | </span>
     </div>
     <header>
@@ -64,13 +72,13 @@
         <p>If you have any questions or inquiries about cars, feel free to reach out to us.</p>
         <form>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" required autocomplete = "Name">
             
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required autocomplete = "Email">
             
             <label for="message">Message:</label>
-            <textarea type = "message" id="message" name="message" required></textarea>
+            <textarea id="message" name="message" required></textarea>
             
             <button type="submit">Submit</button>
         </form>
