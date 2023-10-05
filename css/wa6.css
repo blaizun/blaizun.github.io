@@ -1,0 +1,44 @@
+body {
+    background-image: url('../img/AdobeStock_250271753.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../img/AdobeStock_250271753.jpeg');
+    background-size: 50% 50%;
+}
+#overlay {
+    position: fixed;
+    display: flex; /* Sit on top of the page content */ /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  }
+  
+.card {
+    width: 10em;
+    height: 8em;
+    margin: 1em auto;
+    background-color: rgb(194, 13, 13);
+    border: 0.2em solid black;
+    border-radius: 1.5em;
+}
+#mustard {
+    background-color: rgb(252, 221, 22);
+}
+h1 {
+    padding-left: 10px;
+}
+th {
+    padding: 0px 10px;
+}
+td {
+  padding: 10px;
+}
