@@ -6,7 +6,7 @@ function randomValueFromArray(array){
   const random = Math.floor(Math.random()*array.length);
   return array[random];
 }
-var storyText = "\"It was 94 fahrenheit outside on a Monday. :insertx: was in a dissassosiative state, listless, and sweaty. In the breast pocket of his sunbleached polo shirt, there were :inserty: he'd stolen from the woman who'd been kind enough to share her weekend with him. Her name was :insertz: and she was beautiful. :insertx: knew he'd likely never see her again which is why he let the sun beat his face red while he tried to shove the thoughts of her out of his mind.\" - Bob";
+var storyText = "\"It was 94 fahrenheit outside on a Monday. :insertx: was in a dissassosiative state, listless, and sweaty. In the breast pocket of his sunbleached polo shirt there were :inserty: he'd stolen from the woman who'd been kind enough to share her weekend with him. Her name was :insertz: and she was beautiful. :insertx: knew he'd likely never see her again which is why he let the sun beat his face red while he tried to shove the thoughts of her out of his mind.\" - Bob";
 var insertX = ["Jack","Milo","Mike"];
 var insertY = ["two cigarettes","three pieces of gum","four toothpicks"];
 var insertZ = ["Emma","Gracey","Chloe"];
