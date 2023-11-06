@@ -16,7 +16,7 @@
 
       label {
         font-weight: bold;
-        color: blanchedalmond;
+        color: #ffc125;
       }
 
       div {
@@ -28,7 +28,33 @@
         width: 150px;
         background-color: #ffc125;
       }
+      input[type='radio']:after {
+        width: 12px;
+        height: 12px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #f6d98e;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
 
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ffc125;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
       p {
         background: #ffc125;
         color: #5e2612;
@@ -39,8 +65,17 @@
         border-color: black;
       }
       .randomize {
-        background-color: #ffc125;
-      }
+        font-weight: bold;
+  background-color: #ffc125; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+      
     </style>
   </head>
 
