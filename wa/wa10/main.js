@@ -6,10 +6,10 @@ function randomValueFromArray(array){
   const random = Math.floor(Math.random()*array.length);
   return array[random];
 }
-var storyText = "It was 94 fahrenheit outside, so :insertx: went for a walk. When they got to :inserty:, they stared in horror for a few moments, then :insertz:. Bob saw the whole thing, but was not surprised — :insertx: weighs 300 pounds, and it was a hot day.";
-var insertX = ["Willy the Goblin","Big Daddy","Father Christmas"];
-var insertY = ["the soup kitchen","Disneyland","the White House"];
-var insertZ = ["spontaneously combusted","melted into a puddle on the sidewalk","turned into a slug and crawled away"];
+var storyText = "\"It was 94 fahrenheit outside on a Monday. Naturally, :insertx: was in a dissassosiative state, listless, and sweaty. In the breast pocket of his sunbleached polo shirt, there were :inserty: he'd stolen from the woman who'd been kind enough to share her weekend with him. Her name was :insertz: and she was beautiful. :insertx: knew he would likely never see her again which is why he let the sun beat his face red while he tried to shove the thoughts of her out of his mind.\" - Bob";
+var insertX = ["Jack","Milo","Mike"];
+var insertY = ["two cigarettes","three pieces of gum","four toothpicks"];
+var insertZ = ["Emma","Gracey","Chloe"];
 randomize.addEventListener('click', result);
 
 function result() {
