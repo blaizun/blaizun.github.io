@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@400;600;800&display=swap');
 h1 {
-  font-family: helvetica, arial, sans-serif;
+  font-family: 'Inknut Antiqua', serif;
+  font-weight: 800;
   text-align: center;
 }
 
 body {
+  background-color: #BEB3A0;
   width: 640px;
   margin: 0 auto;
 }
@@ -17,19 +20,20 @@ body {
 img {
   width:640px;
   height:640px;
+  
 }
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 640px;
-  height: 480px;
+  height: 640px;
   background-color: rgba(0,0,0,0);
 }
 
 button {
   border: 0;
-  background: rgba(150,150,150,0.6);
+  background: rgba(109, 70, 70, 0.6);
   text-shadow: 1px 1px 1px white;
   border: 1px solid #999;
   position: absolute;
@@ -44,4 +48,5 @@ button {
   height: 20%;
   float: left;
   cursor: pointer;
+  
 }
