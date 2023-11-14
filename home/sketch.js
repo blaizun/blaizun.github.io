@@ -93,7 +93,7 @@ class Particle {
   drawParticle() {
     fill(255);
     noStroke();
-    ellipse(this.position.x,this.position.y,5)
+    ellipse(this.position.x,this.position.y,6)
     
   }
 }
