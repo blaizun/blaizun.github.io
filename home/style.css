@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 h1 {
-    color:rgba(255,255,255,.75);
+    color:rgba(255,255,255,.85);
     font-family: "Open Sans";
     font-size: 15cqi;
     font-style:italic;
@@ -14,8 +14,29 @@ h2 {
     font-size: 5cqi;
 }
 p {
+    margin: 0 5% 5% 5%;
     font-size: 2cqi;
     font-family: "Open Sans";
-    color: white;
-    background-color:  #71BBFF;
+    color: #71BBFF;
+    
 }
+
+img {
+    height:45vw;
+    width:45vw;
+    flex: 2 1 auto;
+    margin:10px;
+}
+.card {
+    width: 100%;
+    
+    padding: .5rem;
+    border-color: white;
+    background-color: antiquewhite;
+    box-shadow: 5px;
+  
+  }
+  .flex-bod{
+    display:flex;
+    background-color: #71BBFF;
+  }
