@@ -16,6 +16,12 @@ h2 {
     color: #71BBFF;
     font-size: 5cqi;
 }
+h3 {
+  text-align: center;
+  font-family: "Open Sans";
+  color: #71BBFF;
+  font-size: 2cqi;
+}
 p {
     margin: 0 5% 5% 5%;
     font-size: 2cqi;
@@ -23,7 +29,9 @@ p {
     color: #71BBFF;
     
 }
-
+#primary-img {
+  margin-right:5%
+}
 img {
     height:45vw;
     width:45vw;
@@ -40,6 +48,7 @@ img {
   }
   .wrapper{
     margin:5%;
+    margin-top:0;
     position:relative;
   }
   .wrapper i{

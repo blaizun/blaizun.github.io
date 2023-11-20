@@ -3,6 +3,8 @@ firstImg = carousel.querySelectorAll("img")[0];
 arrowIcons = document.querySelectorAll(".wrapper i");
 let firstImgWidth = firstImg.clientWidth + 14;
 let scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+
+
 const showHideIcons = () => {
     arrowIcons[0].style.display = carousel.scrollLeft == 0 ? "none" : "block";
     arrowIcons[1].style.display = carousel.scrollLeft == scrollWidth ? "none" : "block";
@@ -13,7 +15,20 @@ arrowIcons.forEach(icon =>{
         setTimeout(() => showHideIcons(),60);
     })
 })
-let isDragStart = false,prevPageX,prevScrollLeft;
+let isDragStart = false,prevPageX,prevScrollLeft,positionDiff;
+const autoSlide = () => {
+    if( carousel.scrollLeft == (carousel.scrollWidth - carousel.clientWidth)) return;
+    positionDiff = Math.abs(positionDiff);
+    let firstImgWidth = firstImg.clientWidth + 14;
+    let valDifference = firstImgWidth - positionDiff;
+    if(carousel.scrollLeft > prevScrollLeft){
+        return carousel.scrollLeft += positionDiff > firstImage / 3 ? valDifference : -positionDiff;
+    }
+    else if(carousel.scrolLeft < prevScrollLeft){
+        return carousel.scrollLeft += positionDiff > firstImage / 3 ? valDifference : -positionDiff;
+    }
+
+};
 const dragStart = (e) => {
     isDragStart = true;
     prevPageX = e.pageX || e.touches[0].pageX;
@@ -22,12 +37,13 @@ const dragStart = (e) => {
 const dragStop = () => {
     carousel.classList.remove("dragging")
     isDragStart = false;
+    autoSlide();
 }
 const dragging = (e) => {
     if(!isDragStart) return;
     e.preventDefault();
     carousel.classList.add("dragging");
-    let positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
+    positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
     carousel.scrollLeft = prevScrollLeft - positionDiff;
     showHideIcons();
 }
