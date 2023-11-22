@@ -81,14 +81,17 @@ html {
   }
   
   .new-quote {
-    background-color: #4A2B0F;
-    margin-bottom: 15px;
+    background-color: #000000;
+    margin-bottom: 5px;
   }
   
   .new-quote:hover {
-    background-color: #6d3b0e;
+    background-color: rgb(97, 129, 88);
+
   }
-  
+  h2:hover{
+    color:rgb(97, 129, 88);
+  }
   .new-quote:disabled {
     background-color: #cccccc;
     color: #666666;
