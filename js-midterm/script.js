@@ -33,7 +33,7 @@ function draw() {
   //background('#71BBFF');
   c2 = color(255);
   c1 = color('#71BBFF');
-  var numString;
+  var numString = " ";
   for(let y=0; y<height; y++){
     n = map(y,0,height,0,1);
     let newc = lerpColor(c1,c2,n);
@@ -46,8 +46,25 @@ function draw() {
     particle.drawLines(particles.slice(index));
   })
   for(let i = 0; i < phoneNumber.length; i++){
-    numString += phoneNumber[i];
-  }
+    if(phoneNumber[i] != ' '){
+        switch(i) {
+            case 0:
+                numString += '(' + phoneNumber[i];
+                break;
+            case 2:
+                numString += phoneNumber[i] + ')';
+                break;
+            case 3: 
+                numString += '-' + phoneNumber[i];
+                break;
+            case 6:
+                numString += '-' + phoneNumber[i];
+                break;
+            default:
+                numString += phoneNumber[i];
+        }
+    }
+}
   phoneNum.innerHTML = numString;
 }
 

@@ -1,0 +1,12 @@
+div{
+    display: flex;
+    height: 400px;
+    width: 800px;
+    line-height: 400px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2cqi;
+
+}
