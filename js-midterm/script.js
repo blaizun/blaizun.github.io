@@ -27,7 +27,9 @@ function setup() {
   }
 }
 
-
+function empt(element, index, array) {
+    return element != " ";
+  }
 
 function draw() {
   //background('#71BBFF');
@@ -63,7 +65,16 @@ function draw() {
             default:
                 numString += phoneNumber[i];
         }
+
+        
     }
+    if(phoneNumber.every(empt)){
+        phoneNum.style.color =  'rgba(76, 190, 80, 0.85)';
+    }
+    else{
+        phoneNum.style.color =  'rgb(124,193,254,.85)';
+    }
+
 }
   phoneNum.innerHTML = numString;
 }
