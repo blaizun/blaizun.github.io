@@ -13,7 +13,7 @@ h1 {
 h2 {
     text-align: center;
     font-family: "Bodoni Moda";
-    color: rgb(32, 30, 30);
+    color: #71BBFF;
     font-size: 5cqi;
     margin-bottom: 0;
 }
@@ -29,6 +29,24 @@ p {
     font-family: "Open Sans";
     color: #71BBFF;
     
+}
+
+hr {
+  overflow: visible; /* For IE */
+  padding: 0;
+  border: none;
+  border-top: medium double #71BBFF;
+  color: #71BBFF;
+  text-align: center;
+}
+hr:after {
+  content: "§";
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.5em;
+  padding: 0 0.25em;
+  background: white;
 }
 #primary-img {
   margin-right:5%
