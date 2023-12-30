@@ -21,9 +21,13 @@ function terrain(inc){
 function draw() {
   background(0);
   //shader(myShader);
-  
-    terrain(0.02);
+  terrain(0.02);
   text('blaizun.com', 100, 100);
+  text('blaizun.com', 100, 105);
+  text('blaizun.com', 100, 110);
+  textSize(32);
+  text('art',170,110);
+  textSize(12);
   terrain(0.01);
  
 }
