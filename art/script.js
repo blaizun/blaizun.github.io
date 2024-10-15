@@ -1,39 +1,39 @@
 
-const images = [
-  '../home/imgs/personal/MAL-2Final.png',
-  '../home/imgs/personal/MAL-3.png',
-  '../home/imgs/personal/MAL-4.png',
-  '../home/imgs/personal/MAL1.png',
-  '../home/imgs/personal/WLG2REAL.png',
-  '../home/imgs/work/CruelOilBlaizunDiamond.jpg',
-  '../home/imgs/work/NailClippersBlaizunDiamond.jpg',
-  '../home/imgs/work/SwankyCover-1.jpg',
-  '../home/imgs/IMGClass/1.png',
-  '../home/imgs/IMGClass/8.png',
-  '../home/imgs/IMGClass/10.png',
-  '../home/imgs/IMGClass/DumbJealous.png',
-  '../home/imgs/IMGClass/FeelsLikeADream.png',
-  '../home/imgs/IMGClass/honestly.png',
-  '../home/imgs/IMGClass/Iknowyouredownbad.png',
-  '../home/imgs/IMGClass/JumpedInTooDeepREALFINAL.png',
-  '../home/imgs/IMGClass/proj7.png',
-  '../home/imgs/IMGClass/Proj8Insta.png',
-  '../home/imgs/IMGClass/proj9.png',
-  '../home/imgs/IMGClass/ReachingOutToMe.png',
+// const images = [
+//   '../home/imgs/personal/MAL-2Final.png',
+//   '../home/imgs/personal/MAL-3.png',
+//   '../home/imgs/personal/MAL-4.png',
+//   '../home/imgs/personal/MAL1.png',
+//   '../home/imgs/personal/WLG2REAL.png',
+//   '../home/imgs/work/CruelOilBlaizunDiamond.jpg',
+//   '../home/imgs/work/NailClippersBlaizunDiamond.jpg',
+//   '../home/imgs/work/SwankyCover-1.jpg',
+//   '../home/imgs/IMGClass/1.png',
+//   '../home/imgs/IMGClass/8.png',
+//   '../home/imgs/IMGClass/10.png',
+//   '../home/imgs/IMGClass/DumbJealous.png',
+//   '../home/imgs/IMGClass/FeelsLikeADream.png',
+//   '../home/imgs/IMGClass/honestly.png',
+//   '../home/imgs/IMGClass/Iknowyouredownbad.png',
+//   '../home/imgs/IMGClass/JumpedInTooDeepREALFINAL.png',
+//   '../home/imgs/IMGClass/proj7.png',
+//   '../home/imgs/IMGClass/Proj8Insta.png',
+//   '../home/imgs/IMGClass/proj9.png',
+//   '../home/imgs/IMGClass/ReachingOutToMe.png',
 
 
-  // Add more image sources as needed
-];
-const container = document.getElementById('imageContainer');
+//   // Add more image sources as needed
+// ];
+// const container = document.getElementById('imageContainer');
 
-images.forEach((src) => {
-  const card = document.createElement('div');
-  card.classList.add("card");
-  const imgElement = document.createElement('img');
-  imgElement.src = src;
-  card.appendChild(imgElement);
-  container.appendChild(card);
-});
+// images.forEach((src) => {
+//   const card = document.createElement('div');
+//   card.classList.add("card");
+//   const imgElement = document.createElement('img');
+//   imgElement.src = src;
+//   card.appendChild(imgElement);
+//   container.appendChild(card);
+// });
 
 
 
@@ -41,7 +41,8 @@ images.forEach((src) => {
 var start = 0;
 var start2 = 0;
 function setup() {
-  createCanvas(windowWidth, 400);
+  createCanvas(windowWidth, 800);
+
 }
 
 class Particle {
@@ -97,68 +98,81 @@ class Particle {
     
   }
 }
-function terrain(inc){
+function terrain1(inc,min){
+  const leftSide = window.innerWidth * min;
+  const rightSide = window.innerWidth * (1-min);
+  //console.log(window.innerWidth); 1920
+  const circleSize = 50;
+  const innerLeft = leftSide + (circleSize/2);
+  const innerRight = rightSide - (circleSize/2);
+  const heightMax = height;
+  const heightMin = height-300;
   noFill()
   stroke(255);
   beginShape()
   var xoff = start;
-  circle(475,map(noise(xoff+inc),0,1,0,height),50)
-  circle(475+inc,map(noise(xoff+inc),0,1,0,height),50)
-  circle(475+inc*3,map(noise(xoff+inc*3),0,1,0,height),50)
-
-  circle(width-475,map(noise(xoff+(inc*920)),0,1,0,height),50)
-
-  for(var x = 500; x < width-500; x++){
+  circle(leftSide,map(noise(xoff+inc),0,1,heightMin,heightMax),circleSize)
+  circle(rightSide,map(noise(xoff+(inc*(window.innerWidth - (innerLeft*2)))),0,1,heightMin,heightMax),circleSize)
+  for(var x = innerLeft; x < innerRight; x++){
     //strokeWeight(map(noise(xoff),0,1,1,5));
-    vertex(x,map(noise(xoff),0,1,0,height));
+    vertex(x,map(noise(xoff),0,1,heightMin,heightMax));
+    xoff += inc;
+  }
+  start += inc;
+  endShape();
+}
+function terrain2(inc,min){
+  const leftSide = window.innerWidth * (1-min);
+  const rightSide = window.innerWidth * min;
+  //console.log(window.innerWidth); 1920
+  const circleSize = 50;
+  const innerLeft = leftSide - (circleSize/2);
+  const innerRight = rightSide + (circleSize/2);
+  const heightMax = height;
+  const heightMin = height-300;
+  noFill()
+  stroke(255,61,65);
+  beginShape()
+  var xoff = start;
+  circle(leftSide,map(noise(xoff+inc),0,1,heightMin,heightMax),circleSize)
+  circle(rightSide,map(noise(xoff+(inc*(window.innerWidth - (innerRight*2)))),0,1,heightMin,heightMax),circleSize)
+  for(var x = innerLeft; x > innerRight; x--){
+    //strokeWeight(map(noise(xoff),0,1,1,5));
+    vertex(x,map(noise(xoff),0,1,heightMin,heightMax));
     xoff += inc;
   }
   start += inc;
   endShape();
 }
 
-function terrain2(inc){
-  noFill()
-  stroke(255,61,65);
-  beginShape()
-  var xoff = start;
-  let pos = width-475
-  text('blaizun.com', 100, 105);
-  circle(pos,map(noise(xoff),0,1,0,height),50)
-  circle(pos+inc,map(noise(xoff+inc),0,1,0,height),50)
-  circle(pos+inc*3,map(noise(xoff+inc*3),0,1,0,height),50)
-
-  circle(475,map(noise(xoff+inc*(920)),0,1,0,height),50)
-  text('blaizun.com', 100,map(noise(xoff+inc*(920))) );
-  for(var x = width-500; x > 500; x--){
-    
-    //strokeWeight(map(noise(xoff),0,1,1,5));
-    vertex(x,map(noise(xoff),0,1,0,height));
-    xoff += inc;
+function blaizun(){
+  for(var i = 0; i < height; i+= 50){
+    stroke(255,61,65,map(height-i,height,0,255,0))
+    text('blaizun.com', window.innerWidth/2, i)
   }
-  start2 += inc;
-  endShape();
 
 }
 
 
+
 function draw() {
-  textSize(64);
+  textSize(56);
+  textAlign(CENTER);
   background(0);
   //shader(myShader);
-  //terrain(0.02);
-  terrain(0.001);
-  //terrain2(0.02);
-  
-  terrain2(0.001);
+  //terrain1(0.0005);
+  terrain1(0.001,.1);
+  //terrain2(0.0005);
 
-  text('blaizun.com', 100, 100);
+  terrain2(0.001,.1);
+
+  // text('blaizun.com', 100, 100);
+  blaizun();
   
-  
-  //stroke(255,61,65);
-  text('blaizun.com', 100, 110);
-  stroke(0);
-  text('blaizun.com', 100, 105);
+  // //stroke(255,61,65);
+  // text('blaizun.com', 100, 110);
+  // stroke(0);
+  // text('blaizun.com', 100, 105);
   //text('art',170,110);
   textSize(12);
   let dir = 1;
