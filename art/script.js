@@ -41,7 +41,8 @@
 var start = 0;
 var start2 = 0;
 function setup() {
-  createCanvas(windowWidth, 800);
+  createCanvas(windowWidth, windowHeight*.75
+  );
 
 }
 
@@ -101,12 +102,11 @@ class Particle {
 function terrain1(inc,min){
   const leftSide = window.innerWidth * min;
   const rightSide = window.innerWidth * (1-min);
-  //console.log(window.innerWidth); 1920
   const circleSize = 50;
   const innerLeft = leftSide + (circleSize/2);
   const innerRight = rightSide - (circleSize/2);
   const heightMax = height;
-  const heightMin = height-300;
+  const heightMin = height-(height*min);
   noFill()
   stroke(255);
   beginShape()
@@ -124,12 +124,11 @@ function terrain1(inc,min){
 function terrain2(inc,min){
   const leftSide = window.innerWidth * (1-min);
   const rightSide = window.innerWidth * min;
-  //console.log(window.innerWidth); 1920
   const circleSize = 50;
   const innerLeft = leftSide - (circleSize/2);
   const innerRight = rightSide + (circleSize/2);
   const heightMax = height;
-  const heightMin = height-300;
+  const heightMin = height-(height*min);
   noFill()
   stroke(255,61,65);
   beginShape()
@@ -159,12 +158,17 @@ function draw() {
   textSize(56);
   textAlign(CENTER);
   background(0);
-  //shader(myShader);
-  //terrain1(0.0005);
-  terrain1(0.001,.1);
-  //terrain2(0.0005);
 
+  terrain1(0.001,.1);
   terrain2(0.001,.1);
+  terrain1(0.001,.2);
+  terrain2(0.001,.2);
+  terrain1(0.001,.3);
+  terrain2(0.001,.3);
+  terrain1(0.001,.4);
+  terrain2(0.001,.4);
+
+
 
   // text('blaizun.com', 100, 100);
   blaizun();
