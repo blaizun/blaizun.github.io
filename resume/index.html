@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.3/p5.js" integrity="sha512-jFun9+OwUQKq3AVHkUwhpM6YB6xn0FQ6ug16M7s6ZdnfDbWre2HGwLvWAHoR7bNsYRVKua5PR0HQjhLTH0QEbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="sketch.js"></script>
+</head>
+<body>
+<div id="my-pdf"></div>
+<script src="https://unpkg.com/pdfobject"></script>
+<script>PDFObject.embed("GeneralResume.pdf", "#my-pdf");</script>
+</body>
+</html>

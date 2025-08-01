@@ -116,7 +116,7 @@ canvas {
    
 
     @keyframes blinker {
-      0% {color: #FFBF00;}
+      0% {color: #FFBF00; text-shadow: 0px 0px 20px #FFBF00;}
       50% { opacity: 0;}
-      100% {color: #FFBF00;}
+      100% {color: #FFBF00;text-shadow: 0px 0px 20px #FFBF00;}
     }

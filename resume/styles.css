@@ -1,0 +1,22 @@
+canvas {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+body{
+      margin: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;      /* Center vertically */
+      background-color: black;
+    }
+
+.pdfobject-container { 
+    width: 1000px;
+    height: 99vh; 
+    border: 1px solid #ccc; 
+    display:flex;
+    justify-items: center;
+}
