@@ -1,39 +1,4 @@
 
-// const images = [
-//   '../home/imgs/personal/MAL-2Final.png',
-//   '../home/imgs/personal/MAL-3.png',
-//   '../home/imgs/personal/MAL-4.png',
-//   '../home/imgs/personal/MAL1.png',
-//   '../home/imgs/personal/WLG2REAL.png',
-//   '../home/imgs/work/CruelOilBlaizunDiamond.jpg',
-//   '../home/imgs/work/NailClippersBlaizunDiamond.jpg',
-//   '../home/imgs/work/SwankyCover-1.jpg',
-//   '../home/imgs/IMGClass/1.png',
-//   '../home/imgs/IMGClass/8.png',
-//   '../home/imgs/IMGClass/10.png',
-//   '../home/imgs/IMGClass/DumbJealous.png',
-//   '../home/imgs/IMGClass/FeelsLikeADream.png',
-//   '../home/imgs/IMGClass/honestly.png',
-//   '../home/imgs/IMGClass/Iknowyouredownbad.png',
-//   '../home/imgs/IMGClass/JumpedInTooDeepREALFINAL.png',
-//   '../home/imgs/IMGClass/proj7.png',
-//   '../home/imgs/IMGClass/Proj8Insta.png',
-//   '../home/imgs/IMGClass/proj9.png',
-//   '../home/imgs/IMGClass/ReachingOutToMe.png',
-
-
-//   // Add more image sources as needed
-// ];
-// const container = document.getElementById('imageContainer');
-
-// images.forEach((src) => {
-//   const card = document.createElement('div');
-//   card.classList.add("card");
-//   const imgElement = document.createElement('img');
-//   imgElement.src = src;
-//   card.appendChild(imgElement);
-//   container.appendChild(card);
-// });
 
 
 
@@ -41,8 +6,10 @@
 var start = 0;
 var start2 = 0;
 function setup() {
-  createCanvas(windowWidth, windowHeight*.75
+  myCanvas = createCanvas(windowWidth, windowHeight
   );
+  myCanvas.parent('canvas-container');
+  myCanvas.style('z-index','-1');
 
 }
 
@@ -133,8 +100,8 @@ function terrain2(inc,min){
   stroke(255,61,65);
   beginShape()
   var xoff = start;
-  circle(leftSide,map(noise(xoff+inc),0,1,heightMin,heightMax),circleSize)
-  circle(rightSide,map(noise(xoff+(inc*(window.innerWidth - (innerRight*2)))),0,1,heightMin,heightMax),circleSize)
+  circle(leftSide,map(noise(xoff+inc),0,1,heightMin,heightMax),circleSize);
+  circle(rightSide,map(noise(xoff+(inc*(window.innerWidth - (innerRight*2)))),0,1,heightMin,heightMax),circleSize);
   for(var x = innerLeft; x > innerRight; x--){
     //strokeWeight(map(noise(xoff),0,1,1,5));
     vertex(x,map(noise(xoff),0,1,heightMin,heightMax));
@@ -146,8 +113,16 @@ function terrain2(inc,min){
 
 function blaizun(){
   for(var i = 0; i < height; i+= 50){
-    stroke(255,61,65,map(height-i,height,0,255,0))
-    text('blaizun.com', window.innerWidth/2, i)
+    let alpha = map(height-i,height,0,255,0);
+    stroke(255,61,65,alpha);
+    text('blaizun.com', window.innerWidth/2, i);
+    // link = createA("",'blaizun.com','_blank');
+    // link.position(window.innerWidth/2, i);
+    // link.style('font-size','56px');
+    // //link.style('color',`rgba(255,61,65,${alpha})`)
+
+
+    
   }
 
 }
@@ -158,20 +133,29 @@ function draw() {
   textSize(56);
   textAlign(CENTER);
   background(0);
+  
+  terrain1(0.0001,.01);
+  terrain2(0.0001,.01);
+  terrain1(0.0008,.1);
+  terrain2(0.0008,.1);
+  terrain1(0.0008,.1);
+  terrain2(0.0008,.1);
+  terrain1(0.0008,.2);
+  terrain2(0.0008,.2);
+  terrain1(0.0008,.3);
+  terrain2(0.0008,.3);
+  terrain1(0.0008,.4);
+  terrain2(0.0008,.4);
+  // terrain1(0.0008,.45);
+  // terrain2(0.0008,.45);
+  // terrain1(0.0008,.5);
+  // terrain2(0.0008,.5);
 
-  terrain1(0.001,.1);
-  terrain2(0.001,.1);
-  terrain1(0.001,.2);
-  terrain2(0.001,.2);
-  terrain1(0.001,.3);
-  terrain2(0.001,.3);
-  terrain1(0.001,.4);
-  terrain2(0.001,.4);
 
 
 
   // text('blaizun.com', 100, 100);
-  blaizun();
+  //blaizun();
   
   // //stroke(255,61,65);
   // text('blaizun.com', 100, 110);

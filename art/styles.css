@@ -1,8 +1,22 @@
+    @font-face {
+        font-family: 'Binchotan'; /* Choose a descriptive name for your font */
+        src: /* Path to WOFF file */
+             url('../fonts/Binchotan_Sharp__400__(v_000_526)_.ttf') format('truetype'); /* Path to TTF file */
+        /* Add other formats like .eot or .svg for older browser support if needed */
+        font-weight: normal; /* Define font weight if applicable */
+        font-style: normal;  /* Define font style if applicable */
+    }
+
 html { font-size: 20px;
 }
 body{
-    background-color: black;
-}
+      margin: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;  /* Center horizontally */
+      align-items: center;      /* Center vertically */
+      background-color: black;
+    }
 canvas {
     display: block;
     position: absolute;
@@ -40,3 +54,69 @@ canvas {
 
     }
   }
+
+  .navbar{
+    margin-top: 75vh;
+  }
+  .navbar-container {
+    width:100%;
+    justify-content: center;
+  }
+  nav{
+    
+    width: 50%;
+    z-index: 999;
+    background-color: white;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+  }
+  nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+  }
+  nav li{
+    height: 50px;
+  
+  }
+
+ 
+  nav a:hover{
+    background-color: #f0f0f0;
+
+  }
+  nav li:first-child{
+    margin-right: auto;
+  }
+
+  #link-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0px;
+      font-family: sans-serif;
+      padding-left: 288px;
+    }
+
+    #link-container a {
+      font-family: 'Binchotan';
+      text-align: left;
+      margin: -17px;
+      text-decoration: none;
+      font-size: 56px;
+    }
+
+    #link-container a:hover {
+      animation: blinker 1.25s linear infinite;
+      
+    } 
+
+   
+
+    @keyframes blinker {
+      0% {color: #FFBF00;}
+      50% { opacity: 0;}
+      100% {color: #FFBF00;}
+    }
