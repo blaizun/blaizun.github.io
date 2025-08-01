@@ -1,76 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Include p5.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js" integrity="sha512-bzpp8klYroR6PFgL3RJ+VkvY5hJna7Zd38OA56peUDHSNQpSiN9lDQVnMYtcw7hoAVhbR6mAOdH+ymzg1o+G0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="home/style.css">
-    <title>blaizun.com</title>
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src= "home/script.js" defer></script>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <script src="home/sketch.js"></script>
-    <div>
-    <h1>blaizun.com</h1>
-    </div>
-    <hr>
-    <div >
-        <div class = "flex-item">
-            <h2>about me</h2>
-        </div>
-        <div class = "flex-item">
-            <p>Hello, my name is Blaizun Diamond. I study computer science and design at the University of Colorado Boulder. If you're seeing this page, I've probably applied
-                to work for you or your company. You can find my resume and some examples of my work below. If you would like to contact me, my email is <b>bldi9852@colorado.edu</b>.
-            </p>
-        </div>
-        <div class = "flex-item">
-        <h2>art</h2>
-        <div class="flex-box">
-        
-            <p>My art mostly consists of digital collages. I make them in photoshop using magazines I collect from thrift shops. Some of the examples below are fictional movie posters or magazine covers I made for 
-                my design courses. I also enjoy creative coding using libraries such as p5.js which is what you see at the top of this page.
-                <br>
-                <br>
-                The image on the right is my most recent collage and one of my favorites thus far.
-            </p>
-            <img id = "primary-img" src ="/home/imgs/personal/WLG2REAL.png" alt="Lone"  draggable = "false">
-        </div>
-        
-        </div>
-        <!--<div class = "flex-bod">
-            
-                <img src = "/home/art/img/MAL/MAL-4.png">
-                <img src = "/home/art/img/MAL/WLG2REAL.png">
-        
-            </div> !-->
-            <div class="flexbox">
-                <h3>Project Using inspiration from Yot Club - Down Bad</h2>
-            <div class="wrapper">
-                <i id = "left" class="fa-solid fa-angle-left"></i>
-                <div class="carousel">
-                    <img src ="/home/imgs/IMGClass/1.png" alt="Painting Heads"  draggable = "false">
-                    <img src ="/home/imgs/IMGClass/proj9.png" alt="I've been asleep for weeks" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/FeelsLikeADream.png" alt="now everything feels like a dream" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/proj7.png" alt="why would I wake up?" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/JumpedInTooDeepREALFINAL.png" alt="I jumped in too deep">
-                    <img src ="/home/imgs/IMGClass/Iknowyouredownbad.png" alt="and I know youre down bad if youre reaching out to me" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/Proj8Insta.png" alt="dumb, jealous, confident, fake apology" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/ReachingOutToMe.png" alt="and I know youre down bad if youre reaching out to me" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/10.png" alt="dumb, jealous, confident, fake apology" draggable = "false">
-                    <img src ="/home/imgs/IMGClass/honestly.png" alt="theres honestly not anything that you alone could do" draggable = "false">
-                </div>
-                <i id = "right" class="fa-solid fa-angle-right"></i>
-            </div>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.3/p5.js" integrity="sha512-jFun9+OwUQKq3AVHkUwhpM6YB6xn0FQ6ug16M7s6ZdnfDbWre2HGwLvWAHoR7bNsYRVKua5PR0HQjhLTH0QEbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js"></script>
+    <title>Home</title>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div id="link-container"></div>
+     <script>
+    // Sample links data (you can replace or fetch dynamically)
 
-        <div>
-            
-        </div>
-           
-            
-        
-    </div>
-  </body>
+    function mapToRange(value, inMin, inMax, outMin, outMax) {
+  // Calculate the position of 'value' within the input range as a percentage (0-1).
+      const normalizedValue = (value - inMin) / (inMax - inMin);
+
+  // Apply this percentage to the output range and add the output minimum offset.
+      const mappedValue = normalizedValue * (outMax - outMin) + outMin;
+
+      return mappedValue;
+      }
+    const links = [
+      { text: "blaizun.com", href: "#link5" },
+      { text: "blaizun.com", href: "#link4" },
+      { text: "blaizun.com/home", href: "#link3" },
+      { text: "blaizun.com/resume", href: "#link2" },
+      { text: "blaizun.com/portfolio", href: "#link2" },
+      { text: "blaizun.com/contact", href: "#link2" },
+      { text: "blaizun.com/art", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link2" },
+      { text: "blaizun.com", href: "#link1" }
+    ];
+
+    
+
+    const container = document.getElementById('link-container');
+
+    // Create and append links in descending order
+    links.forEach((link,index) => {
+      const a = document.createElement('a');
+      a.href = link.href;
+      a.textContent = link.text;
+      a.style.color = `rgba(255,61,65,${mapToRange(index,links.length,0,0,1)})`
+      container.appendChild(a);
+    });
+  </script>
+    
+    <!-- <div class="navbar-container">
+      <a href="">blaizun.com</a>
+      <a href="">blaizun.com</a>
+      <a href="">blaizun.com</a>
+      <a href="">blaizun.com</a>
+      <a href="">blaizun.com</a>
+      <a href="">blaizun.com</a>
+    <nav> 
+      <ul>
+        <li><a> Home</a></li>
+        <li><a> Resume</a></li>
+        <li><a> Graphic Design</a></li>
+        <li><a> Art</a></li>
+        <li><a> Projects</a></li>
+      </ul>
+    </nav>
+    </div> -->
+
+
+</body>
+
+</script>
 </html>
