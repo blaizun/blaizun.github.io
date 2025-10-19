@@ -1,6 +1,6 @@
 
         import * as THREE from 'three';
-        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+        import { OrbitControls } from 'jsm/controls/OrbitControls.js';
         import {GUI} from 'dat.gui';
 
         const clock = new THREE.Clock()
@@ -20,7 +20,7 @@
         function init() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 50;
+            camera.position.z = 25;
             
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
