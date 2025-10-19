@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>ThreeJS Starter</title>
+    <title>Particle Text</title>
+    		{
+				"imports": {
+					"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+                    "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/",
+                    "dat.gui": "https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.js"
+                }
+			}
 </head>
 <body>
   <div id="controls">
@@ -12,6 +19,6 @@
         <input type="text" id="textInput" value="HELLO" maxlength="10">
     </div>
     
-    <script type="module" src="./script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
