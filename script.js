@@ -6,8 +6,7 @@
 var start = 0;
 var start2 = 0;
 function setup() {
-  myCanvas = createCanvas(windowWidth, windowHeight
-  );
+  myCanvas = createCanvas(windowWidth, windowHeight);
   myCanvas.parent('canvas-container');
   myCanvas.style('z-index','-1');
 

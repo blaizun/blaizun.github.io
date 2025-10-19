@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script type="importmap">
+			{
+				"imports": {
+					"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+          "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+          
+        }
+			}
+		</script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.3/p5.js" integrity="sha512-jFun9+OwUQKq3AVHkUwhpM6YB6xn0FQ6ug16M7s6ZdnfDbWre2HGwLvWAHoR7bNsYRVKua5PR0HQjhLTH0QEbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="script.js"></script>
+    <script type="module" src="index.js"></script>
     <title>Home</title>
 </head>
 <body>
@@ -25,21 +35,21 @@
       return mappedValue;
       }
     const links = [
-      { text: "blaizun.com", href: "#link5" },
-      { text: "blaizun.com", href: "#link4" },
-      { text: "blaizun.com/home", href: "#link3" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com/home", href: "" },
       { text: "blaizun.com/resume", href: "resume/index.html" },
       { text: "blaizun.com/portfolio", href: "#link2" },
       { text: "blaizun.com/contact", href: "#link2" },
       { text: "blaizun.com/art", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link2" },
-      { text: "blaizun.com", href: "#link1" }
+      { text: "blaizun.com/particleText", href: "/particleText/index.html" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" },
+      { text: "blaizun.com", href: "" }
     ];
 
     
@@ -51,28 +61,13 @@
       const a = document.createElement('a');
       a.href = link.href;
       a.textContent = link.text;
-      a.style.color = `rgba(255,61,65,${mapToRange(index,links.length,0,0,1)})`
+      a.style.color = `rgba(255,61,65,${mapToRange(index,links.length,0,0,1)})`;
+      // a.style.animation = `fadeIn .2s linear forwards`;
+      // a.style.animationDelay = `${index * .2}s`
       container.appendChild(a);
     });
   </script>
-    
-    <!-- <div class="navbar-container">
-      <a href="">blaizun.com</a>
-      <a href="">blaizun.com</a>
-      <a href="">blaizun.com</a>
-      <a href="">blaizun.com</a>
-      <a href="">blaizun.com</a>
-      <a href="">blaizun.com</a>
-    <nav> 
-      <ul>
-        <li><a> Home</a></li>
-        <li><a> Resume</a></li>
-        <li><a> Graphic Design</a></li>
-        <li><a> Art</a></li>
-        <li><a> Projects</a></li>
-      </ul>
-    </nav>
-    </div> -->
+<!-- <canvas class="webgl"></canvas> -->
 
 
 </body>

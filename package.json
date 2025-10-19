@@ -1,9 +1,17 @@
 {
-  "dependencies": {
-    "latest-version": "^9.0.0",
-    "three": "^0.167.1"
+  "name": "blaizun.com",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^5.3.5"
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "three": "^0.160.0",
+    "dat.gui": "^0.7.9"
   }
 }

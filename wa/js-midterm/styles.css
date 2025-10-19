@@ -1,0 +1,26 @@
+
+
+#box {
+    padding: 10px;
+    border-radius: 15px;
+    display: auto;
+    margin: 30%;
+    margin-top: 0;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.767);
+}
+#phoneNumber,h1 {
+    position:relative;
+    font-size: 2cqi;
+    border-radius: 14px;
+    height:1cqi;
+    color:rgb(124,193,254,.85);
+    /*background-color: rgba(76, 190, 80, 0.85);*/
+    
+    
+
+}
+#phoneNumber {
+    font-size: 3cqi;
+    padding-bottom: 15px;
+}
