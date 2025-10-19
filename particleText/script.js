@@ -5,7 +5,7 @@
 
         const clock = new THREE.Clock()
         let k = 0;
-        const greetings = ["HELLO", "BONJOUR", "CHIAO","你好", "こんにちは","HALLO", "안녕하세요", "नमस्ते", "مرحبا", "שלום","HOLA"];
+        const greetings = ["HELLO", "BONJOUR", "CHIAO","你好", "こんにちは","HALLO", "안녕하세요", "नमस्ते", "مرحبا", "שלום","HOLA","Сайн уу","OLÁ", "SALVE"];
         let scene, camera, renderer, controls, sprites = [];
         let particleCount = 5000;
         let positions = new Float32Array(particleCount * 3);
