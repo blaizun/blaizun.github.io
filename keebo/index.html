@@ -134,7 +134,7 @@
             ground.receiveShadow = true;
             scene.add(ground);
             addSVGToGround('fishie.svg', 5, 5, -4,-1.45, 0,0,-Math.PI/2);
-            addSVGToGround('KEEBO.svg', 5, 5, 3,-1.45, 0,0,-Math.PI/2);
+            addSVGToGround('keeebo3.png', 6 ,6, 3,-1.45, 0,0,-Math.PI/2);
 
             //addSVGToGround('keebo.svg', 10, 10, 30,2, 0,-Math.PI/2,-Math.PI/2);    
             
@@ -164,17 +164,17 @@
             
             animate();
         }
-                function addSVGToGround(svgPath, width, height, positionX,positionY, positionZ,rotateY=0,rotateZ=0) {
-            // Create a texture from SVG
-            const loader = new THREE.TextureLoader();
-            const texture = loader.load(svgPath);
-            
-            // Create a plane with the SVG texture
-            const geometry = new THREE.PlaneGeometry(width, height);
-            const material = new THREE.MeshStandardMaterial({
-                map: texture,
-                transparent: true,
-                side: THREE.DoubleSide
+            function addSVGToGround(svgPath, width, height, positionX,positionY, positionZ,rotateY=0,rotateZ=0) {
+                // Create a texture from SVG
+                const loader = new THREE.TextureLoader();
+                const texture = loader.load(svgPath);
+                
+                // Create a plane with the SVG texture
+                const geometry = new THREE.PlaneGeometry(width, height);
+                const material = new THREE.MeshStandardMaterial({
+                    map: texture,
+                    transparent: true,
+                    side: THREE.SingleSide
             });
             
             const svgPlane = new THREE.Mesh(geometry, material);
