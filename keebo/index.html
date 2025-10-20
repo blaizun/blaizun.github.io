@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEEBO</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #333;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #info h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        #info p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <h2>KEEBO by Chad Holmes</h2>
+        <p>Drag to rotate • Scroll to zoom <br> Spacebar to kickflip</p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+    <script>
+        let scene, camera, renderer, product, controls;
+        let isDragging = false;
+        let previousMouseX = 0;
+        let previousMouseY = 0;
+        let targetRotationY = 0;
+        let targetRotationX = 0;
+        let currentRotationY = 0;
+        let currentRotationX = -0.3;
+        let cameraDistance = 15;
+        let targetCameraDistance = 15;
+        
+        const settings = {
+            autoRotate: true,
+            rotationSpeed: 0.2,
+            pcbColor: '#1a472a',
+            componentColor: '#c0c0c0',
+            trackColor: '#d4af37',
+            useGLBModel: true,
+            glbPath: 'keebo.glb'
+        };
+
+
+// Usage:
+    
+        
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff);
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 8, 15);
+            camera.lookAt(0, 0, 0);
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            document.body.appendChild(renderer.domElement);
+            
+            // Lighting setup for product photography look
+            
+            // Key light (main light)
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            keyLight.position.set(5, 10, 7);
+            keyLight.castShadow = true;
+            keyLight.shadow.mapSize.width = 2048;
+            keyLight.shadow.mapSize.height = 2048;
+            keyLight.shadow.camera.near = 0.5;
+            keyLight.shadow.camera.far = 50;
+            keyLight.shadow.camera.left = -10;
+            keyLight.shadow.camera.right = 10;
+            keyLight.shadow.camera.top = 10;
+            keyLight.shadow.camera.bottom = -10;
+            scene.add(keyLight);
+            
+            // Fill light (softer, from opposite side)
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
+            fillLight.position.set(-5, 5, -5);
+            scene.add(fillLight);
+            
+            // Back light (rim light)
+            const backLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            backLight.position.set(0, 3, -8);
+            scene.add(backLight);
+            
+            // Ambient light
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            // Hemisphere light for soft ambient
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0xf0f0f0, 0.3);
+            scene.add(hemiLight);
+            
+            // Ground plane (invisible but receives shadows)
+            const groundGeometry = new THREE.PlaneGeometry(50, 50);
+            const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.1 });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1.5;
+            ground.receiveShadow = true;
+            scene.add(ground);
+            addSVGToGround('fishie.svg', 5, 5, -4,-1.45, 0,0,-Math.PI/2);
+            addSVGToGround('keebo.svg', 5, 5, 3,-1.45, 0,0,-Math.PI/2);
+
+            //addSVGToGround('keebo.svg', 10, 10, 30,2, 0,-Math.PI/2,-Math.PI/2);    
+            
+            // Load model or create placeholder
+            if (settings.useGLBModel) {
+                loadGLBModel(settings.glbPath);
+            } else {
+                createPlaceholderPCB();
+            }
+            
+            // GUI
+            // const gui = new dat.GUI();
+            // gui.add(settings, 'autoRotate').name('Auto Rotate');
+            // gui.add(settings, 'rotationSpeed', 0, 1).name('Rotation Speed');
+            // gui.addColor(settings, 'pcbColor').name('PCB Color').onChange(updateColors);
+            // gui.addColor(settings, 'componentColor').name('Component Color').onChange(updateColors);
+            // gui.addColor(settings, 'trackColor').name('Track Color').onChange(updateColors);
+            
+            // Mouse controls
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('mouseleave', onMouseUp);
+            renderer.domElement.addEventListener('wheel', onWheel);
+            
+            window.addEventListener('resize', onResize);
+            
+            animate();
+        }
+                function addSVGToGround(svgPath, width, height, positionX,positionY, positionZ,rotateY=0,rotateZ=0) {
+            // Create a texture from SVG
+            const loader = new THREE.TextureLoader();
+            const texture = loader.load(svgPath);
+            
+            // Create a plane with the SVG texture
+            const geometry = new THREE.PlaneGeometry(width, height);
+            const material = new THREE.MeshStandardMaterial({
+                map: texture,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            const svgPlane = new THREE.Mesh(geometry, material);
+            svgPlane.rotation.x = -Math.PI / 2; // Lay flat on ground
+            svgPlane.rotation.z = rotateZ;
+            svgPlane.rotation.y = rotateY; // Correct orientation
+            svgPlane.position.set(positionX, positionY, positionZ); // Just above ground
+            svgPlane.receiveShadow = true;
+            
+            scene.add(svgPlane);
+            return svgPlane;
+        }
+        
+        function loadGLBModel(path) {
+            const loader = new THREE.GLTFLoader();
+            
+            loader.load(
+                path,
+                // onLoad callback
+                function (gltf) {
+                    product = gltf.scene;
+                    
+                    // Enable shadows for all meshes
+                    product.traverse((child) => {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+                    
+                    // Center the model
+                    const box = new THREE.Box3().setFromObject(product);
+                    const center = box.getCenter(new THREE.Vector3());
+                    product.position.sub(center);
+                    
+                    // Optional: scale the model to fit nicely in view
+                    const size = box.getSize(new THREE.Vector3());
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = 10 / maxDim; // Adjust 10 to change default size
+                    product.scale.multiplyScalar(scale);
+                    
+                    scene.add(product);
+                    console.log('GLB model loaded successfully');
+                },
+                // onProgress callback
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // onError callback
+                function (error) {
+                    console.error('Error loading GLB model:', error);
+                    console.log('Falling back to placeholder PCB');
+                    createPlaceholderPCB();
+                }
+            );
+        }
+        
+        function createPlaceholderPCB() {
+            product = new THREE.Group();
+            
+            // Main PCB board (keyboard sized)
+            const pcbGeometry = new THREE.BoxGeometry(12, 0.15, 4);
+            const pcbMaterial = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(settings.pcbColor),
+                roughness: 0.7,
+                metalness: 0.1
+            });
+            const pcb = new THREE.Mesh(pcbGeometry, pcbMaterial);
+            pcb.castShadow = true;
+            pcb.receiveShadow = true;
+            product.add(pcb);
+            
+            // Copper traces (decorative lines)
+            const trackMaterial = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(settings.trackColor),
+                roughness: 0.3,
+                metalness: 0.8
+            });
+            
+            for (let i = 0; i < 8; i++) {
+                const trackGeometry = new THREE.BoxGeometry(11, 0.02, 0.05);
+                const track = new THREE.Mesh(trackGeometry, trackMaterial);
+                track.position.y = 0.1;
+                track.position.z = -1.5 + (i * 0.4);
+                product.add(track);
+            }
+            
+            // Electronic components (chips, resistors, etc)
+            const componentMaterial = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(settings.componentColor),
+                roughness: 0.4,
+                metalness: 0.7
+            });
+            
+            // Main chip
+            const chipGeometry = new THREE.BoxGeometry(1.5, 0.3, 1);
+            const chip = new THREE.Mesh(chipGeometry, componentMaterial);
+            chip.position.set(-4, 0.22, 1);
+            chip.castShadow = true;
+            product.add(chip);
+            
+            // Smaller components
+            for (let i = 0; i < 15; i++) {
+                const size = 0.2 + Math.random() * 0.3;
+                const compGeometry = new THREE.BoxGeometry(size, size * 0.8, size * 0.6);
+                const component = new THREE.Mesh(compGeometry, componentMaterial);
+                component.position.x = -5 + Math.random() * 10;
+                component.position.y = 0.15 + size * 0.4;
+                component.position.z = -1.5 + Math.random() * 3;
+                component.castShadow = true;
+                product.add(component);
+            }
+            
+            // Switch mounting holes (keyboard switches would go here)
+            const holeMaterial = new THREE.MeshStandardMaterial({
+                color: 0x000000,
+                roughness: 0.9
+            });
+            
+            for (let row = 0; row < 3; row++) {
+                for (let col = 0; col < 10; col++) {
+                    const holeGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.2, 16);
+                    const hole = new THREE.Mesh(holeGeometry, holeMaterial);
+                    hole.position.x = -4.5 + col * 1;
+                    hole.position.y = 0;
+                    hole.position.z = -0.8 + row * 0.8;
+                    hole.rotation.x = Math.PI / 2;
+                    product.add(hole);
+                }
+            }
+            
+            scene.add(product);
+        }
+        
+        function updateColors() {
+            product.children.forEach(child => {
+                if (child.geometry.type === 'BoxGeometry' && child.scale.y < 0.2) {
+                    child.material.color = new THREE.Color(settings.pcbColor);
+                } else if (child.material.metalness > 0.5) {
+                    if (child.geometry.parameters.width > 1) {
+                        child.material.color = new THREE.Color(settings.componentColor);
+                    } else if (child.geometry.parameters.height < 0.1) {
+                        child.material.color = new THREE.Color(settings.trackColor);
+                    }
+                }
+            });
+        }
+        
+        function onMouseDown(e) {
+            isDragging = true;
+            previousMouseX = e.clientX;
+            previousMouseY = e.clientY;
+            settings.autoRotate = false;
+        }
+        
+        function onMouseMove(e) {
+            if (isDragging) {
+                const deltaX = e.clientX - previousMouseX;
+                const deltaY = e.clientY - previousMouseY;
+                
+                targetRotationY += deltaX * 0.01;
+                targetRotationX += deltaY * 0.01;
+                
+                targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotationX));
+                
+                previousMouseX = e.clientX;
+                previousMouseY = e.clientY;
+            }
+        }
+
+        
+        
+        function onMouseUp() {
+            isDragging = false;
+        }
+        
+        function onWheel(e) {
+            e.preventDefault();
+            targetCameraDistance += e.deltaY * 0.01;
+            targetCameraDistance = Math.max(8, Math.min(30, targetCameraDistance));
+        }
+
+        window.addEventListener('keydown', onKeyDown);
+        function onKeyDown(e) {
+            // Check if spacebar was pressed and not currently flipping
+            if (e.code === 'Space' && !isFlipping) {
+                e.preventDefault(); // Prevent page scroll
+                flip = true;
+            }
+        }
+
+        let flip = false;
+        const clock = new THREE.Clock();
+        let k = 1;
+        let isFlipped = false;
+        let flipTimer = 0;
+        let isFlipping = false;
+        let flipProgress = 0;
+        const FLIP_INTERVAL = 10; // seconds
+        const FLIP_DURATION = 3; // seconds for the flip animation
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const deltaTime = clock.getDelta();
+
+            if (!isFlipping) {
+                flipTimer += deltaTime;
+            
+                if (flipTimer >= FLIP_INTERVAL || flip == true) {
+                    isFlipping = true;
+                    flipTimer = 0;
+                    flipProgress = 0;
+                }
+            }
+
+            if (isFlipping) {
+                flipProgress += deltaTime / FLIP_DURATION;
+                
+                
+                
+                const eased = easeInOutCubic(flipProgress);
+                
+                // Calculate target rotation based on which side we want to show
+                const targetRotation = isFlipped ? Math.PI : 0;
+                const startRotation = isFlipped ? 0 : Math.PI;
+                
+                product.rotation.y = product.rotation.y + (eased * (k * Math.PI - product.rotation.y));
+                product.rotation.z = product.rotation.z + (eased * (k * Math.PI - product.rotation.z));
+                if (flipProgress >= 1) {
+                    k+=1;
+                    flipProgress = 1;
+                    flip = false;
+                    isFlipping = false;
+                    isFlipped = !isFlipped; // Toggle the state
+                }
+            }
+
+            
+            // Auto rotate
+            if (settings.autoRotate) {
+                targetRotationY += 0.005 * settings.rotationSpeed;
+            }
+            
+            // Smooth rotation
+            currentRotationY += (targetRotationY - currentRotationY) * 0.1;
+            currentRotationX += (targetRotationX - currentRotationX) * 0.1;
+            
+            // Smooth zoom
+            cameraDistance += (targetCameraDistance - cameraDistance) * 0.1;
+            
+            // Update camera position
+            camera.position.x = Math.sin(currentRotationY) * cameraDistance * Math.cos(currentRotationX);
+            camera.position.y = Math.sin(currentRotationX) * cameraDistance + 5;
+            camera.position.z = Math.cos(currentRotationY) * cameraDistance * Math.cos(currentRotationX);
+            camera.lookAt(0, 0, 0);
+            
+            renderer.render(scene, camera);
+        }
+        
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        init();
+
+        function easeInOutCubic(t) {
+            return t < 0.5 
+            ? 4 * t * t * t 
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+    </script>
+</body>
+</html>
