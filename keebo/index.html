@@ -4,48 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KEEBO</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-        canvas {
-            display: block;
-        }
-        #info {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: #333;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        #info h2 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        #info p {
-            margin: 5px 0;
-            font-size: 13px;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../assets/homeButton.css">
 </head>
 <body>
     <div id="info">
         <h2>KEEBO by Chad Holmes</h2>
         <p>Drag to rotate • Scroll to zoom</p>
     </div>
+    <div class="glass-overlay" id="glassOverlay"></div>
+    <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+    <span class="arrow">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </span>
+    <span>Back Home</span>
+    </a>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
     <script>
+
+
+        //Back button
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const glassOverlay = document.getElementById('glassOverlay');
+
+        backHomeBtn.addEventListener('mouseenter', () => {
+            glassOverlay.classList.add('active');
+        });
+
+        backHomeBtn.addEventListener('mouseleave', () => {
+            glassOverlay.classList.remove('active');
+        });
+        ///////////////
+
+
         let scene, camera, renderer, product, controls;
         let isDragging = false;
         let previousMouseX = 0;

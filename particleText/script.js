@@ -3,6 +3,19 @@
         import { OrbitControls } from 'jsm/controls/OrbitControls.js';
         import {GUI} from 'dat.gui';
 
+
+            //Back button
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const glassOverlay = document.getElementById('glassOverlay');
+
+        backHomeBtn.addEventListener('mouseenter', () => {
+            glassOverlay.classList.add('active');
+        });
+
+        backHomeBtn.addEventListener('mouseleave', () => {
+            glassOverlay.classList.remove('active');
+        });
+        ///////////////
         const clock = new THREE.Clock()
         let k = 0;
         const greetings = ["HELLO", "BONJOUR", "CHIAO","你好", "こんにちは","HALLO", "안녕하세요", "नमस्ते", "مرحبا", "שלום","HOLA","Сайн уу","OLÁ", "SALVE"];
@@ -65,6 +78,8 @@
                 const text = e.target.value.toUpperCase() || 'HELLO';
                 createTextParticles(text);
             });
+            colorFolder.open();
+            particleFolder.open();
             
             window.addEventListener('resize', onResize);
             animate();
