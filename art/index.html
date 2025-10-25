@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- <header>
+        <h1></h1>
+    </header> -->
+    <div class="glass-overlay" id="glassOverlay"></div>
+    <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+    <span class="arrow">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </span>
+    <span>Back Home</span>
+    </a>
+
+    <div class="gallery" id="gallery"></div>
+
+    <!-- Modal for full-size view -->
+    <div class="modal" id="modal">
+        <span class="modal-close" id="modalClose"></span>
+        <img class="modal-content" id="modalImage" alt="Expanded artwork">
+    </div>
+
+    <script>
+
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const glassOverlay = document.getElementById('glassOverlay');
+
+        backHomeBtn.addEventListener('mouseenter', () => {
+            glassOverlay.classList.add('active');
+        });
+
+        backHomeBtn.addEventListener('mouseleave', () => {
+            glassOverlay.classList.remove('active');
+        });
+       
+        const images = [
+            
+            { url: 'assets/art/Charlesvol2.png', aspect: 'square' },
+            { url: 'assets/art/Charlesvol1.png', aspect: 'square' },
+            { url: 'assets/art/Charlesvol3.png', aspect: 'square' },
+            { url: 'assets/art/homeInvasion.png', aspect: 'square' },
+            { url: 'assets/art/FlowerFarmer.png', aspect: 'square' },
+            { url: 'assets/art/KingofRing1.png', aspect: 'square' },
+            { url: 'assets/art/MAL-1.png', aspect: 'square' },
+            { url: 'assets/art/MAL-2.png', aspect: 'square' },
+            { url: 'assets/art/MAL-3.png', aspect: 'square' },
+            { url: 'assets/art/MAL-4.png', aspect: 'square' },
+            { url: 'assets/art/pugnate2.png', aspect: 'square' },
+            { url: 'assets/art/WheelsFallOffFinal.png', aspect: 'square' },
+            { url: 'assets/art/windmills3.png', aspect: 'square' },
+            { url: 'assets/art/WLG2REAL.png', aspect: 'square' },
+            { url: 'assets/work/SwankyCover-1.jpg', aspect: 'tall' },
+            { url: 'assets/art/ItsAllUnderControl.png', aspect: 'square' },
+            { url: 'assets/art/happyguppy.png', aspect: 'wide' },
+            { url: 'assets/art/BreakupFINAL.png', aspect: 'square' },
+            { url: 'assets/IMGClass/1.png', aspect: 'square' },
+            { url: 'assets/work/cruelOilBlaizunDiamond.jpg', aspect: 'tall' },
+            { url: 'assets/IMGClass/8.png', aspect: 'square' },
+            { url: 'assets/IMGClass/DumbJealous.png', aspect: 'wide' },
+            { url: 'assets/IMGClass/FeelsLikeADream.png', aspect: 'square' },
+            { url: 'assets/IMGClass/honestly.png', aspect: 'square' },
+            { url: 'assets/IMGClass/Iknowyouredownbad.png', aspect: 'square' },
+            { url: 'assets/IMGClass/JumpedInTooDeepREALFINAL.png', aspect: 'square' },
+            { url: 'assets/IMGClass/proj7.png', aspect: 'square' },
+            { url: 'assets/IMGClass/proj9.png', aspect: 'square' },
+            { url: 'assets/IMGClass/ReachingOutToMe.png', aspect: 'square' }
+
+        ];
+
+        const gallery = document.getElementById('gallery');
+        
+        // Load images
+        images.forEach((image, index) => {
+            const item = document.createElement('div');
+            item.className = `gallery-item loading ${image.aspect}`;
+            
+            const img = document.createElement('img');
+            img.src = image.url;
+            img.alt = `Artwork ${index + 1}`;
+            
+            img.onload = () => {
+                item.classList.remove('loading');
+                
+                // Auto-detect aspect ratio if not specified
+                const aspectRatio = img.naturalWidth / img.naturalHeight;
+                
+                if (!image.aspect || image.aspect === 'auto') {
+                    if (aspectRatio > 1.5) {
+                        item.classList.add('wide');
+                    } else if (aspectRatio < 0.7) {
+                        item.classList.add('tall');
+                    } else if (aspectRatio > 1.3 && img.naturalWidth > 1000) {
+                        item.classList.add('large');
+                    }
+                }
+            };
+            
+            // Click to expand
+            item.addEventListener('click', () => {
+                document.getElementById('modalImage').src = image.url;
+                document.getElementById('modal').classList.add('active');
+            });
+            
+            item.appendChild(img);
+            gallery.appendChild(item);
+        });
+
+        // Modal controls
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
