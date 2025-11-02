@@ -3,74 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script type="importmap">
-			{
-				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
-          "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
-          
-        }
-			}
-		</script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/2.0.3/p5.js" integrity="sha512-jFun9+OwUQKq3AVHkUwhpM6YB6xn0FQ6ug16M7s6ZdnfDbWre2HGwLvWAHoR7bNsYRVKua5PR0HQjhLTH0QEbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script src="script.js"></script>
-    <script type="module" src="index.js"></script>
     <title>Home</title>
+    <style>
+        @font-face {
+            font-family: 'Binchotan';
+            src: url('../fonts/Binchotan_Sharp__400__(v_000_526)_.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 20px;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Binchotan', sans-serif;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #link-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0px;
+            padding-left: 288px;
+            size: 100%;
+        }
+
+        #link-container a {
+            font-family: 'Binchotan', sans-serif;
+            text-align: left;
+            margin: -5px;
+            text-decoration: none;
+            font-size: 56px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #link-container a:hover {
+            animation: blinker 1.25s linear infinite;
+        }
+
+        @keyframes blinker {
+            0% {
+                color: #FFBF00;
+                text-shadow: 0px 0px 20px #FFBF00;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                color: #FFBF00;
+                text-shadow: 0px 0px 20px #FFBF00;
+            }
+        }
+        @media screen and (max-width:812px) {
+	#link-container {
+        padding-left: 60px;
+    }
+    #link-container a {
+		font-size: 30px;
+}
+}
+    </style>
 </head>
 <body>
     <div id="canvas-container"></div>
     <div id="link-container"></div>
-     <script>
-    // Sample links data (you can replace or fetch dynamically)
 
-    function mapToRange(value, inMin, inMax, outMin, outMax) {
-  // Calculate the position of 'value' within the input range as a percentage (0-1).
-      const normalizedValue = (value - inMin) / (inMax - inMin);
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
 
-  // Apply this percentage to the output range and add the output minimum offset.
-      const mappedValue = normalizedValue * (outMax - outMin) + outMin;
+        function mapToRange(value, inMin, inMax, outMin, outMax) {
+            const normalizedValue = (value - inMin) / (inMax - inMin);
+            const mappedValue = normalizedValue * (outMax - outMin) + outMin;
+            return mappedValue;
+        }
 
-      return mappedValue;
-      }
-    const links = [
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com/home", href: "" },
-      { text: "blaizun.com/resume", href: "resume/index.html" },
-      { text: "blaizun.com/portfolio", href: "#link2" },
-      { text: "blaizun.com/contact", href: "#link2" },
-      { text: "blaizun.com/art", href: "/art/index.html" },
-      { text: "blaizun.com/particleText", href: "/particleText/index.html" },
-      { text: "blaizun.com/KEEBO", href: "/keebo/index.html" },
-      { text: "blaizun.com/shellTexturing", href: "/shellTexturing/index.html" },
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com", href: "" },
-      { text: "blaizun.com", href: "" }
-    ];
+        const links = [
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com/home", href: "" },
+            { text: "blaizun.com/resume", href: "resume/index.html" },
+            { text: "blaizun.com/portfolio", href: "#link2" },
+            { text: "blaizun.com/contact", href: "#link2" },
+            { text: "blaizun.com/art", href: "/art/index.html" },
+            { text: "blaizun.com/particleText", href: "/particleText/index.html" },
+            { text: "blaizun.com/KEEBO", href: "/keebo/index.html" },
+            { text: "blaizun.com/shellTexturing", href: "/shellTexturing/index.html" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" }
+        ];
 
-    
+        const container = document.getElementById('link-container');
+        const linkElements = [];
+        const linkData = [];
 
-    const container = document.getElementById('link-container');
+        // Create and append links
+        links.forEach((link, index) => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.textContent = link.text;
+            a.style.color = `rgba(255,61,65,${mapToRange(index, links.length, 0, 0, 1)})`;
+            container.appendChild(a);
+            linkElements.push(a);
+            
+            linkData.push({
+                element: a,
+                isHovered: false,
+                glowIntensity: 0,
+                position: { x: 0, y: 0 }
+            });
+        });
 
-    // Create and append links in descending order
-    links.forEach((link,index) => {
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.textContent = link.text;
-      a.style.color = `rgba(255,61,65,${mapToRange(index,links.length,0,0,1)})`;
-      // a.style.animation = `fadeIn .2s linear forwards`;
-      // a.style.animationDelay = `${index * .2}s`
-      container.appendChild(a);
-    });
-  </script>
-<!-- <canvas class="webgl"></canvas> -->
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        camera.position.z = 50;
+
+        // Particle system
+        const particleCount = 6000;
+        const particles = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const velocities = [];
+        const originalPositions = new Float32Array(particleCount * 3);
+        const sizes = new Float32Array(particleCount);
+        const colors = new Float32Array(particleCount * 3);
+        const baseColor = new THREE.Color( 0xff3d41);
+
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+            positions[i3] = (Math.random() - 0.5) * 100;
+            positions[i3 + 1] = (Math.random() - 0.5) * 100;
+            positions[i3 + 2] = (Math.random() - 0.5) * 100;
+            
+            originalPositions[i3] = positions[i3];
+            originalPositions[i3 + 1] = positions[i3 + 1];
+            originalPositions[i3 + 2] = positions[i3 + 2];
+            
+            // Slower, more erratic movement like dust
+            velocities.push({
+                x: (Math.random() - 0.5) * 0.008,
+                y: (Math.random() - 0.5) * 0.008,
+                z: (Math.random() - 0.5) * 0.008
+            });
+            
+            // Varied sizes for dust-like appearance
+            sizes[i] = Math.random() * 0.4 + 0.1;
+            
+            // Initialize colors to base dust color
+            colors[i3] = baseColor.r;
+            colors[i3 + 1] = baseColor.g;
+            colors[i3 + 2] = baseColor.b;
+        }
+
+        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.3,
+            sizeAttenuation: true,
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.NormalBlending,
+            depthWrite: false,
+            vertexColors: true
+        });
+
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        scene.add(particleSystem);
+
+        // Rising particle system (ember-like)
+        const riserCount = 3;
+        const risers = new THREE.BufferGeometry();
+        const riserPositions = new Float32Array(riserCount * 3);
+        const riserVelocities = [];
+        const riserLifetimes = [];
+        const riserColors = new Float32Array(riserCount * 3);
+        const riserSizes = new Float32Array(riserCount);
+        const emberColor = new THREE.Color(0xFFBF00);
+
+        for (let i = 0; i < riserCount; i++) {
+            const i3 = i * 3;
+            // Start below screen
+            riserPositions[i3] = (Math.random() - 0.5) * 100;
+            riserPositions[i3 + 1] = -60;
+            riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
+            
+            riserVelocities.push({
+                x: (Math.random() - 0.5) * 0.02,
+                y: 0.15 + Math.random() * 0.1,
+                z: (Math.random() - 0.5) * 0.02
+            });
+            
+            riserLifetimes.push;
+            riserSizes[i] = Math.random() * 0.8 + 0.4;
+            
+            riserColors[i3] = emberColor.r;
+            riserColors[i3 + 1] = emberColor.g;
+            riserColors[i3 + 2] = emberColor.b;
+        }
+
+        risers.setAttribute('position', new THREE.BufferAttribute(riserPositions, 3));
+        risers.setAttribute('color', new THREE.BufferAttribute(riserColors, 3));
+        risers.setAttribute('size', new THREE.BufferAttribute(riserSizes, 1));
+
+        const riserMaterial = new THREE.PointsMaterial({
+            size: 0.3,
+            sizeAttenuation: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            vertexColors: true
+        });
+
+        const riserSystem = new THREE.Points(risers, riserMaterial);
+        scene.add(riserSystem);
+
+        // Update link positions and hover states
+        function updateLinkPositions() {
+            linkData.forEach((data, index) => {
+                const rect = data.element.getBoundingClientRect();
+                data.position.x = ((rect.left + rect.width / 2) / window.innerWidth) * 2 - 1;
+                data.position.y = -((rect.top + rect.height / 2) / window.innerHeight) * 2 + 1;
+            });
+        }
+
+        // Add hover listeners
+        linkElements.forEach((element, index) => {
+            element.addEventListener('mouseenter', () => {
+                linkData[index].isHovered = true;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                linkData[index].isHovered = false;
+            });
+        });
+
+        updateLinkPositions();
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const positions = particles.attributes.position.array;
+
+            // Update glow intensity
+            linkData.forEach(data => {
+                if (data.isHovered) {
+                    data.glowIntensity = Math.min(data.glowIntensity + 0.1, 1);
+                } else {
+                    data.glowIntensity = Math.max(data.glowIntensity - 0.05, 0);
+                }
+            });
+
+            // Update particles
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                // Apply base drift
+                positions[i3] += velocities[i].x;
+                positions[i3 + 1] += velocities[i].y;
+                positions[i3 + 2] += velocities[i].z;
+
+                // Color influence from rising particles
+                let colorInfluence = 0;
+                for (let r = 0; r < riserCount; r++) {
+                    const r3 = r * 3;
+                    const dx = riserPositions[r3] - positions[i3];
+                    const dy = riserPositions[r3 + 1] - positions[i3 + 1];
+                    const dz = riserPositions[r3 + 2] - positions[i3 + 2];
+                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    const targetX = riserPositions[r3];
+                    const targetY = riserPositions[r3 + 1];
+                    const targetZ = riserPositions[r3 + 2];
 
 
+                    
+                    if (distance < 15) {
+                        // const influence = (1 - distance / 25) ;
+                        // colorInfluence = Math.max(colorInfluence, influence);
+                        colorInfluence = 1;
+                        const force = (1 - distance / 15) * 0.1;
+
+                        positions[i3] += dx * force * 1.5;
+                        positions[i3 + 1] += dy * force * 0.1;
+                        positions[i3 + 2] += dz * force * 1.5;
+                    }
+                }
+                
+                // Interpolate between base color and ember color
+                colors[i3] = baseColor.r + (emberColor.r - baseColor.r) * colorInfluence;
+                colors[i3 + 1] = baseColor.g + (emberColor.g - baseColor.g) * colorInfluence;
+                colors[i3 + 2] = baseColor.b + (emberColor.b - baseColor.b) * colorInfluence;
+
+                // Apply attraction to glowing links
+                // linkData.forEach(data => {
+                //     if (data.glowIntensity > 0) {
+                //         const targetX = data.position.x * 50;
+                //         const targetY = data.position.y * 50;
+                        
+                //         const dx = targetX - positions[i3];
+                //         const dy = targetY - positions[i3 + 1];
+                //         const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                //         if (distance < 10) {
+                //             const force = (1 - distance / 30) * 0.5 * data.glowIntensity;
+                //             positions[i3] += dx * force * 0.1;
+                //             positions[i3 + 1] += dy * force * 0.1;
+                //         }
+                //     }
+                // });
+
+                // Return to original position slowly
+                const returnForce = 0.005;
+                positions[i3] += (originalPositions[i3] - positions[i3]) * returnForce*.4;
+                positions[i3 + 1] += (originalPositions[i3 + 1] - positions[i3 + 1]) * returnForce;
+                positions[i3 + 2] += (originalPositions[i3 + 2] - positions[i3 + 2]) * returnForce*.4;
+
+                // Wrap around boundaries
+                if (Math.abs(positions[i3]) > 50) velocities[i].x *= -1;
+                if (Math.abs(positions[i3 + 1]) > 50) velocities[i].y *= -1;
+                if (Math.abs(positions[i3 + 2]) > 25) velocities[i].z *= -1;
+            }
+
+            particles.attributes.position.needsUpdate = true;
+            particles.attributes.color.needsUpdate = true;
+
+            // Update rising particles
+            for (let i = 0; i < riserCount; i++) {
+                const i3 = i * 3;
+                riserVelocities[i].x += (Math.random() - .5) * .05;
+                riserVelocities[i].z += (Math.random() - .5) * .05;
+                riserPositions[i3] += riserVelocities[i].x;
+                riserPositions[i3 + 1] += riserVelocities[i].y;
+                riserPositions[i3 + 2] += riserVelocities[i].z;
+                
+                // Decay lifetime based on vertical velocity so it reaches top
+                riserLifetimes[i] -= riserVelocities[i].y / 120;
+                
+                // Reset particle when it goes too high or fades out
+                if (riserPositions[i3 + 1] > 60 || riserLifetimes[i] <= 0) {
+                    riserPositions[i3] = (Math.random() - 0.5) * 100;
+                    riserPositions[i3 + 1] = -60;
+                    riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
+                    riserLifetimes[i] = 1.0;
+                    riserVelocities[i].x = (Math.random() - 0.5) * 0.02;
+                    riserVelocities[i].y = 0.15 + Math.random() * 0.1;
+                    riserVelocities[i].z = (Math.random() - 0.5) * 0.02;
+                }
+            }
+
+            risers.attributes.position.needsUpdate = true;
+            particleSystem.rotation.y += 0.0005;
+            riserSystem.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            updateLinkPositions();
+        });
+
+        animate();
+    </script>
 </body>
-
-</script>
 </html>
