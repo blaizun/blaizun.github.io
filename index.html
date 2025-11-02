@@ -173,7 +173,8 @@
         const originalPositions = new Float32Array(particleCount * 3);
         const sizes = new Float32Array(particleCount);
         const colors = new Float32Array(particleCount * 3);
-        const baseColor = new THREE.Color( 0xff3d41);
+        // const baseColor = new THREE.Color(0xFF3D41);
+        const baseColor = new THREE.Color().setRGB(1.0, 0.239, 0.255);
 
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
@@ -216,18 +217,102 @@
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 32, 32);
 
-        const texture = new THREE.CanvasTexture(canvas);
+        // const texture = new THREE.CanvasTexture(canvas);
+        // Load your custom sprite texture
+        const textureLoader = new THREE.TextureLoader();
+        const spriteTextures = [
+            textureLoader.load('sprites/sprite2.png'),
+            textureLoader.load('sprites/sprite3.png'),
+            textureLoader.load('sprites/sprite4.png'),
+            textureLoader.load('sprites/sprite5.png'),
+            textureLoader.load('sprites/sprite6.png'),
+            textureLoader.load('sprites/sprite7.png'),
+            textureLoader.load('sprites/sprite8.png')
+        ];
+        spriteTextures.forEach(tex => {
+            tex.minFilter = THREE.LinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            tex.generateMipmaps = false;
+            tex.premultiplyAlpha = false;
+            tex.colorSpace = THREE.SRGBColorSpace;
+            tex.flipY = false;
+        });
+        //const texture = textureLoader.load('sprites/sprite2.png');
+        const textureIndices = new Float32Array(particleCount);
+        for (let i = 0; i < particleCount; i++) {
+            textureIndices[i] = Math.floor(Math.random() * spriteTextures.length);
+        }
+        particles.setAttribute('textureIndex', new THREE.BufferAttribute(textureIndices, 1));
 
-
-        const particleMaterial = new THREE.PointsMaterial({
-            size: 0.4,
-            map: texture,
-            sizeAttenuation: true,
+        const particleMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                texture1: { value: spriteTextures[0] },
+                texture2: { value: spriteTextures[1] },
+                texture3: { value: spriteTextures[2] },
+                texture4: { value: spriteTextures[3] },
+                texture5: { value: spriteTextures[4] },
+                texture6: { value: spriteTextures[5] },
+                texture7: { value: spriteTextures[6] }
+            },
+            vertexShader: `
+                attribute vec3 color;
+                attribute float textureIndex;
+                
+                varying vec3 vColor;
+                varying float vTextureIndex;
+                
+                void main() {
+                    vColor = color;
+                    vTextureIndex = textureIndex;
+                    
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+         
+                uniform sampler2D texture1;
+                uniform sampler2D texture2;
+                uniform sampler2D texture3;
+                uniform sampler2D texture4;
+                uniform sampler2D texture5;
+                uniform sampler2D texture6;
+                uniform sampler2D texture7;
+                
+                varying vec3 vColor;
+                varying float vTextureIndex;
+                
+                void main() {
+                    vec4 texColor;
+                    int index = int(floor(vTextureIndex + 0.5));
+                    if (index == 1) {
+                        texColor = texture2D(texture1, gl_PointCoord);
+                    } else if (index == 2) {
+                        texColor = texture2D(texture2, gl_PointCoord);
+                    } else if (index == 3) {
+                        texColor = texture2D(texture3, gl_PointCoord);
+                    } else if (index == 4){
+                        texColor = texture2D(texture4, gl_PointCoord);
+                    }
+                    else if (index == 5){
+                        texColor = texture2D(texture5, gl_PointCoord);
+                    }
+                    else if (index == 6){
+                        texColor = texture2D(texture6, gl_PointCoord);
+                    }
+                    else {
+                        texColor = texture2D(texture7, gl_PointCoord);
+                    }
+                    
+                    gl_FragColor = vec4(vColor * texColor.rgb, texColor.a * 0.6 );
+                }
+            `,
+            size: 0.2,
+            opacity: 0.,
             transparent: true,
-            opacity: 0.8,
-            blending: THREE.NormalBlending,
             depthWrite: false,
-            vertexColors: true
+            blending: THREE.NormalBlending
         });
 
         const particleSystem = new THREE.Points(particles, particleMaterial);
