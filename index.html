@@ -97,12 +97,15 @@
     <script type="importmap">
         {
             "imports": {
-                "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"
+                "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+                "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
             }
         }
     </script>
     <script type="module">
         import * as THREE from 'three';
+        //import { OrbitControls } from 'jsm/controls/OrbitControls.js';
+
 
         function mapToRange(value, inMin, inMax, outMin, outMax) {
             const normalizedValue = (value - inMin) / (inMax - inMin);
@@ -157,7 +160,9 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         document.getElementById('canvas-container').appendChild(renderer.domElement);
-
+        // const controls = new OrbitControls(camera, renderer.domElement);
+        // controls.enableDamping = true;
+        // controls.dampingFactor = 0.03;
         camera.position.z = 50;
 
         // Particle system
@@ -199,12 +204,27 @@
         particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
         particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+         const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+
+        // Draw a soft glow gradient
+        const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        gradient.addColorStop(0, 'white');
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 32, 32);
+
+        const texture = new THREE.CanvasTexture(canvas);
+
 
         const particleMaterial = new THREE.PointsMaterial({
-            size: 0.3,
+            size: 0.4,
+            map: texture,
             sizeAttenuation: true,
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.8,
             blending: THREE.NormalBlending,
             depthWrite: false,
             vertexColors: true
