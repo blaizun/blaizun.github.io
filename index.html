@@ -267,7 +267,7 @@
                     vTextureIndex = textureIndex;
                     
                     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    gl_PointSize = (300.0 / -mvPosition.z);
+                    gl_PointSize =  (300.0 / -mvPosition.z);
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
@@ -289,7 +289,7 @@
                     vec4 texColor;
                     vec2 translatedCoord = gl_PointCoord - vec2(0.5);
                     vec2 rotatedCoord;
-                    float angle = uTime * -0.4;
+                    float angle = uTime * -0.9;
                     float cosine = cos(angle);
                     float sine = sin(angle);
                     rotatedCoord.x = translatedCoord.x * cosine - translatedCoord.y * sine;
