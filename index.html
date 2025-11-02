@@ -252,7 +252,8 @@
                 texture4: { value: spriteTextures[3] },
                 texture5: { value: spriteTextures[4] },
                 texture6: { value: spriteTextures[5] },
-                texture7: { value: spriteTextures[6] }
+                texture7: { value: spriteTextures[6] },
+                uTime: { value: 0.0 }
             },
             vertexShader: `
                 attribute vec3 color;
@@ -279,30 +280,40 @@
                 uniform sampler2D texture5;
                 uniform sampler2D texture6;
                 uniform sampler2D texture7;
+                uniform float uTime;
                 
                 varying vec3 vColor;
                 varying float vTextureIndex;
                 
                 void main() {
                     vec4 texColor;
+                    vec2 translatedCoord = gl_PointCoord - vec2(0.5);
+                    vec2 rotatedCoord;
+                    float angle = uTime * -0.4;
+                    float cosine = cos(angle);
+                    float sine = sin(angle);
+                    rotatedCoord.x = translatedCoord.x * cosine - translatedCoord.y * sine;
+                    rotatedCoord.y = translatedCoord.x * sine + translatedCoord.y * cosine;
+                    vec2 finalCoord = rotatedCoord + vec2(0.5);
+                    
                     int index = int(floor(vTextureIndex + 0.5));
                     if (index == 1) {
-                        texColor = texture2D(texture1, gl_PointCoord);
+                        texColor = texture2D(texture1, finalCoord);
                     } else if (index == 2) {
-                        texColor = texture2D(texture2, gl_PointCoord);
+                        texColor = texture2D(texture2, finalCoord);
                     } else if (index == 3) {
-                        texColor = texture2D(texture3, gl_PointCoord);
+                        texColor = texture2D(texture3, finalCoord);
                     } else if (index == 4){
-                        texColor = texture2D(texture4, gl_PointCoord);
+                        texColor = texture2D(texture4, finalCoord);
                     }
                     else if (index == 5){
-                        texColor = texture2D(texture5, gl_PointCoord);
+                        texColor = texture2D(texture5, finalCoord);
                     }
                     else if (index == 6){
-                        texColor = texture2D(texture6, gl_PointCoord);
+                        texColor = texture2D(texture6, finalCoord);
                     }
                     else {
-                        texColor = texture2D(texture7, gl_PointCoord);
+                        texColor = texture2D(texture7, finalCoord);
                     }
                     
                     gl_FragColor = vec4(vColor * texColor.rgb, texColor.a * 0.8 );
@@ -387,11 +398,11 @@
         });
 
         updateLinkPositions();
-
+        let clock = new THREE.Clock();
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
-
+            particleMaterial.uniforms.uTime.value = clock.getElapsedTime();
             const positions = particles.attributes.position.array;
 
             // Update glow intensity
