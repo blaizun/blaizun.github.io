@@ -42,7 +42,7 @@
             z-index: 1;
         }
 
-        #link-container {
+        /* #link-container {
             position: relative;
             z-index: 2;
             display: flex;
@@ -51,8 +51,29 @@
             gap: 0px;
             padding-left: 288px;
             size: 100%;
-        }
+        } */
+            #link-container {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0px;
+        padding-left: 288px;
+        
+        /* Add scrolling */
+        max-height: 80vh;  /* Limit height to enable scrolling */
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        /* Hide scrollbar but keep functionality */
+        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;  /* IE/Edge */
+    }
 
+        #link-container::-webkit-scrollbar {
+            display: none;  /* Chrome/Safari */
+        }
         #link-container a {
             font-family: 'Binchotan', sans-serif;
             text-align: left;
@@ -81,9 +102,7 @@
             }
         }
         @media screen and (max-width:812px) {
-	#link-container {
-        padding-left: 60px;
-    }
+
     #link-container a {
 		font-size: 30px;
 }
@@ -116,6 +135,7 @@
         const links = [
             { text: "blaizun.com", href: "" },
             { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
             { text: "blaizun.com/home", href: "" },
             { text: "blaizun.com/resume", href: "resume/index.html" },
             { text: "blaizun.com/portfolio", href: "#link2" },
@@ -128,8 +148,50 @@
             { text: "blaizun.com", href: "" },
             { text: "blaizun.com", href: "" },
             { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
+            { text: "blaizun.com", href: "" },
             { text: "blaizun.com", href: "" }
         ];
+
+        const container = document.getElementById('link-container');
+
+        function updateLinkOpacity() {
+            const containerRect = container.getBoundingClientRect();
+            const containerTop = containerRect.top;
+            const containerBottom = containerRect.bottom;
+            const fadeDistance = 350;  // Pixels to fade over
+            
+            linkElements.forEach((link) => {
+                const linkRect = link.getBoundingClientRect();
+                const linkCenter = (linkRect.top + linkRect.bottom) / 2;
+                
+                let opacity = 1;
+                
+                // Fade at top
+                if (linkCenter < containerTop + fadeDistance) {
+                    opacity = (linkCenter - containerTop) / fadeDistance;
+                }
+                
+                // Fade at bottom
+                if (linkCenter > containerBottom - fadeDistance) {
+                    opacity = (containerBottom - linkCenter) / fadeDistance;
+                }
+                
+                // Clamp between 0 and 1
+                opacity = Math.max(0, Math.min(1, opacity));
+                link.style.opacity = opacity;
+            });
+        }
+
+            // Call on scroll and initial load
+
         // Track mouse position, velocity, and acceleration
         const mouse = {
             x: 0,
@@ -167,7 +229,7 @@
             mouse.acceleration = Math.sqrt(mouse.accelerationX ** 2 + mouse.accelerationY ** 2);
         }
 
-        const container = document.getElementById('link-container');
+        // const container = document.getElementById('link-container');
         const linkElements = [];
         const linkData = [];
 
@@ -176,7 +238,8 @@
             const a = document.createElement('a');
             a.href = link.href;
             a.textContent = link.text;
-            a.style.color = `rgba(255,61,65,${mapToRange(index, links.length, 0, 0, 1)})`;
+            // a.style.color = `rgba(255,61,65,${mapToRange(index, links.length, 0, 0, 1)})`;
+            a.style.color = `rgba(255,61,65,1)`;
             container.appendChild(a);
             linkElements.push(a);
             
@@ -434,7 +497,8 @@
                 linkData[index].isHovered = false;
             });
         });
-
+                container.addEventListener('scroll', updateLinkOpacity);
+        updateLinkOpacity();
         updateLinkPositions();
         let clock = new THREE.Clock();
         // Animation loop
