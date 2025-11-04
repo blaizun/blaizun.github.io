@@ -64,7 +64,7 @@
         }
 
         #link-container a:hover {
-            animation: blinker 1.25s linear infinite;
+            animation: blinker 2s linear infinite;
         }
 
         @keyframes blinker {
@@ -130,6 +130,42 @@
             { text: "blaizun.com", href: "" },
             { text: "blaizun.com", href: "" }
         ];
+        // Track mouse position, velocity, and acceleration
+        const mouse = {
+            x: 0,
+            y: 0,
+            prevX: 0,
+            prevY: 0,
+            velocityX: 0,
+            velocityY: 0,
+            prevVelocityX: 0,
+            prevVelocityY: 0,
+            accelerationX: 0,
+            accelerationY: 0,
+            speed: 0,
+            acceleration: 0
+        };
+        window.addEventListener('mousemove', (e) => {
+            mouse.prevX = mouse.x;
+            mouse.prevY = mouse.y;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function calculateMouseAcceleration(){
+            mouse.prevVelocityX = mouse.velocityX;
+            mouse.prevVelocityY = mouse.velocityY;
+            mouse.velocityX = mouse.x - mouse.prevX;
+            mouse.velocityY = mouse.y - mouse.prevY;
+            
+            // Calculate acceleration (change in velocity)
+            mouse.accelerationX = mouse.velocityX - mouse.prevVelocityX;
+            mouse.accelerationY = mouse.velocityY - mouse.prevVelocityY;
+            
+            // Calculate magnitude (total speed and acceleration)
+            mouse.speed = Math.sqrt(mouse.velocityX ** 2 + mouse.velocityY ** 2);
+            mouse.acceleration = Math.sqrt(mouse.accelerationX ** 2 + mouse.accelerationY ** 2);
+        }
 
         const container = document.getElementById('link-container');
         const linkElements = [];
@@ -386,6 +422,8 @@
             });
         }
 
+        
+
         // Add hover listeners
         linkElements.forEach((element, index) => {
             element.addEventListener('mouseenter', () => {
@@ -402,15 +440,39 @@
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
+
+            calculateMouseAcceleration();
             particleMaterial.uniforms.uTime.value = clock.getElapsedTime();
             const positions = particles.attributes.position.array;
+            let bandCenterY = 0;  // The Y level of the color band
+            let bandRadius = 5;   // How thick the band is
+            let bandPulse = 0;    // Pulse value that syncs with link glow
 
+            // In your animation loop, sync with link glow
+            let maxGlowIntensity = 0;
+            linkData.forEach(data => {
+                maxGlowIntensity = Math.max(maxGlowIntensity, data.glowIntensity);
+            });
+            bandPulse = maxGlowIntensity;
+            bandRadius = maxGlowIntensity * 50 ;  // Or use your own pulsing logic
+
+            // Expand/contract the band radius
+            const currentBandRadius = bandPulse * 5; 
             // Update glow intensity
             linkData.forEach(data => {
                 if (data.isHovered) {
-                    data.glowIntensity = Math.min(data.glowIntensity + 0.1, 1);
+                    if (!data.pulseTime) data.pulseTime = 0;
+                    data.pulseTime += 0.016;
+                    
+                    // const cycle = (data.pulseTime % 2.5) / 2.5;
+                    const cycle = (clock.getElapsedTime() % 2) / 2;
+                    // Pulse from 1 → 0 → 1 (matching opacity animation)
+                    data.glowIntensity = cycle < 0.5 
+                        ?  (cycle * 2)  // 1 to 0 (first half)
+                        :1- (cycle - 0.5) * 2;  // 0 to 1 (second half)
                 } else {
-                    data.glowIntensity = Math.max(data.glowIntensity - 0.05, 0);
+                    data.glowIntensity = 0;
+                    data.pulseTime = 0;
                 }
             });
 
@@ -453,6 +515,25 @@
                 colors[i3] = baseColor.r + (emberColor.r - baseColor.r) * colorInfluence;
                 colors[i3 + 1] = baseColor.g + (emberColor.g - baseColor.g) * colorInfluence;
                 colors[i3 + 2] = baseColor.b + (emberColor.b - baseColor.b) * colorInfluence;
+
+
+                                /// UNCOMMENT FOR BLINKING EFFECT THAT SORTA WORKS
+                // const distanceFromBandY = Math.abs(positions[i3 + 1] - bandCenterY);
+                // const distanceFromBandXZ = Math.sqrt(positions[i3] * positions[i3] + positions[i3 + 2] * positions[i3 + 2]);
+                // let bandInfluence = 0;
+                // const closeness = distanceFromBandXZ / bandRadius;
+                
+                // if (distanceFromBandY < 5 && closeness < 1 && closeness > .6   && distanceFromBandXZ <= bandRadius) {
+                //     // bandInfluence = (distanceFromBandXZ  / bandRadius) ;
+                //                     const bandColor = new THREE.Color(0xffffff);
+                //                     // const bandColor = emberColor  // Cyan example
+                // colors[i3] += (bandColor.r - colors[i3]) * maxGlowIntensity * closeness;
+                // colors[i3 + 1] += (bandColor.g - colors[i3 + 1]) * maxGlowIntensity * closeness;
+                // colors[i3 + 2] += (bandColor.b - colors[i3 + 2]) * maxGlowIntensity * closeness;
+                // }
+                
+                // Apply band color (could be a different color than ember)
+
 
                 // Apply attraction to glowing links
                 // linkData.forEach(data => {
@@ -512,8 +593,8 @@
             }
 
             risers.attributes.position.needsUpdate = true;
-            particleSystem.rotation.y += 0.0005;
-            riserSystem.rotation.y += 0.0005;
+            particleSystem.rotation.y += 0.0005 + mouse.velocityX * 0.0001;
+            riserSystem.rotation.y += 0.0005 + mouse.velocityX * 0.0001;
 
             renderer.render(scene, camera);
         }
