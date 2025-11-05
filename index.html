@@ -680,8 +680,8 @@ window.addEventListener('mouseup', () => {
             }
 
             risers.attributes.position.needsUpdate = true;
-            particleSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0001) ;
-            riserSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0001) ;
+            particleSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0002) ;
+            riserSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0002) ;
 
             renderer.render(scene, camera);
         }
