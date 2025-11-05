@@ -9,8 +9,31 @@
     <script src="sketch.js"></script>
 </head>
 <body>
+    <div class="glass-overlay" id="glassOverlay"></div>
+    <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+    <span class="arrow">
+        <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </span>
+    <span>Back Home</span>
+    </a>
+    <canvas id="canvas"></canvas>
 <div id="my-pdf"></div>
 <script src="https://unpkg.com/pdfobject"></script>
 <script>PDFObject.embed("BlaizunDiamond.pdf", "#my-pdf");</script>
+<script>
+            //Back button
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const glassOverlay = document.getElementById('glassOverlay');
+
+        backHomeBtn.addEventListener('mouseenter', () => {
+            glassOverlay.classList.add('active');
+        });
+
+        backHomeBtn.addEventListener('mouseleave', () => {
+            glassOverlay.classList.remove('active');
+        });
+</script>
 </body>
 </html>
