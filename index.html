@@ -82,6 +82,12 @@
             font-size: 56px;
             transition: all 0.3s ease;
             position: relative;
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Safari */
+            -khtml-user-select: none;    /* Konqueror HTML */
+            -moz-user-select: none;      /* Old versions of Firefox */
+            -ms-user-select: none;       /* Internet Explorer/Edge */
+            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
         }
 
         #link-container a:hover {
@@ -205,16 +211,30 @@
             accelerationX: 0,
             accelerationY: 0,
             speed: 0,
-            acceleration: 0
+            acceleration: 0,
+            sign: 1,
+            isDown: false  // Add this
         };
-        window.addEventListener('mousemove', (e) => {
-            mouse.prevX = mouse.x;
-            mouse.prevY = mouse.y;
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
+
+window.addEventListener('mousemove', (e) => {
+    mouse.prevX = mouse.x;
+    mouse.prevY = mouse.y;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+// Add mouse down/up listeners
+window.addEventListener('mousedown', () => {
+    mouse.isDown = true;
+});
+
+window.addEventListener('mouseup', () => {
+    mouse.isDown = false;
+});
+
 
         function calculateMouseAcceleration(){
+            if (!mouse.isDown) return;
             mouse.prevVelocityX = mouse.velocityX;
             mouse.prevVelocityY = mouse.velocityY;
             mouse.velocityX = mouse.x - mouse.prevX;
@@ -227,6 +247,9 @@
             // Calculate magnitude (total speed and acceleration)
             mouse.speed = Math.sqrt(mouse.velocityX ** 2 + mouse.velocityY ** 2);
             mouse.acceleration = Math.sqrt(mouse.accelerationX ** 2 + mouse.accelerationY ** 2);
+            if(mouse.velocityX != 0){
+                mouse.sign = mouse.velocityX/Math.abs(mouse.velocityX);
+            }
         }
 
         // const container = document.getElementById('link-container');
@@ -657,8 +680,8 @@
             }
 
             risers.attributes.position.needsUpdate = true;
-            particleSystem.rotation.y += 0.0005 + mouse.velocityX * 0.0001;
-            riserSystem.rotation.y += 0.0005 + mouse.velocityX * 0.0001;
+            particleSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0001) ;
+            riserSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0001) ;
 
             renderer.render(scene, camera);
         }
