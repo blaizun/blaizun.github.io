@@ -10,7 +10,8 @@
     <!-- <header>
         <h1></h1>
     </header> -->
-    <div class="glass-overlay" id="glassOverlay"></div>
+
+        <div class="glass-overlay" id="glassOverlay"></div>
     <a href="../index.html" class="back-home-btn" id="backHomeBtn">
     <span class="arrow">
         <svg viewBox="0 0 24 24">
@@ -19,6 +20,19 @@
     </span>
     <span>Back Home</span>
     </a>
+
+        <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading Images</p>
+            <p class="loading-counter"><span id="loadedCount">0</span> / <span id="totalCount">0</span></p>
+        </div>
+    </div>
+
+
+
+
+
 
     <div class="gallery" id="gallery"></div>
 
@@ -76,6 +90,15 @@
         ];
 
         const gallery = document.getElementById('gallery');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const loadedCountEl = document.getElementById('loadedCount');
+        const totalCountEl = document.getElementById('totalCount');
+        
+        let loadedImages = 0;
+        const totalImages = images.length;
+        
+        // Set total count
+        totalCountEl.textContent = totalImages;
         
         // Load images
         images.forEach((image, index) => {
@@ -88,6 +111,8 @@
             
             img.onload = () => {
                 item.classList.remove('loading');
+                loadedImages++;
+                loadedCountEl.textContent = loadedImages;
                 
                 // Auto-detect aspect ratio if not specified
                 const aspectRatio = img.naturalWidth / img.naturalHeight;
@@ -101,7 +126,24 @@
                         item.classList.add('large');
                     }
                 }
+                if (loadedImages === totalImages) {
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                    }, 300);
+                }
             };
+            img.onerror = () => {
+                // Count failed images too so loading screen doesn't hang
+                loadedImages++;
+                loadedCountEl.textContent = loadedImages;
+                
+                if (loadedImages === totalImages) {
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                    }, 300);
+                }
+            };
+
             
             // Click to expand
             item.addEventListener('click', () => {
