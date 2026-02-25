@@ -1,177 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- <header>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Art</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <!-- <header>
         <h1></h1>
     </header> -->
 
         <div class="glass-overlay" id="glassOverlay"></div>
-    <a href="../index.html" class="back-home-btn" id="backHomeBtn">
-    <span class="arrow">
-        <svg viewBox="0 0 24 24">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-    </span>
-    <span>Back Home</span>
-    </a>
+        <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+            <span class="arrow">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </span>
+            <span>Back Home</span>
+        </a>
 
         <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <p class="loading-text">Loading Images</p>
-            <p class="loading-counter"><span id="loadedCount">0</span> / <span id="totalCount">0</span></p>
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p class="loading-text">Loading Images</p>
+                <p class="loading-counter">
+                    <span id="loadedCount">0</span> /
+                    <span id="totalCount">0</span>
+                </p>
+            </div>
         </div>
-    </div>
 
+        <div class="gallery" id="gallery"></div>
 
+        <!-- Modal for full-size view -->
+        <div class="modal" id="modal">
+            <span class="modal-close" id="modalClose"></span>
+            <img class="modal-content" id="modalImage" alt="Expanded artwork" />
+        </div>
 
+        <script>
+            const backHomeBtn = document.getElementById("backHomeBtn");
+            const glassOverlay = document.getElementById("glassOverlay");
 
-
-
-    <div class="gallery" id="gallery"></div>
-
-    <!-- Modal for full-size view -->
-    <div class="modal" id="modal">
-        <span class="modal-close" id="modalClose"></span>
-        <img class="modal-content" id="modalImage" alt="Expanded artwork">
-    </div>
-
-    <script>
-
-        const backHomeBtn = document.getElementById('backHomeBtn');
-        const glassOverlay = document.getElementById('glassOverlay');
-
-        backHomeBtn.addEventListener('mouseenter', () => {
-            glassOverlay.classList.add('active');
-        });
-
-        backHomeBtn.addEventListener('mouseleave', () => {
-            glassOverlay.classList.remove('active');
-        });
-       
-        const images = [
-            
-            { url: 'assets/art/Charlesvol2.png', aspect: 'square' },
-            { url: 'assets/art/Charlesvol1.png', aspect: 'square' },
-            { url: 'assets/art/Charlesvol3.png', aspect: 'square' },
-            { url: 'assets/art/HomeInvasion.png', aspect: 'square' },
-            { url: 'assets/art/FlowerFarmer.png', aspect: 'square' },
-            { url: 'assets/art/KingofRing1.png', aspect: 'square' },
-            { url: 'assets/art/MAL-1.png', aspect: 'square' },
-            { url: 'assets/art/MAL-2.png', aspect: 'square' },
-            { url: 'assets/art/MAL-3.png', aspect: 'square' },
-            { url: 'assets/art/MAL-4.png', aspect: 'square' },
-            { url: 'assets/art/pugnate2.png', aspect: 'square' },
-            { url: 'assets/art/WheelsFallOffFinal.png', aspect: 'square' },
-            { url: 'assets/art/Windmills3.png', aspect: 'square' },
-            { url: 'assets/art/WLG2REAL.png', aspect: 'square' },
-            { url: 'assets/work/SwankyCover-1.jpg', aspect: 'tall' },
-            { url: 'assets/art/ItsAllUnderControl.png', aspect: 'square' },
-            { url: 'assets/art/happyguppy.png', aspect: 'wide' },
-            { url: 'assets/art/BreakupFINAL.png', aspect: 'square' },
-            { url: 'assets/IMGClass/1.png', aspect: 'square' },
-            { url: 'assets/work/CruelOilBlaizunDiamond.jpg', aspect: 'tall' },
-            { url: 'assets/IMGClass/8.png', aspect: 'square' },
-            { url: 'assets/IMGClass/DumbJealous.png', aspect: 'wide' },
-            { url: 'assets/IMGClass/FeelsLikeADream.png', aspect: 'square' },
-            { url: 'assets/IMGClass/honestly.png', aspect: 'square' },
-            { url: 'assets/IMGClass/Iknowyouredownbad.png', aspect: 'square' },
-            { url: 'assets/IMGClass/JumpedInTooDeepREALFINAL.png', aspect: 'square' },
-            { url: 'assets/IMGClass/proj7.png', aspect: 'square' },
-            { url: 'assets/IMGClass/proj9.png', aspect: 'square' },
-            { url: 'assets/IMGClass/ReachingOutToMe.png', aspect: 'square' }
-
-        ];
-
-        const gallery = document.getElementById('gallery');
-        const loadingScreen = document.getElementById('loadingScreen');
-        const loadedCountEl = document.getElementById('loadedCount');
-        const totalCountEl = document.getElementById('totalCount');
-        
-        let loadedImages = 0;
-        const totalImages = images.length;
-        
-        // Set total count
-        totalCountEl.textContent = totalImages;
-        
-        // Load images
-        images.forEach((image, index) => {
-            const item = document.createElement('div');
-            item.className = `gallery-item loading ${image.aspect}`;
-            
-            const img = document.createElement('img');
-            img.src = image.url;
-            img.alt = `Artwork ${index + 1}`;
-            
-            img.onload = () => {
-                item.classList.remove('loading');
-                loadedImages++;
-                loadedCountEl.textContent = loadedImages;
-                
-                // Auto-detect aspect ratio if not specified
-                const aspectRatio = img.naturalWidth / img.naturalHeight;
-                
-                if (!image.aspect || image.aspect === 'auto') {
-                    if (aspectRatio > 1.5) {
-                        item.classList.add('wide');
-                    } else if (aspectRatio < 0.7) {
-                        item.classList.add('tall');
-                    } else if (aspectRatio > 1.3 && img.naturalWidth > 1000) {
-                        item.classList.add('large');
-                    }
-                }
-                if (loadedImages === totalImages) {
-                    setTimeout(() => {
-                        loadingScreen.classList.add('hidden');
-                    }, 300);
-                }
-            };
-            img.onerror = () => {
-                // Count failed images too so loading screen doesn't hang
-                loadedImages++;
-                loadedCountEl.textContent = loadedImages;
-                
-                if (loadedImages === totalImages) {
-                    setTimeout(() => {
-                        loadingScreen.classList.add('hidden');
-                    }, 300);
-                }
-            };
-
-            
-            // Click to expand
-            item.addEventListener('click', () => {
-                document.getElementById('modalImage').src = image.url;
-                document.getElementById('modal').classList.add('active');
+            backHomeBtn.addEventListener("mouseenter", () => {
+                glassOverlay.classList.add("active");
             });
-            
-            item.appendChild(img);
-            gallery.appendChild(item);
-        });
 
-        // Modal controls
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
+            backHomeBtn.addEventListener("mouseleave", () => {
+                glassOverlay.classList.remove("active");
+            });
 
-        document.getElementById('modalClose').addEventListener('click', closeModal);
-        document.getElementById('modal').addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                closeModal();
+            const images = [
+                { url: "assets/art/Charlesvol2.webp", aspect: "square" },
+                { url: "assets/art/Charlesvol1.webp", aspect: "square" },
+                { url: "assets/art/Charlesvol3.webp", aspect: "square" },
+                { url: "assets/art/HomeInvasion.webp", aspect: "square" },
+                { url: "assets/art/FlowerFarmer.webp", aspect: "square" },
+                { url: "assets/art/KingofRing1.webp", aspect: "square" },
+                { url: "assets/art/MAL-1.webp", aspect: "square" },
+                { url: "assets/art/MAL-2.webp", aspect: "square" },
+                { url: "assets/art/MAL-3.webp", aspect: "square" },
+                { url: "assets/art/MAL-4.webp", aspect: "square" },
+                { url: "assets/art/pugnate2.webp", aspect: "square" },
+                { url: "assets/art/WheelsFallOffFinal.webp", aspect: "square" },
+                { url: "assets/art/Windmills3.webp", aspect: "square" },
+                { url: "assets/art/WLG2REAL.webp", aspect: "square" },
+                { url: "assets/work/SwankyCover-1.jpg", aspect: "tall" },
+                { url: "assets/art/ItsAllUnderControl.webp", aspect: "square" },
+                { url: "assets/art/happyguppy.webp", aspect: "wide" },
+                { url: "assets/art/BreakupFINAL.webp", aspect: "square" },
+                { url: "assets/IMGClass/1.webp", aspect: "square" },
+                {
+                    url: "assets/work/CruelOilBlaizunDiamond.jpg",
+                    aspect: "tall",
+                },
+                { url: "assets/IMGClass/8.webp", aspect: "square" },
+                { url: "assets/IMGClass/DumbJealous.webp", aspect: "wide" },
+                {
+                    url: "assets/IMGClass/FeelsLikeADream.webp",
+                    aspect: "square",
+                },
+                { url: "assets/IMGClass/honestly.webp", aspect: "square" },
+                {
+                    url: "assets/IMGClass/Iknowyouredownbad.webp",
+                    aspect: "square",
+                },
+                {
+                    url: "assets/IMGClass/JumpedInTooDeepREALFINAL.webp",
+                    aspect: "square",
+                },
+                { url: "assets/IMGClass/proj7.webp", aspect: "square" },
+                { url: "assets/IMGClass/proj9.webp", aspect: "square" },
+                {
+                    url: "assets/IMGClass/ReachingOutToMe.webp",
+                    aspect: "square",
+                },
+            ];
+
+            const gallery = document.getElementById("gallery");
+            const loadingScreen = document.getElementById("loadingScreen");
+            const loadedCountEl = document.getElementById("loadedCount");
+            const totalCountEl = document.getElementById("totalCount");
+
+            let loadedImages = 0;
+            const totalImages = images.length;
+
+            // Set total count
+            totalCountEl.textContent = totalImages;
+
+            // Load images
+            images.forEach((image, index) => {
+                const item = document.createElement("div");
+                item.className = `gallery-item loading ${image.aspect}`;
+
+                const img = document.createElement("img");
+                img.src = image.url;
+                img.alt = `Artwork ${index + 1}`;
+
+                img.onload = () => {
+                    item.classList.remove("loading");
+                    loadedImages++;
+                    loadedCountEl.textContent = loadedImages;
+
+                    // Auto-detect aspect ratio if not specified
+                    const aspectRatio = img.naturalWidth / img.naturalHeight;
+
+                    if (!image.aspect || image.aspect === "auto") {
+                        if (aspectRatio > 1.5) {
+                            item.classList.add("wide");
+                        } else if (aspectRatio < 0.7) {
+                            item.classList.add("tall");
+                        } else if (
+                            aspectRatio > 1.3 &&
+                            img.naturalWidth > 1000
+                        ) {
+                            item.classList.add("large");
+                        }
+                    }
+                    if (loadedImages === totalImages) {
+                        setTimeout(() => {
+                            loadingScreen.classList.add("hidden");
+                        }, 300);
+                    }
+                };
+                img.onerror = () => {
+                    // Count failed images too so loading screen doesn't hang
+                    loadedImages++;
+                    loadedCountEl.textContent = loadedImages;
+
+                    if (loadedImages === totalImages) {
+                        setTimeout(() => {
+                            loadingScreen.classList.add("hidden");
+                        }, 300);
+                    }
+                };
+
+                // Click to expand
+                item.addEventListener("click", () => {
+                    document.getElementById("modalImage").src = image.url;
+                    document.getElementById("modal").classList.add("active");
+                });
+
+                item.appendChild(img);
+                gallery.appendChild(item);
+            });
+
+            // Modal controls
+            function closeModal() {
+                document.getElementById("modal").classList.remove("active");
             }
-        });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-    </script>
-</body>
+            document
+                .getElementById("modalClose")
+                .addEventListener("click", closeModal);
+            document.getElementById("modal").addEventListener("click", (e) => {
+                if (e.target.id === "modal") {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeModal();
+                }
+            });
+        </script>
+    </body>
 </html>
