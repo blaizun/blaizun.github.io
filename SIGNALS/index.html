@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Signals</title>
+        <link
+            rel="preload"
+            href="../assets/fonts/elitedanger/elitedangertitle.woff"
+            as="font"
+            type="font/woff"
+            crossorigin="anonymous"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                background: #000;
+                overflow: hidden;
+                font-family: "Courier New", monospace;
+            }
+            canvas {
+                display: block;
+            }
+            @font-face {
+                font-family: "Elite Danger Title";
+                src: url("../assets/fonts/elitedanger/elitedangertitle.woff")
+                    format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            #title {
+                position: fixed;
+                top: 25%;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                color: #00ff88;
+                font-size: 11px;
+                letter-spacing: 0.6em;
+                text-transform: uppercase;
+                opacity: 0.65;
+                mix-blend-mode: screen;
+                pointer-events: none;
+                z-index: 10;
+                text-align: center;
+                transition:
+                    color 1.2s ease,
+                    mix-blend-mode 1.2s ease;
+            }
+            #title span {
+                display: block;
+                font-size: 50px;
+                font-family: "Elite Danger Title";
+                letter-spacing: 0.3em;
+                font-weight: bold;
+                color: #fff;
+                opacity: 1;
+                text-shadow:
+                    0 0 20px #00ff88,
+                    0 0 60px #00ff8844;
+                margin-bottom: 4px;
+                transition:
+                    color 1.2s ease,
+                    text-shadow 1.2s ease;
+            }
+            #title.dark {
+                color: #000;
+                mix-blend-mode: normal;
+            }
+            #title.dark span {
+                color: #000;
+                text-shadow:
+                    0 0 20px #000,
+                    0 0 60px #000;
+            }
+
+            /* ── Typewriter nav items ──────────────────────────────────────── */
+            #title-nav {
+                position: fixed;
+                top: 33%;
+                left: 50%;
+                transform: translate(-50%, 50%);
+                display: flex;
+                gap: 2.2em;
+                font-family: "Courier New", monospace;
+                font-size: 12px;
+                letter-spacing: 0.3em;
+                text-transform: uppercase;
+                color: #000;
+                opacity: 0;
+                mix-blend-mode: normal;
+                pointer-events: none;
+                white-space: nowrap;
+                transition: opacity 0.3s ease;
+                z-index: 10;
+            }
+
+            .nav-item {
+                display: inline-block;
+                cursor: pointer;
+                pointer-events: none; /* enabled once typed in */
+            }
+
+            /* ── Cascade panels ──────────────────────────────────────────────── */
+            .nav-panel {
+                position: fixed;
+                top: calc(33% + 2.4em);
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: "Courier New", monospace;
+                font-size: 11px;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: #000;
+                mix-blend-mode: normal;
+                pointer-events: none;
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition:
+                    opacity 0.4s ease,
+                    max-height 0.5s ease;
+                z-index: 10;
+                text-align: center;
+                line-height: 2em;
+            }
+            .nav-panel.open {
+                opacity: 1;
+                max-height: 300px;
+                pointer-events: auto;
+            }
+
+            .tw-cursor {
+                display: inline;
+                vertical-align: baseline;
+                animation: blink 0.7s step-start infinite;
+            }
+            .tw-cursor.off {
+                visibility: hidden;
+            }
+            #scanline {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 3px,
+                    rgba(0, 0, 0, 0.06) 3px,
+                    rgba(0, 0, 0, 0.06) 4px
+                );
+                pointer-events: none;
+                z-index: 999;
+            }
+            .dg.main {
+                z-index: 100 !important;
+            }
+
+            #trigger-dot {
+                position: fixed;
+                bottom: 38%;
+                right: calc(50% - 135px);
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: #ff2244;
+                box-shadow:
+                    0 0 6px 2px #ff224488,
+                    0 0 18px 4px #ff224433;
+                cursor: pointer;
+                z-index: 20;
+                opacity: 0;
+                pointer-events: none;
+                animation: none;
+                /*transition: opacity 0s ease;*/
+            }
+            #trigger-dot.visible {
+                opacity: 1;
+                pointer-events: auto;
+                animation: dotPulse 1.4s step-end infinite;
+                animation-delay: 0.5s;
+            }
+            #trigger-dot.hidden {
+                opacity: 0 !important;
+                pointer-events: none;
+                animation: none;
+            }
+            #trigger-dot.top-right {
+                bottom: unset;
+                right: 32px;
+                top: 32px;
+            }
+            @keyframes dotPulse {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.15;
+                }
+            }
+
+            #loader {
+                position: fixed;
+                inset: 0;
+                background: #000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                opacity: 1;
+                transition: opacity 0.6s ease;
+            }
+            #loader.fade-out {
+                opacity: 0;
+                pointer-events: none;
+            }
+            #loader-text {
+                color: #00ff88;
+                font-family: "Courier New", monospace;
+                font-size: 11px;
+                letter-spacing: 0.6em;
+                text-transform: uppercase;
+                opacity: 0.65;
+                mix-blend-mode: screen;
+                text-align: center;
+            }
+            /*#loader-text span {
+                display: block;
+                font-size: 50px;
+                font-family: "Courier New", monospace;
+                letter-spacing: 0.3em;
+                font-weight: bold;
+                color: #fff;
+                opacity: 1;
+                text-shadow:
+                    0 0 20px #00ff88,
+                    0 0 60px #00ff8844;
+                margin-bottom: 8px;
+            }*/
+            #loader-dot {
+                color: #ff2244;
+                animation: blink 0.8s step-start infinite;
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loader">
+            <div id="loader-text">loading<span id="loader-dot">.</span></div>
+        </div>
+
+        <div id="title">
+            <span>SIGNALS</span>
+            a biology podcast
+        </div>
+
+        <div id="title-nav">
+            <span class="nav-item" id="nav-episodes"></span>
+            <span class="nav-item" id="nav-about"></span>
+            <span class="nav-item" id="nav-contact"></span>
+            <span class="nav-item" id="nav-patreon"></span>
+        </div>
+
+        <!-- Cascade panels — content drops in below nav on click -->
+        <div class="nav-panel" id="panel-episodes">
+            <!-- episodes content goes here -->
+        </div>
+        <div class="nav-panel" id="panel-about">
+            <!-- about content goes here -->
+        </div>
+        <div class="nav-panel" id="panel-contact">
+            <!-- contact content goes here -->
+        </div>
+        <div class="nav-panel" id="panel-patreon">
+            <!-- patreon content goes here -->
+        </div>
+        <div id="scanline"></div>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+            defer
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+            defer
+        ></script>
+        <div id="trigger-dot"></div>
+        <script defer>
+            document.addEventListener("DOMContentLoaded", function () {
+                // ─── Toggle GUI visibility ────────────────────────────────────────────────────
+                const SHOW_GUI = false; // ← flip to true to show controls
+                const renderer = new THREE.WebGLRenderer({ antialias: false });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+                const vertexShader = `
+              varying vec2 vUv;
+              void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
+            `;
+
+                const fragmentShader = `
+              precision highp float;
+
+              uniform float uTime;
+              uniform vec2  uResolution;
+              varying vec2  vUv;
+
+              uniform float uGlobalSpeed;
+              uniform float uDriftSpeed;
+              uniform float uDriftAmount;
+              uniform float uWobbleSpeed;
+              uniform float uOrganelleSpeed;
+              uniform float uCytoSpeed;
+
+              uniform float uCellScale;
+              uniform float uMembraneThickness;
+              uniform float uWobbleAmount;
+              uniform float uNucleusSize;
+              uniform float uOrganelleSize;
+              uniform float uOrganelleOrbit;
+              uniform float uCytoFill;
+
+              uniform float uFiberDensity;
+              uniform float uFiberSharpness;
+              uniform float uFiberStrength;
+              uniform float uFiberTwist;
+
+              uniform vec3  uMemColor;
+              uniform float uMemBrightness;
+              uniform vec3  uNucColor;
+              uniform float uNucBrightness;
+              uniform vec3  uCytoColor;
+              uniform float uCytoBrightness;
+              uniform vec3  uFiberColor;
+              uniform float uFiberBrightness;
+              uniform vec3  uOrgColor;
+              uniform float uOrgBrightness;
+              uniform vec3  uBgColorA;
+              uniform vec3  uBgColorB;
+              uniform float uBgBrightness;
+              uniform vec3  uBloomColor;
+              uniform float uBloomBrightness;
+              uniform float uBloomThreshold;
+
+              uniform float uGlitchIntensity;
+              uniform float uGlitchFrequency;
+
+              uniform float uLensRadius;
+              uniform float uLensRefraction;
+              uniform float uLensFringe;
+              uniform float uLensEdgeSoftness;
+
+              uniform float uToneExposure;
+              uniform float uVignetteStrength;
+              uniform float uVignetteRadius;
+
+              #define PI  3.14159265
+              #define TAU 6.28318530
+
+              // ── Hash & Noise ─────────────────────────────────────────────────────────────
+              float hash(vec2 p) {
+                p = fract(p * vec2(234.34, 435.345));
+                p += dot(p, p + 34.23);
+                return fract(p.x * p.y);
+              }
+              float noise(vec2 p) {
+                vec2 i = floor(p), f = fract(p);
+                f = f * f * (3.0 - 2.0 * f);
+                return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+                           mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+              }
+              float fbm(vec2 p) {
+                float v = 0.0, a = 0.5;
+                for (int i = 0; i < 5; i++) {
+                  v += a * noise(p); p = p * 2.1 + vec2(1.7, 9.2); a *= 0.52;
+                }
+                return v;
+              }
+
+              // ── Glitch ───────────────────────────────────────────────────────────────────
+              vec2 glitch(vec2 uv, float t) {
+                float sliceY    = floor(uv.y * 45.0) / 45.0;
+                float sliceHash = hash(vec2(sliceY, floor(t * 8.0)));
+                float threshold = 1.0 - uGlitchFrequency;
+                float amt       = step(threshold, sliceHash) * (sliceHash - threshold) * uGlitchIntensity * 3.5;
+                float blockHash = hash(vec2(floor(uv.y * 10.0), floor(t * 2.5)));
+                float blockAmt  = step(0.97, blockHash) * uGlitchIntensity * 0.5;
+                uv.x += amt + blockAmt * (fract(sliceHash * 17.3) - 0.5);
+                return uv;
+              }
+
+              // ── Lens refraction ──────────────────────────────────────────────────────────
+              // Returns warped UV in xy, fringe mask in z
+              vec3 lensWarp(vec2 uv, float ar) {
+                vec2  cent  = (uv - 0.5) * vec2(ar, 1.0);
+                float dist  = length(cent);
+                float nt    = clamp(dist / uLensRadius, 0.0, 1.0);
+                float warp  = 1.0 + uLensRefraction * nt * nt * nt * 2.5;
+                vec2  wUv   = cent * warp / vec2(ar, 1.0) + 0.5;
+                float rw    = 0.018;
+                float ring1 = smoothstep(rw,       0.0, abs(dist - uLensRadius * 0.970));
+                float ring2 = smoothstep(rw * 0.6, 0.0, abs(dist - uLensRadius * 0.985));
+                float fringe = (ring1 + ring2 * 0.6) * uLensFringe;
+                return vec3(wUv, fringe);
+              }
+
+              // ── Fiber field ──────────────────────────────────────────────────────────────
+              float fiberField(vec2 p, float t, float seed) {
+                vec2 warp = vec2(
+                  fbm(p * 1.8 + t * 0.04 + seed)       - 0.5,
+                  fbm(p * 1.8 + t * 0.04 + seed + 3.7) - 0.5
+                ) * uFiberTwist;
+                vec2  pw     = p + warp;
+                float fibers = 0.0;
+                for (int i = 0; i < 6; i++) {
+                  float fi    = float(i);
+                  float angle = fi * PI / 6.0 + seed * 0.4 + fi * seed * 0.07;
+                  vec2  perp  = vec2(-sin(angle), cos(angle));
+                  float proj  = dot(pw, perp) * uFiberDensity;
+                  float s     = pow(sin(proj * TAU) * 0.5 + 0.5, uFiberSharpness);
+                  fibers     += s * (0.5 + 0.5 * sin(fi * 2.39 + seed + t * 0.07));
+                }
+                return fibers / 6.0;
+              }
+
+              // ── Cell — accumulates into 5 running totals passed by inout ─────────────────
+              void cellFn(vec2 p, vec2 center, float radius, float t, float seed,
+                          inout float totMem, inout float totCyto, inout float totNuc,
+                          inout float totOrg, inout float totFiber) {
+
+                vec2  d     = p - center;
+                float angle = atan(d.y, d.x);
+                float r     = length(d);
+                float wa    = uWobbleAmount;
+
+                float wobble = 1.0
+                  + wa * 0.10 * sin(angle *  3.0 + t * uWobbleSpeed * 1.1 + seed)
+                  + wa * 0.08 * sin(angle *  5.0 - t * uWobbleSpeed * 1.7 + seed * 2.3)
+                  + wa * 0.05 * cos(angle *  7.0 + t * uWobbleSpeed * 0.9 + seed * 3.7)
+                  + wa * 0.03 * sin(angle * 11.0 - t * uWobbleSpeed * 2.3 + seed * 1.1)
+                  + wa * 0.02 * cos(angle * 17.0 + t * uWobbleSpeed * 3.1 + seed * 5.3);
+
+                float rEff  = radius * wobble;
+                float thick = radius * uMembraneThickness;
+
+                // Membrane
+                float mem = smoothstep(rEff + thick, rEff, r) - smoothstep(rEff, rEff - thick, r);
+                totMem += mem;
+
+                // Cytoplasm
+                float cytoMask = smoothstep(rEff, rEff - thick * 3.0, r);
+                float cytoFbm  = fbm(d * 3.5 + t * uCytoSpeed + seed);
+                totCyto += cytoMask * (0.25 + cytoFbm * 0.55) * uCytoFill;
+
+                // Fibers (inside cytoplasm mask, local normalised coords)
+                totFiber += cytoMask * fiberField(d / radius, t, seed);
+
+                // Nucleus
+                float nucR    = radius * uNucleusSize;
+                float nucWob  = 1.0
+                  + 0.12 * sin(angle * 4.0 + t * uWobbleSpeed * 1.4 + seed * 1.6)
+                  + 0.06 * cos(angle * 6.0 - t * uWobbleSpeed * 0.8 + seed * 2.9);
+                float nucReff = nucR * nucWob;
+                float nucMem  = smoothstep(nucReff + 0.007, nucReff, r) - smoothstep(nucReff, nucReff - 0.007, r);
+                float nucFill = smoothstep(nucReff, nucReff - 0.005, r) * 0.55;
+                totNuc += nucMem * 1.6 + nucFill;
+
+                // Organelles
+                for (int k = 0; k < 6; k++) {
+                  float fk   = float(k);
+                  float oAng = seed + fk * TAU / 6.0 + t * uOrganelleSpeed * (0.18 + fk * 0.05);
+                  float oDst = rEff * (uOrganelleOrbit + fk * 0.025);
+                  vec2  oPos = vec2(cos(oAng), sin(oAng)) * oDst;
+                  totOrg += smoothstep(radius * uOrganelleSize, 0.0, length(d - oPos));
+                }
+              }
+
+              // ── Background field ─────────────────────────────────────────────────────────
+              float cytoplasmField(vec2 p, float t) {
+                float f = fbm(p * 2.2 + t * uCytoSpeed * 0.4);
+                f      += fbm(p * 4.1 - t * uCytoSpeed * 0.28 + 3.1) * 0.5;
+                return f * 0.5;
+              }
+
+              // ─── MAIN ────────────────────────────────────────────────────────────────────
+              void main() {
+                vec2  uv = vUv;
+                float t  = uTime * uGlobalSpeed;
+                float ar = uResolution.x / uResolution.y;
+
+                // Lens: warp UV, compute mask and fringe from original UV
+                vec3  lensData = lensWarp(uv, ar);
+                vec2  lensUv   = lensData.xy;
+                float lensFringe = lensData.z;
+                vec2  centRaw  = (uv - 0.5) * vec2(ar, 1.0);
+                float lensDist = length(centRaw);
+                float lensMask = smoothstep(uLensRadius, uLensRadius - uLensEdgeSoftness, lensDist);
+
+                // Glitch on the lens-warped UV
+                vec2 gUv = glitch(lensUv, t);
+                vec2 q   = (gUv - 0.5) * vec2(ar, 1.0);
+
+                float ds = uDriftSpeed;
+                float da = uDriftAmount;
+                float cs = uCellScale;
+
+                float totMem = 0.0, totCyto = 0.0, totNuc = 0.0, totOrg = 0.0, totFiber = 0.0;
+
+                // Large cells
+                cellFn(q, vec2(-0.55+sin(t*ds*0.08)*da,      0.06+cos(t*ds*0.07)*da*0.83), 0.40*cs, t, 1.1,  totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2( 0.53+cos(t*ds*0.06)*da*0.83,-0.10+sin(t*ds*0.09)*da),      0.37*cs, t, 3.7,  totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2( 0.03+sin(t*ds*0.07)*da*0.83, 0.42+cos(t*ds*0.05)*da),      0.34*cs, t, 6.2,  totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.08+cos(t*ds*0.09)*da,     -0.38+sin(t*ds*0.06)*da*0.83), 0.32*cs, t, 8.9,  totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2( 0.62+sin(t*ds*0.05)*da*0.67, 0.36+cos(t*ds*0.08)*da),      0.29*cs, t, 2.4,  totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.56+cos(t*ds*0.07)*da,     -0.28+sin(t*ds*0.10)*da*0.67), 0.27*cs, t, 5.5,  totMem,totCyto,totNuc,totOrg,totFiber);
+                // Mid cells
+                cellFn(q, vec2( 0.22+sin(t*ds*0.11)*da*1.17,-0.09+cos(t*ds*0.13)*da),      0.24*cs, t, 11.3, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.26+cos(t*ds*0.12)*da*1.17, 0.24+sin(t*ds*0.10)*da*1.17), 0.22*cs, t, 14.7, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2( 0.40+sin(t*ds*0.14)*da,     -0.44+cos(t*ds*0.11)*da*1.17), 0.20*cs, t, 17.2, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.42+cos(t*ds*0.10)*da*1.17, 0.42+sin(t*ds*0.12)*da),      0.19*cs, t, 20.8, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.01+sin(t*ds*0.13)*da*1.33, 0.09+cos(t*ds*0.09)*da*1.17), 0.18*cs, t, 23.1, totMem,totCyto,totNuc,totOrg,totFiber);
+                // Small cells
+                cellFn(q, vec2( 0.31+cos(t*ds*0.15)*da*1.33, 0.31+sin(t*ds*0.14)*da*1.17), 0.14*cs, t, 27.4, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2(-0.33+sin(t*ds*0.16)*da*1.17,-0.04+cos(t*ds*0.15)*da*1.33), 0.13*cs, t, 30.9, totMem,totCyto,totNuc,totOrg,totFiber);
+                cellFn(q, vec2( 0.10+cos(t*ds*0.17)*da*1.33,-0.26+sin(t*ds*0.16)*da*1.17), 0.12*cs, t, 34.2, totMem,totCyto,totNuc,totOrg,totFiber);
+
+                float cytoField = cytoplasmField(q, t);
+
+                // ── Color composition ─────────────────────────────────────────────────────
+                vec3 col = vec3(0.0, 0.025, 0.04);
+                col += mix(uBgColorA, uBgColorB, cytoField) * uBgBrightness;
+                col += uCytoColor  * clamp(totCyto,  0.0, 1.8) * uCytoBrightness;
+                col += uFiberColor * clamp(totFiber * uFiberStrength, 0.0, 2.5) * uFiberBrightness;
+                col += uOrgColor   * clamp(totOrg,   0.0, 4.0) * uOrgBrightness;
+                col += uMemColor   * clamp(totMem,   0.0, 3.5) * uMemBrightness;
+                col += uBloomColor * clamp(totMem - uBloomThreshold, 0.0, 1.0) * uBloomBrightness;
+                col += uNucColor   * clamp(totNuc,   0.0, 2.5) * uNucBrightness;
+
+                // Vignette
+                float vign = 1.0 - smoothstep(uVignetteRadius, uVignetteRadius + 0.73,
+                                               length(q * vec2(0.78, 0.98)));
+                col *= mix(1.0, vign * vign, uVignetteStrength);
+
+                // Tone map
+                col = 1.0 - exp(-col * uToneExposure);
+
+                // Edge desaturation
+                float lum = dot(col, vec3(0.299, 0.587, 0.114));
+                col = mix(col, vec3(lum), (1.0 - vign) * 0.38);
+
+                // ── Lens composite ────────────────────────────────────────────────────────
+                col += vec3(lensFringe * 1.1, lensFringe * 0.7, lensFringe * 1.4);
+                col *= lensMask;
+                float rimGlow = smoothstep(0.05, 0.0, abs(lensDist - uLensRadius * 0.995))
+                                * 0.35 * uLensFringe;
+                col += vec3(rimGlow, rimGlow * 0.9, rimGlow) * lensMask;
+
+                gl_FragColor = vec4(col, 1.0);
+              }
+            `;
+
+                // ─── Uniforms ────────────────────────────────────────────────────────────────
+                const uniforms = {
+                    uTime: { value: 0.0 },
+                    uResolution: {
+                        value: new THREE.Vector2(
+                            window.innerWidth,
+                            window.innerHeight,
+                        ),
+                    },
+                    // motion
+                    uGlobalSpeed: { value: 0.25 },
+                    uDriftSpeed: { value: 0.25 },
+                    uDriftAmount: { value: 0.23 },
+                    uWobbleSpeed: { value: 0.91 },
+                    uOrganelleSpeed: { value: 2.32 },
+                    uCytoSpeed: { value: 0.335 },
+                    // anatomy
+                    uCellScale: { value: 2.03 },
+                    uMembraneThickness: { value: 0.062 },
+                    uWobbleAmount: { value: 1.0 },
+                    uNucleusSize: { value: 0.27 },
+                    uOrganelleSize: { value: 0.03 },
+                    uOrganelleOrbit: { value: 0.34 },
+                    uCytoFill: { value: 0.65 },
+                    // fiber
+                    uFiberDensity: { value: 6.0 },
+                    uFiberSharpness: { value: 8.0 },
+                    uFiberStrength: { value: 0.6 },
+                    uFiberTwist: { value: 0.4 },
+                    // colors
+                    uMemColor: { value: new THREE.Color(0.223, 0.337, 0.129) },
+                    uMemBrightness: { value: 0.6 },
+                    uNucColor: { value: new THREE.Color(0.039, 0.039, 0.007) },
+                    uNucBrightness: { value: 0.65 },
+                    uCytoColor: { value: new THREE.Color(0.027, 0.047, 0.008) },
+                    uCytoBrightness: { value: 1.15 },
+                    uFiberColor: { value: new THREE.Color(0.18, 0.55, 0.12) },
+                    uFiberBrightness: { value: 0.9 },
+                    uOrgColor: { value: new THREE.Color(0.8, 1.0, 0.2) },
+                    uOrgBrightness: { value: 0.35 },
+                    uBgColorA: { value: new THREE.Color(0.549, 0.019, 0.019) },
+                    uBgColorB: { value: new THREE.Color(0.949, 0.0, 0.0) },
+                    uBgBrightness: { value: 0.5 },
+                    uBloomColor: { value: new THREE.Color(0.07, 0.356, 0.007) },
+                    uBloomBrightness: { value: 0.9 },
+                    uBloomThreshold: { value: 1.2 },
+                    // glitch
+                    uGlitchIntensity: { value: 0.01 },
+                    uGlitchFrequency: { value: 0.04 },
+                    // lens
+                    uLensRadius: { value: 1.2 }, // -> .145
+                    uLensRefraction: { value: 0.0 }, // -> 1.0
+                    uLensFringe: { value: 0.0 },
+                    uLensEdgeSoftness: { value: 0.012 },
+                    // render
+                    uToneExposure: { value: 4.0 },
+                    uVignetteStrength: { value: 1.0 },
+                    uVignetteRadius: { value: 0.24 },
+                };
+
+                const material = new THREE.ShaderMaterial({
+                    vertexShader,
+                    fragmentShader,
+                    uniforms,
+                });
+                scene.add(
+                    new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material),
+                );
+
+                // ─── dat.GUI ─────────────────────────────────────────────────────────────────
+                if (SHOW_GUI) {
+                    const gui = new dat.GUI({ width: 280 });
+
+                    function colorControl(folder, label, key) {
+                        const proxy = {
+                            get color() {
+                                return "#" + uniforms[key].value.getHexString();
+                            },
+                            set color(h) {
+                                uniforms[key].value.set(h);
+                            },
+                        };
+                        folder.addColor(proxy, "color").name(label);
+                    }
+
+                    // ── MOTION ───────────────────────────────────────────────────────────────────
+                    const fMotion = gui.addFolder("⏱  Motion");
+                    fMotion
+                        .add(uniforms.uGlobalSpeed, "value", 0.0, 3.0, 0.01)
+                        .name("Global Speed");
+                    fMotion
+                        .add(uniforms.uDriftSpeed, "value", 0.0, 4.0, 0.01)
+                        .name("Drift Speed");
+                    fMotion
+                        .add(uniforms.uDriftAmount, "value", 0.0, 0.25, 0.005)
+                        .name("Drift Amount");
+                    fMotion
+                        .add(uniforms.uWobbleSpeed, "value", 0.0, 4.0, 0.01)
+                        .name("Wobble Speed");
+                    fMotion
+                        .add(uniforms.uOrganelleSpeed, "value", 0.0, 4.0, 0.01)
+                        .name("Organelle Speed");
+                    fMotion
+                        .add(uniforms.uCytoSpeed, "value", 0.0, 1.0, 0.005)
+                        .name("Cytoplasm Flow");
+                    fMotion.open();
+
+                    // ── CELL ANATOMY ─────────────────────────────────────────────────────────────
+                    const fCells = gui.addFolder("🔬  Cell Anatomy");
+                    fCells
+                        .add(uniforms.uCellScale, "value", 0.3, 2.5, 0.01)
+                        .name("Cell Scale");
+                    fCells
+                        .add(
+                            uniforms.uMembraneThickness,
+                            "value",
+                            0.01,
+                            0.15,
+                            0.002,
+                        )
+                        .name("Membrane Width");
+                    fCells
+                        .add(uniforms.uWobbleAmount, "value", 0.0, 3.0, 0.05)
+                        .name("Wobble Amplitude");
+                    fCells
+                        .add(uniforms.uNucleusSize, "value", 0.1, 0.6, 0.01)
+                        .name("Nucleus Size");
+                    fCells
+                        .add(
+                            uniforms.uOrganelleSize,
+                            "value",
+                            0.01,
+                            0.15,
+                            0.005,
+                        )
+                        .name("Organelle Size");
+                    fCells
+                        .add(uniforms.uOrganelleOrbit, "value", 0.2, 0.85, 0.01)
+                        .name("Organelle Orbit");
+                    fCells
+                        .add(uniforms.uCytoFill, "value", 0.0, 2.0, 0.05)
+                        .name("Cyto Fill");
+
+                    // ── FIBER ────────────────────────────────────────────────────────────────────
+                    const fFiber = gui.addFolder("🧵  Fibers");
+                    fFiber
+                        .add(uniforms.uFiberDensity, "value", 1.0, 20.0, 0.1)
+                        .name("Density");
+                    fFiber
+                        .add(uniforms.uFiberSharpness, "value", 1.0, 30.0, 0.5)
+                        .name("Sharpness");
+                    fFiber
+                        .add(uniforms.uFiberStrength, "value", 0.0, 3.0, 0.05)
+                        .name("Strength");
+                    fFiber
+                        .add(uniforms.uFiberTwist, "value", 0.0, 2.0, 0.05)
+                        .name("Twist / Warp");
+                    fFiber.open();
+
+                    // ── COLOR ────────────────────────────────────────────────────────────────────
+                    const fColor = gui.addFolder("🎨  Color");
+
+                    const fMem = fColor.addFolder("Membrane");
+                    colorControl(fMem, "Hue", "uMemColor");
+                    fMem.add(
+                        uniforms.uMemBrightness,
+                        "value",
+                        0.0,
+                        3.0,
+                        0.05,
+                    ).name("Brightness");
+
+                    const fNuc = fColor.addFolder("Nucleus");
+                    colorControl(fNuc, "Hue", "uNucColor");
+                    fNuc.add(
+                        uniforms.uNucBrightness,
+                        "value",
+                        0.0,
+                        2.0,
+                        0.05,
+                    ).name("Brightness");
+
+                    const fCyto = fColor.addFolder("Cytoplasm");
+                    colorControl(fCyto, "Hue", "uCytoColor");
+                    fCyto
+                        .add(uniforms.uCytoBrightness, "value", 0.0, 2.0, 0.05)
+                        .name("Brightness");
+
+                    const fFibColor = fColor.addFolder("Fibers");
+                    colorControl(fFibColor, "Hue", "uFiberColor");
+                    fFibColor
+                        .add(uniforms.uFiberBrightness, "value", 0.0, 3.0, 0.05)
+                        .name("Brightness");
+
+                    const fOrg = fColor.addFolder("Organelles");
+                    colorControl(fOrg, "Hue", "uOrgColor");
+                    fOrg.add(
+                        uniforms.uOrgBrightness,
+                        "value",
+                        0.0,
+                        2.0,
+                        0.05,
+                    ).name("Brightness");
+
+                    const fBg = fColor.addFolder("Background");
+                    colorControl(fBg, "Dark Tone", "uBgColorA");
+                    colorControl(fBg, "Light Tone", "uBgColorB");
+                    fBg.add(
+                        uniforms.uBgBrightness,
+                        "value",
+                        0.0,
+                        2.0,
+                        0.05,
+                    ).name("Brightness");
+
+                    const fBloom = fColor.addFolder("Overlap Bloom");
+                    colorControl(fBloom, "Hue", "uBloomColor");
+                    fBloom
+                        .add(uniforms.uBloomBrightness, "value", 0.0, 4.0, 0.05)
+                        .name("Brightness");
+                    fBloom
+                        .add(uniforms.uBloomThreshold, "value", 0.5, 2.5, 0.05)
+                        .name("Threshold");
+
+                    fColor.open();
+
+                    // ── GLITCH ───────────────────────────────────────────────────────────────────
+                    const fGlitch = gui.addFolder("⚡  Glitch");
+                    fGlitch
+                        .add(uniforms.uGlitchIntensity, "value", 0.0, 1.0, 0.01)
+                        .name("Intensity");
+                    fGlitch
+                        .add(
+                            uniforms.uGlitchFrequency,
+                            "value",
+                            0.0,
+                            0.5,
+                            0.005,
+                        )
+                        .name("Frequency");
+
+                    // ── LENS ─────────────────────────────────────────────────────────────────────
+                    const fLens = gui.addFolder("🔭  Lens");
+                    fLens
+                        .add(uniforms.uLensRadius, "value", 0.1, 1.2, 0.005)
+                        .name("Radius");
+                    fLens
+                        .add(uniforms.uLensRefraction, "value", 0.0, 1.0, 0.01)
+                        .name("Refraction");
+                    fLens
+                        .add(uniforms.uLensFringe, "value", 0.0, 3.0, 0.05)
+                        .name("Fringe");
+                    fLens
+                        .add(
+                            uniforms.uLensEdgeSoftness,
+                            "value",
+                            0.0,
+                            0.08,
+                            0.002,
+                        )
+                        .name("Edge Softness");
+                    fLens.open();
+
+                    // ── RENDERING ────────────────────────────────────────────────────────────────
+                    const fRender = gui.addFolder("🖥  Rendering");
+                    fRender
+                        .add(uniforms.uToneExposure, "value", 0.5, 4.0, 0.05)
+                        .name("Exposure");
+                    fRender
+                        .add(
+                            uniforms.uVignetteStrength,
+                            "value",
+                            0.0,
+                            1.0,
+                            0.01,
+                        )
+                        .name("Vignette");
+                    fRender
+                        .add(uniforms.uVignetteRadius, "value", 0.0, 1.0, 0.01)
+                        .name("Vignette Radius");
+
+                    // ── PRESETS ──────────────────────────────────────────────────────────────────
+                    function applyPreset(p) {
+                        Object.entries(p).forEach(([k, v]) => {
+                            if (!uniforms[k]) return;
+                            if (typeof v === "string") uniforms[k].value.set(v);
+                            else uniforms[k].value = v;
+                        });
+                        gui.updateDisplay();
+                    }
+
+                    const presets = {
+                        Default: () =>
+                            applyPreset({
+                                uGlobalSpeed: 1.0,
+                                uCellScale: 1.0,
+                                uGlitchIntensity: 0.1,
+                                uMemColor: "#1fea80",
+                                uNucColor: "#8cff40",
+                                uOrgColor: "#ccff33",
+                                uCytoColor: "#032410",
+                                uFiberColor: "#2e8c1f",
+                                uBgColorA: "#001219",
+                                uBgColorB: "#03291e",
+                                uBloomColor: "#66ffaa",
+                                uToneExposure: 1.65,
+                            }),
+                        Toxic: () =>
+                            applyPreset({
+                                uGlobalSpeed: 1.6,
+                                uCellScale: 1.2,
+                                uGlitchIntensity: 0.3,
+                                uMemColor: "#aaff00",
+                                uNucColor: "#ffff00",
+                                uOrgColor: "#ff9900",
+                                uCytoColor: "#1a1a00",
+                                uFiberColor: "#88ff00",
+                                uBgColorA: "#0a0a00",
+                                uBgColorB: "#1a1a00",
+                                uBloomColor: "#ffff44",
+                                uToneExposure: 2.0,
+                            }),
+                        "Deep Sea": () =>
+                            applyPreset({
+                                uGlobalSpeed: 0.5,
+                                uCellScale: 1.4,
+                                uGlitchIntensity: 0.02,
+                                uMemColor: "#00c8ff",
+                                uNucColor: "#0066ff",
+                                uOrgColor: "#44aaff",
+                                uCytoColor: "#001830",
+                                uFiberColor: "#0055aa",
+                                uBgColorA: "#000510",
+                                uBgColorB: "#00081a",
+                                uBloomColor: "#aaddff",
+                                uToneExposure: 1.3,
+                            }),
+                        Blood: () =>
+                            applyPreset({
+                                uGlobalSpeed: 0.8,
+                                uCellScale: 0.9,
+                                uGlitchIntensity: 0.15,
+                                uMemColor: "#ff2244",
+                                uNucColor: "#ff8800",
+                                uOrgColor: "#ff4400",
+                                uCytoColor: "#1a0000",
+                                uFiberColor: "#992211",
+                                uBgColorA: "#150000",
+                                uBgColorB: "#200505",
+                                uBloomColor: "#ff6666",
+                                uToneExposure: 1.8,
+                            }),
+                    };
+
+                    const fPresets = gui.addFolder("💾  Presets");
+                    Object.entries(presets).forEach(([name, fn]) =>
+                        fPresets.add({ [name]: fn }, name),
+                    );
+                    fPresets.open();
+                } // end SHOW_GUI
+
+                // ── PULSE ────────────────────────────────────────────────────────────────────
+                const pulse = {
+                    enabled: true,
+                    speed: 0.14,
+                    bgDepth: 0.76,
+                    exposureDepth: 1.95,
+                };
+                const pulseBase = {
+                    bgBrightness: uniforms.uBgBrightness.value,
+                    exposure: uniforms.uToneExposure.value,
+                };
+
+                if (SHOW_GUI) {
+                    const fPulse = gui.addFolder("💓  Pulse");
+                    fPulse.add(pulse, "enabled").name("Enabled");
+                    fPulse.add(pulse, "speed", 0.05, 4.0, 0.01).name("Speed");
+                    fPulse
+                        .add(pulse, "bgDepth", 0.0, 1.0, 0.01)
+                        .name("BG Depth");
+                    fPulse
+                        .add(pulse, "exposureDepth", 0.0, 2.0, 0.05)
+                        .name("Exposure Depth");
+                    fPulse.open();
+
+                    fBg.__controllers
+                        .find(
+                            (c) =>
+                                c.property === "value" &&
+                                c.object === uniforms.uBgBrightness,
+                        )
+                        ?.onChange((v) => {
+                            pulseBase.bgBrightness = v;
+                        });
+                    fRender.__controllers
+                        .find(
+                            (c) =>
+                                c.property === "value" &&
+                                c.object === uniforms.uToneExposure,
+                        )
+                        ?.onChange((v) => {
+                            pulseBase.exposure = v;
+                        });
+                } // end SHOW_GUI
+
+                // ─── Loader — dismiss after 3s regardless of load time ───────────────────────
+                const loader = document.getElementById("loader");
+                setTimeout(() => {
+                    loader.classList.add("fade-out");
+                    setTimeout(() => loader.remove(), 650);
+                }, 6000);
+
+                // ─── Resize ──────────────────────────────────────────────────────────────────
+                window.addEventListener("resize", () => {
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    uniforms.uResolution.value.set(
+                        window.innerWidth,
+                        window.innerHeight,
+                    );
+                });
+                const scrolledDown = {
+                    enabled: false,
+                    speed: 0.01, // oscillation frequency (Hz)
+                };
+                const myButton = document.getElementById("trigger-dot");
+                const titleEl = document.getElementById("title");
+
+                // ── Typewriter nav ────────────────────────────────────────────────────────────
+                const navEl = document.getElementById("title-nav");
+                const navItems = [
+                    {
+                        el: document.getElementById("nav-episodes"),
+                        text: "EPISODES",
+                        panel: "panel-episodes",
+                    },
+                    {
+                        el: document.getElementById("nav-about"),
+                        text: "ABOUT",
+                        panel: "panel-about",
+                    },
+                    {
+                        el: document.getElementById("nav-contact"),
+                        text: "CONTACT",
+                        panel: "panel-contact",
+                    },
+                    {
+                        el: document.getElementById("nav-patreon"),
+                        text: "PATREON",
+                        panel: "panel-patreon",
+                    },
+                ];
+
+                // ── Panel toggle on nav item click ────────────────────────────────────────────
+                let activePanel = null;
+                navItems.forEach(({ el, panel }) => {
+                    el.addEventListener("click", () => {
+                        const panelEl = document.getElementById(panel);
+                        if (activePanel && activePanel !== panelEl) {
+                            activePanel.classList.remove("open");
+                        }
+                        panelEl.classList.toggle("open");
+                        activePanel = panelEl.classList.contains("open")
+                            ? panelEl
+                            : null;
+                    });
+                });
+
+                let typeTimers = [];
+
+                function clearTypeTimers() {
+                    typeTimers.forEach(clearTimeout);
+                    typeTimers = [];
+                }
+
+                function makeTypewriter(el, text, speed, hesitate, onDone) {
+                    el.innerHTML = "";
+                    const textNode = document.createTextNode("");
+                    const cursor = document.createElement("span");
+                    cursor.className = "tw-cursor";
+                    cursor.textContent = "▋";
+                    el.appendChild(textNode);
+                    el.appendChild(cursor);
+
+                    let i = 0;
+                    function tick() {
+                        if (i < text.length) {
+                            textNode.textContent += text[i++];
+                            cursor.style.animation = "none";
+                            cursor.style.opacity = "1";
+                            typeTimers.push(
+                                setTimeout(() => {
+                                    cursor.style.animation = "";
+                                    cursor.style.opacity = "";
+                                }, speed * 0.9),
+                            );
+                            typeTimers.push(setTimeout(tick, speed));
+                        } else {
+                            cursor.classList.add("off");
+                            // Enable clicking once fully typed
+                            el.style.pointerEvents = "auto";
+                            if (onDone) onDone();
+                        }
+                    }
+                    typeTimers.push(setTimeout(tick, hesitate));
+                }
+
+                function showNav() {
+                    navEl.style.opacity = "1";
+                    // Each item staggers: hesitate grows so they feel sequential
+                    const HESITATE = 900;
+                    const STAGGER = 1800; // gap between each item starting
+                    const SPEED = 120;
+                    navItems.forEach(({ el, text }, i) => {
+                        typeTimers.push(
+                            setTimeout(() => {
+                                makeTypewriter(el, text, SPEED, HESITATE);
+                            }, i * STAGGER),
+                        );
+                    });
+                }
+
+                function hideNav() {
+                    // Disable clicks, close any open panel
+                    navItems.forEach(({ el }) => {
+                        el.style.pointerEvents = "none";
+                    });
+                    document
+                        .querySelectorAll(".nav-panel")
+                        .forEach((p) => p.classList.remove("open"));
+                    activePanel = null;
+
+                    // Delete in reverse order
+                    [...navItems].reverse().forEach(({ el }, i) => {
+                        typeTimers.push(
+                            setTimeout(() => {
+                                const txt = el.childNodes[0];
+                                if (!txt) return;
+                                const cursor = document.createElement("span");
+                                cursor.className = "tw-cursor";
+                                cursor.textContent = "▋";
+                                el.appendChild(cursor);
+                                function del() {
+                                    if (txt.textContent.length > 0) {
+                                        txt.textContent = txt.textContent.slice(
+                                            0,
+                                            -1,
+                                        );
+                                        typeTimers.push(setTimeout(del, 50));
+                                    } else {
+                                        el.innerHTML = "";
+                                        // Hide the whole nav once last item clears
+                                        if (i === navItems.length - 1) {
+                                            navEl.style.opacity = "0";
+                                        }
+                                    }
+                                }
+                                del();
+                            }, i * 350),
+                        );
+                    });
+                }
+
+                function handleClick() {
+                    scrolledDown.enabled = !scrolledDown.enabled;
+                    titleEl.classList.toggle("dark");
+                    clearTypeTimers();
+                    if (scrolledDown.enabled) {
+                        typeTimers.push(setTimeout(showNav, 1500));
+                    } else {
+                        hideNav();
+                    }
+                }
+
+                // ── Trigger dot behaviour ─────────────────────────────────────────────────────
+                const dot = document.getElementById("trigger-dot");
+
+                // 1. Fade in after page settles (after loader clears)
+                setTimeout(() => {
+                    dot.classList.add("visible");
+                }, 9000);
+
+                dot.addEventListener("click", () => {
+                    // 2. Vanish immediately on press
+                    dot.classList.remove("visible");
+                    dot.classList.add("hidden");
+
+                    // Fire the main animation
+                    handleClick();
+
+                    // 3. Reappear in top-right corner after a delay
+                    setTimeout(() => {
+                        dot.classList.add("top-right");
+                        dot.classList.remove("hidden");
+                        dot.classList.add("visible");
+                    }, 9000);
+                });
+
+                // ─── Render Loop ─────────────────────────────────────────────────────────────
+                const clock = new THREE.Clock();
+                (function animate() {
+                    requestAnimationFrame(animate);
+                    const elapsed = clock.getElapsedTime();
+                    uniforms.uTime.value = elapsed;
+                    // uLensRadius: { value: 1.2 }, // -> .145
+                    // uLensRefraction: { value: 0.0}, // -> 1.5
+                    // uMembraneThickness: 0.062 -> 0.01
+                    // uFiberDensity 6 -> 9
+                    // uWobbleSpeed: 0.91 -> 2.55
+                    if (!scrolledDown.enabled) {
+                        uniforms.uLensRadius.value = Math.max(
+                            0.145,
+                            uniforms.uLensRadius.value - scrolledDown.speed,
+                        );
+
+                        uniforms.uLensRefraction.value = Math.min(
+                            1.5,
+                            uniforms.uLensRefraction.value +
+                                scrolledDown.speed * 0.4,
+                        );
+                        uniforms.uMembraneThickness.value = Math.max(
+                            0.01,
+                            uniforms.uMembraneThickness.value - 0.0004,
+                        );
+                        // uniforms.uWobbleSpeed.value = Math.min(
+                        //     2.55,
+                        //     uniforms.uWobbleSpeed.value + 0.0155,
+                        // );
+                    }
+                    if (scrolledDown.enabled) {
+                        uniforms.uLensRadius.value = Math.min(
+                            1.2,
+                            uniforms.uLensRadius.value + scrolledDown.speed * 2,
+                        );
+                        uniforms.uLensRefraction.value = Math.max(
+                            0.0,
+                            uniforms.uLensRefraction.value - 0.0142,
+                        );
+                        uniforms.uMembraneThickness.value = Math.min(
+                            0.062,
+                            uniforms.uMembraneThickness.value + 0.0004,
+                        );
+                        // uniforms.uWobbleSpeed.value = Math.max(
+                        //     0.91,
+                        //     uniforms.uWobbleSpeed.value - 0.0155,
+                        // );
+                    }
+                    if (pulse.enabled) {
+                        // Smooth sine oscillator — maps to [-1, 1]
+                        const s = Math.sin(elapsed * pulse.speed * Math.PI * 2);
+                        uniforms.uBgBrightness.value =
+                            pulseBase.bgBrightness + s * pulse.bgDepth;
+                        uniforms.uToneExposure.value =
+                            pulseBase.exposure + s * pulse.exposureDepth;
+                    }
+
+                    renderer.render(scene, camera);
+                })();
+            }); // end DOMContentLoaded
+        </script>
+    </body>
+</html>

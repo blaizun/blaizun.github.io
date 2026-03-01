@@ -1,48 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <style>
-        @font-face {
-            font-family: 'Binchotan';
-            src: url('../fonts/Binchotan_Sharp__400__(v_000_526)_.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Home</title>
+        <style>
+            @font-face {
+                font-family: "Binchotan";
+                src: url("../fonts/Binchotan_Sharp__400__(v_000_526)_.ttf")
+                    format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        html {
-            font-size: 20px;
-        }
+            html {
+                font-size: 20px;
+            }
 
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000;
-            overflow: hidden;
-            font-family: 'Binchotan', sans-serif;
-        }
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #000;
+                overflow: hidden;
+                font-family: "Binchotan", sans-serif;
+            }
 
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+            #canvas-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
 
-        /* #link-container {
+            /* #link-container {
             position: relative;
             z-index: 2;
             display: flex;
@@ -53,348 +54,377 @@
             size: 100%;
         } */
             #link-container {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0px;
-        padding-left: 288px;
-        
-        /* Add scrolling */
-        max-height: 80vh;  /* Limit height to enable scrolling */
-        overflow-y: auto;
-        overflow-x: hidden;
-        
-        /* Hide scrollbar but keep functionality */
-        scrollbar-width: none;  /* Firefox */
-        -ms-overflow-style: none;  /* IE/Edge */
-    }
+                position: relative;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0px;
+                padding-left: 288px;
 
-        #link-container::-webkit-scrollbar {
-            display: none;  /* Chrome/Safari */
-        }
-        #link-container a {
-            font-family: 'Binchotan', sans-serif;
-            text-align: left;
-            margin: -5px;
-            text-decoration: none;
-            font-size: 56px;
-            transition: all 0.3s ease;
-            position: relative;
-            -webkit-touch-callout: none; /* iOS Safari */
-            -webkit-user-select: none;   /* Safari */
-            -khtml-user-select: none;    /* Konqueror HTML */
-            -moz-user-select: none;      /* Old versions of Firefox */
-            -ms-user-select: none;       /* Internet Explorer/Edge */
-            user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-        }
+                /* Add scrolling */
+                max-height: 80vh; /* Limit height to enable scrolling */
+                overflow-y: auto;
+                overflow-x: hidden;
 
-        #link-container a:hover {
-            animation: blinker 2s linear infinite;
-        }
-
-        @keyframes blinker {
-            0% {
-                color: #FFBF00;
-                text-shadow: 0px 0px 20px #FFBF00;
+                /* Hide scrollbar but keep functionality */
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
             }
-            50% {
-                opacity: 0;
+
+            #link-container::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
             }
-            100% {
-                color: #FFBF00;
-                text-shadow: 0px 0px 20px #FFBF00;
+            #link-container a {
+                font-family: "Binchotan", sans-serif;
+                text-align: left;
+                margin: -5px;
+                text-decoration: none;
+                font-size: 56px;
+                transition: all 0.3s ease;
+                position: relative;
+                -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
             }
-        }
-        @media screen and (max-width:812px) {
 
-    #link-container a {
-		font-size: 30px;
-}
-}
-    </style>
-</head>
-<body>
-    <div id="canvas-container"></div>
-    <div id="link-container"></div>
-
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
-                "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+            #link-container a:hover {
+                animation: blinker 2s linear infinite;
             }
-        }
-    </script>
-    <script type="module">
-        import * as THREE from 'three';
-        //import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 
-
-        function mapToRange(value, inMin, inMax, outMin, outMax) {
-            const normalizedValue = (value - inMin) / (inMax - inMin);
-            const mappedValue = normalizedValue * (outMax - outMin) + outMin;
-            return mappedValue;
-        }
-
-        const links = [
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com/home", href: "" },
-            { text: "blaizun.com/resume", href: "resume/index.html" },
-            { text: "blaizun.com/portfolio", href: "#link2" },
-            { text: "blaizun.com/contact", href: "#link2" },
-            { text: "blaizun.com/art", href: "/art/index.html" },
-            { text: "blaizun.com/particleText", href: "/particleText/index.html" },
-            { text: "blaizun.com/KEEBO", href: "/keebo/index.html" },
-            { text: "blaizun.com/shellTexturing", href: "/shellTexturing/index.html" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" },
-            { text: "blaizun.com", href: "" }
-        ];
-
-        const container = document.getElementById('link-container');
-
-        function updateLinkOpacity() {
-            const containerRect = container.getBoundingClientRect();
-            const containerTop = containerRect.top;
-            const containerBottom = containerRect.bottom;
-            const fadeDistance = 350;  // Pixels to fade over
-            
-            linkElements.forEach((link) => {
-                const linkRect = link.getBoundingClientRect();
-                const linkCenter = (linkRect.top + linkRect.bottom) / 2;
-                
-                let opacity = 1;
-                
-                // Fade at top
-                if (linkCenter < containerTop + fadeDistance) {
-                    opacity = (linkCenter - containerTop) / fadeDistance;
+            @keyframes blinker {
+                0% {
+                    color: #ffbf00;
+                    text-shadow: 0px 0px 20px #ffbf00;
                 }
-                
-                // Fade at bottom
-                if (linkCenter > containerBottom - fadeDistance) {
-                    opacity = (containerBottom - linkCenter) / fadeDistance;
+                50% {
+                    opacity: 0;
                 }
-                
-                // Clamp between 0 and 1
-                opacity = Math.max(0, Math.min(1, opacity));
-                link.style.opacity = opacity;
-            });
-        }
+                100% {
+                    color: #ffbf00;
+                    text-shadow: 0px 0px 20px #ffbf00;
+                }
+            }
+            @media screen and (max-width: 812px) {
+                #link-container a {
+                    font-size: 30px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="canvas-container"></div>
+        <div id="link-container"></div>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+                    "jsm/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+                }
+            }
+        </script>
+        <script type="module">
+            import * as THREE from "three";
+            //import { OrbitControls } from 'jsm/controls/OrbitControls.js';
+
+            function mapToRange(value, inMin, inMax, outMin, outMax) {
+                const normalizedValue = (value - inMin) / (inMax - inMin);
+                const mappedValue =
+                    normalizedValue * (outMax - outMin) + outMin;
+                return mappedValue;
+            }
+
+            const links = [
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com/home", href: "" },
+                { text: "blaizun.com/resume", href: "resume/index.html" },
+                { text: "blaizun.com/portfolio", href: "#link2" },
+                { text: "blaizun.com/contact", href: "#link2" },
+                { text: "blaizun.com/art", href: "/art/index.html" },
+                {
+                    text: "blaizun.com/particleText",
+                    href: "/particleText/index.html",
+                },
+                { text: "blaizun.com/KEEBO", href: "/keebo/index.html" },
+                {
+                    text: "blaizun.com/shellTexturing",
+                    href: "/shellTexturing/index.html",
+                },
+                { text: "blaizun.com/SIGNALS", href: "/SIGNALS/" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+                { text: "blaizun.com", href: "" },
+            ];
+
+            const container = document.getElementById("link-container");
+
+            function updateLinkOpacity() {
+                const containerRect = container.getBoundingClientRect();
+                const containerTop = containerRect.top;
+                const containerBottom = containerRect.bottom;
+                const fadeDistance = 350; // Pixels to fade over
+
+                linkElements.forEach((link) => {
+                    const linkRect = link.getBoundingClientRect();
+                    const linkCenter = (linkRect.top + linkRect.bottom) / 2;
+
+                    let opacity = 1;
+
+                    // Fade at top
+                    if (linkCenter < containerTop + fadeDistance) {
+                        opacity = (linkCenter - containerTop) / fadeDistance;
+                    }
+
+                    // Fade at bottom
+                    if (linkCenter > containerBottom - fadeDistance) {
+                        opacity = (containerBottom - linkCenter) / fadeDistance;
+                    }
+
+                    // Clamp between 0 and 1
+                    opacity = Math.max(0, Math.min(1, opacity));
+                    link.style.opacity = opacity;
+                });
+            }
 
             // Call on scroll and initial load
 
-        // Track mouse position, velocity, and acceleration
-        const mouse = {
-            x: 0,
-            y: 0,
-            prevX: 0,
-            prevY: 0,
-            velocityX: 0,
-            velocityY: 0,
-            prevVelocityX: 0,
-            prevVelocityY: 0,
-            accelerationX: 0,
-            accelerationY: 0,
-            speed: 0,
-            acceleration: 0,
-            sign: 1,
-            isDown: false  // Add this
-        };
+            // Track mouse position, velocity, and acceleration
+            const mouse = {
+                x: 0,
+                y: 0,
+                prevX: 0,
+                prevY: 0,
+                velocityX: 0,
+                velocityY: 0,
+                prevVelocityX: 0,
+                prevVelocityY: 0,
+                accelerationX: 0,
+                accelerationY: 0,
+                speed: 0,
+                acceleration: 0,
+                sign: 1,
+                isDown: false, // Add this
+            };
 
-window.addEventListener('mousemove', (e) => {
-    mouse.prevX = mouse.x;
-    mouse.prevY = mouse.y;
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
+            window.addEventListener("mousemove", (e) => {
+                mouse.prevX = mouse.x;
+                mouse.prevY = mouse.y;
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
 
-// Add mouse down/up listeners
-window.addEventListener('mousedown', () => {
-    mouse.isDown = true;
-});
+            // Add mouse down/up listeners
+            window.addEventListener("mousedown", () => {
+                mouse.isDown = true;
+            });
 
-window.addEventListener('mouseup', () => {
-    mouse.isDown = false;
-});
+            window.addEventListener("mouseup", () => {
+                mouse.isDown = false;
+            });
 
+            function calculateMouseAcceleration() {
+                if (!mouse.isDown) return;
+                mouse.prevVelocityX = mouse.velocityX;
+                mouse.prevVelocityY = mouse.velocityY;
+                mouse.velocityX = mouse.x - mouse.prevX;
+                mouse.velocityY = mouse.y - mouse.prevY;
 
-        function calculateMouseAcceleration(){
-            if (!mouse.isDown) return;
-            mouse.prevVelocityX = mouse.velocityX;
-            mouse.prevVelocityY = mouse.velocityY;
-            mouse.velocityX = mouse.x - mouse.prevX;
-            mouse.velocityY = mouse.y - mouse.prevY;
-            
-            // Calculate acceleration (change in velocity)
-            mouse.accelerationX = mouse.velocityX - mouse.prevVelocityX;
-            mouse.accelerationY = mouse.velocityY - mouse.prevVelocityY;
-            
-            // Calculate magnitude (total speed and acceleration)
-            mouse.speed = Math.sqrt(mouse.velocityX ** 2 + mouse.velocityY ** 2);
-            mouse.acceleration = Math.sqrt(mouse.accelerationX ** 2 + mouse.accelerationY ** 2);
-            if(mouse.velocityX != 0){
-                mouse.sign = mouse.velocityX/Math.abs(mouse.velocityX);
+                // Calculate acceleration (change in velocity)
+                mouse.accelerationX = mouse.velocityX - mouse.prevVelocityX;
+                mouse.accelerationY = mouse.velocityY - mouse.prevVelocityY;
+
+                // Calculate magnitude (total speed and acceleration)
+                mouse.speed = Math.sqrt(
+                    mouse.velocityX ** 2 + mouse.velocityY ** 2,
+                );
+                mouse.acceleration = Math.sqrt(
+                    mouse.accelerationX ** 2 + mouse.accelerationY ** 2,
+                );
+                if (mouse.velocityX != 0) {
+                    mouse.sign = mouse.velocityX / Math.abs(mouse.velocityX);
+                }
             }
-        }
 
-        // const container = document.getElementById('link-container');
-        const linkElements = [];
-        const linkData = [];
+            // const container = document.getElementById('link-container');
+            const linkElements = [];
+            const linkData = [];
 
-        // Create and append links
-        links.forEach((link, index) => {
-            const a = document.createElement('a');
-            a.href = link.href;
-            a.textContent = link.text;
-            // a.style.color = `rgba(255,61,65,${mapToRange(index, links.length, 0, 0, 1)})`;
-            a.style.color = `rgba(255,61,65,1)`;
-            container.appendChild(a);
-            linkElements.push(a);
-            
-            linkData.push({
-                element: a,
-                isHovered: false,
-                glowIntensity: 0,
-                position: { x: 0, y: 0 }
+            // Create and append links
+            links.forEach((link, index) => {
+                const a = document.createElement("a");
+                a.href = link.href;
+                a.textContent = link.text;
+                // a.style.color = `rgba(255,61,65,${mapToRange(index, links.length, 0, 0, 1)})`;
+                a.style.color = `rgba(255,61,65,1)`;
+                container.appendChild(a);
+                linkElements.push(a);
+
+                linkData.push({
+                    element: a,
+                    isHovered: false,
+                    glowIntensity: 0,
+                    position: { x: 0, y: 0 },
+                });
             });
-        });
 
-        // Three.js setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        // const controls = new OrbitControls(camera, renderer.domElement);
-        // controls.enableDamping = true;
-        // controls.dampingFactor = 0.03;
-        camera.position.z = 50;
-
-        // Particle system
-        const particleCount = 6000;
-        const particles = new THREE.BufferGeometry();
-        const positions = new Float32Array(particleCount * 3);
-        const velocities = [];
-        const originalPositions = new Float32Array(particleCount * 3);
-        const sizes = new Float32Array(particleCount);
-        const colors = new Float32Array(particleCount * 3);
-        // const baseColor = new THREE.Color(0xFF3D41);
-        const baseColor = new THREE.Color().setRGB(1.0, 0.239, 0.255);
-
-        for (let i = 0; i < particleCount; i++) {
-            const i3 = i * 3;
-            positions[i3] = (Math.random() - 0.5) * 100;
-            positions[i3 + 1] = (Math.random() - 0.5) * 100;
-            positions[i3 + 2] = (Math.random() - 0.5) * 100;
-            
-            originalPositions[i3] = positions[i3];
-            originalPositions[i3 + 1] = positions[i3 + 1];
-            originalPositions[i3 + 2] = positions[i3 + 2];
-            
-            // Slower, more erratic movement like dust
-            velocities.push({
-                x: (Math.random() - 0.5) * 0.008,
-                y: (Math.random() - 0.5) * 0.008,
-                z: (Math.random() - 0.5) * 0.008
+            // Three.js setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000,
+            );
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true,
             });
-            
-            // Varied sizes for dust-like appearance
-            sizes[i] = Math.random() * 0.4 + 0.1;
-            
-            // Initialize colors to base dust color
-            colors[i3] = baseColor.r;
-            colors[i3 + 1] = baseColor.g;
-            colors[i3 + 2] = baseColor.b;
-        }
 
-        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-         const canvas = document.createElement('canvas');
-        canvas.width = 32;
-        canvas.height = 32;
-        const ctx = canvas.getContext('2d');
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document
+                .getElementById("canvas-container")
+                .appendChild(renderer.domElement);
+            // const controls = new OrbitControls(camera, renderer.domElement);
+            // controls.enableDamping = true;
+            // controls.dampingFactor = 0.03;
+            camera.position.z = 50;
 
-        // Draw a soft glow gradient
-        const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-        gradient.addColorStop(0, 'white');
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 32, 32);
+            // Particle system
+            const particleCount = 6000;
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+            const originalPositions = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+            const colors = new Float32Array(particleCount * 3);
+            // const baseColor = new THREE.Color(0xFF3D41);
+            const baseColor = new THREE.Color().setRGB(1.0, 0.239, 0.255);
 
-        // const texture = new THREE.CanvasTexture(canvas);
-        // Load your custom sprite texture
-        const textureLoader = new THREE.TextureLoader();
-        const spriteTextures = [
-            textureLoader.load('sprites/sprite2.png'),
-            textureLoader.load('sprites/sprite3.png'),
-            textureLoader.load('sprites/sprite4.png'),
-            textureLoader.load('sprites/sprite5.png'),
-            textureLoader.load('sprites/sprite6.png'),
-            textureLoader.load('sprites/sprite7.png'),
-            textureLoader.load('sprites/sprite8.png')
-        ];
-        spriteTextures.forEach(tex => {
-            tex.minFilter = THREE.LinearFilter;
-            tex.magFilter = THREE.LinearFilter;
-            tex.generateMipmaps = false;
-            tex.premultiplyAlpha = false;
-            tex.colorSpace = THREE.SRGBColorSpace;
-            tex.flipY = false;
-        });
-        //const texture = textureLoader.load('sprites/sprite2.png');
-        const textureIndices = new Float32Array(particleCount);
-        for (let i = 0; i < particleCount; i++) {
-            textureIndices[i] = Math.floor(Math.random() * spriteTextures.length);
-        }
-        particles.setAttribute('textureIndex', new THREE.BufferAttribute(textureIndices, 1));
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                positions[i3] = (Math.random() - 0.5) * 100;
+                positions[i3 + 1] = (Math.random() - 0.5) * 100;
+                positions[i3 + 2] = (Math.random() - 0.5) * 100;
 
-        const particleMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                texture1: { value: spriteTextures[0] },
-                texture2: { value: spriteTextures[1] },
-                texture3: { value: spriteTextures[2] },
-                texture4: { value: spriteTextures[3] },
-                texture5: { value: spriteTextures[4] },
-                texture6: { value: spriteTextures[5] },
-                texture7: { value: spriteTextures[6] },
-                uTime: { value: 0.0 }
-            },
-            vertexShader: `
+                originalPositions[i3] = positions[i3];
+                originalPositions[i3 + 1] = positions[i3 + 1];
+                originalPositions[i3 + 2] = positions[i3 + 2];
+
+                // Slower, more erratic movement like dust
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.008,
+                    y: (Math.random() - 0.5) * 0.008,
+                    z: (Math.random() - 0.5) * 0.008,
+                });
+
+                // Varied sizes for dust-like appearance
+                sizes[i] = Math.random() * 0.4 + 0.1;
+
+                // Initialize colors to base dust color
+                colors[i3] = baseColor.r;
+                colors[i3 + 1] = baseColor.g;
+                colors[i3 + 2] = baseColor.b;
+            }
+
+            particles.setAttribute(
+                "position",
+                new THREE.BufferAttribute(positions, 3),
+            );
+            particles.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+            particles.setAttribute(
+                "color",
+                new THREE.BufferAttribute(colors, 3),
+            );
+            const canvas = document.createElement("canvas");
+            canvas.width = 32;
+            canvas.height = 32;
+            const ctx = canvas.getContext("2d");
+
+            // Draw a soft glow gradient
+            const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, "white");
+            gradient.addColorStop(1, "transparent");
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+
+            // const texture = new THREE.CanvasTexture(canvas);
+            // Load your custom sprite texture
+            const textureLoader = new THREE.TextureLoader();
+            const spriteTextures = [
+                textureLoader.load("sprites/sprite2.png"),
+                textureLoader.load("sprites/sprite3.png"),
+                textureLoader.load("sprites/sprite4.png"),
+                textureLoader.load("sprites/sprite5.png"),
+                textureLoader.load("sprites/sprite6.png"),
+                textureLoader.load("sprites/sprite7.png"),
+                textureLoader.load("sprites/sprite8.png"),
+            ];
+            spriteTextures.forEach((tex) => {
+                tex.minFilter = THREE.LinearFilter;
+                tex.magFilter = THREE.LinearFilter;
+                tex.generateMipmaps = false;
+                tex.premultiplyAlpha = false;
+                tex.colorSpace = THREE.SRGBColorSpace;
+                tex.flipY = false;
+            });
+            //const texture = textureLoader.load('sprites/sprite2.png');
+            const textureIndices = new Float32Array(particleCount);
+            for (let i = 0; i < particleCount; i++) {
+                textureIndices[i] = Math.floor(
+                    Math.random() * spriteTextures.length,
+                );
+            }
+            particles.setAttribute(
+                "textureIndex",
+                new THREE.BufferAttribute(textureIndices, 1),
+            );
+
+            const particleMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    texture1: { value: spriteTextures[0] },
+                    texture2: { value: spriteTextures[1] },
+                    texture3: { value: spriteTextures[2] },
+                    texture4: { value: spriteTextures[3] },
+                    texture5: { value: spriteTextures[4] },
+                    texture6: { value: spriteTextures[5] },
+                    texture7: { value: spriteTextures[6] },
+                    uTime: { value: 0.0 },
+                },
+                vertexShader: `
                 attribute vec3 color;
                 attribute float textureIndex;
-                
+
                 varying vec3 vColor;
                 varying float vTextureIndex;
-                
+
                 void main() {
                     vColor = color;
                     vTextureIndex = textureIndex;
-                    
+
                     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
                     gl_PointSize =  (300.0 / -mvPosition.z);
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
-            fragmentShader: `
-         
+                fragmentShader: `
+
                 uniform sampler2D texture1;
                 uniform sampler2D texture2;
                 uniform sampler2D texture3;
@@ -403,10 +433,10 @@ window.addEventListener('mouseup', () => {
                 uniform sampler2D texture6;
                 uniform sampler2D texture7;
                 uniform float uTime;
-                
+
                 varying vec3 vColor;
                 varying float vTextureIndex;
-                
+
                 void main() {
                     vec4 texColor;
                     vec2 translatedCoord = gl_PointCoord - vec2(0.5);
@@ -417,7 +447,7 @@ window.addEventListener('mouseup', () => {
                     rotatedCoord.x = translatedCoord.x * cosine - translatedCoord.y * sine;
                     rotatedCoord.y = translatedCoord.x * sine + translatedCoord.y * cosine;
                     vec2 finalCoord = rotatedCoord + vec2(0.5);
-                    
+
                     int index = int(floor(vTextureIndex + 0.5));
                     if (index == 1) {
                         texColor = texture2D(texture1, finalCoord);
@@ -437,264 +467,295 @@ window.addEventListener('mouseup', () => {
                     else {
                         texColor = texture2D(texture7, finalCoord);
                     }
-                    
+
                     gl_FragColor = vec4(vColor * texColor.rgb, texColor.a * 0.8 );
                 }
             `,
-            size: 0.2,
-            opacity: 0.,
-            transparent: true,
-            depthWrite: false,
-            blending: THREE.NormalBlending
-        });
-
-        const particleSystem = new THREE.Points(particles, particleMaterial);
-        scene.add(particleSystem);
-
-        // Rising particle system (ember-like)
-        const riserCount = 3;
-        const risers = new THREE.BufferGeometry();
-        const riserPositions = new Float32Array(riserCount * 3);
-        const riserVelocities = [];
-        const riserLifetimes = [];
-        const riserColors = new Float32Array(riserCount * 3);
-        const riserSizes = new Float32Array(riserCount);
-        const emberColor = new THREE.Color(0xFFBF00);
-
-        for (let i = 0; i < riserCount; i++) {
-            const i3 = i * 3;
-            // Start below screen
-            riserPositions[i3] = (Math.random() - 0.5) * 100;
-            riserPositions[i3 + 1] = -60;
-            riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
-            
-            riserVelocities.push({
-                x: (Math.random() - 0.5) * 0.02,
-                y: 0.15 + Math.random() * 0.1,
-                z: (Math.random() - 0.5) * 0.02
-            });
-            
-            riserLifetimes.push;
-            riserSizes[i] = Math.random() * 0.8 + 0.4;
-            
-            riserColors[i3] = emberColor.r;
-            riserColors[i3 + 1] = emberColor.g;
-            riserColors[i3 + 2] = emberColor.b;
-        }
-
-        risers.setAttribute('position', new THREE.BufferAttribute(riserPositions, 3));
-        risers.setAttribute('color', new THREE.BufferAttribute(riserColors, 3));
-        risers.setAttribute('size', new THREE.BufferAttribute(riserSizes, 1));
-
-        const riserMaterial = new THREE.PointsMaterial({
-            size: 0.3,
-            sizeAttenuation: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-            vertexColors: true
-        });
-
-        const riserSystem = new THREE.Points(risers, riserMaterial);
-        scene.add(riserSystem);
-
-        // Update link positions and hover states
-        function updateLinkPositions() {
-            linkData.forEach((data, index) => {
-                const rect = data.element.getBoundingClientRect();
-                data.position.x = ((rect.left + rect.width / 2) / window.innerWidth) * 2 - 1;
-                data.position.y = -((rect.top + rect.height / 2) / window.innerHeight) * 2 + 1;
-            });
-        }
-
-        
-
-        // Add hover listeners
-        linkElements.forEach((element, index) => {
-            element.addEventListener('mouseenter', () => {
-                linkData[index].isHovered = true;
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                linkData[index].isHovered = false;
-            });
-        });
-                container.addEventListener('scroll', updateLinkOpacity);
-        updateLinkOpacity();
-        updateLinkPositions();
-        let clock = new THREE.Clock();
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-
-            calculateMouseAcceleration();
-            particleMaterial.uniforms.uTime.value = clock.getElapsedTime();
-            const positions = particles.attributes.position.array;
-            let bandCenterY = 0;  // The Y level of the color band
-            let bandRadius = 5;   // How thick the band is
-            let bandPulse = 0;    // Pulse value that syncs with link glow
-
-            // In your animation loop, sync with link glow
-            let maxGlowIntensity = 0;
-            linkData.forEach(data => {
-                maxGlowIntensity = Math.max(maxGlowIntensity, data.glowIntensity);
-            });
-            bandPulse = maxGlowIntensity;
-            bandRadius = maxGlowIntensity * 50 ;  // Or use your own pulsing logic
-
-            // Expand/contract the band radius
-            const currentBandRadius = bandPulse * 5; 
-            // Update glow intensity
-            linkData.forEach(data => {
-                if (data.isHovered) {
-                    if (!data.pulseTime) data.pulseTime = 0;
-                    data.pulseTime += 0.016;
-                    
-                    // const cycle = (data.pulseTime % 2.5) / 2.5;
-                    const cycle = (clock.getElapsedTime() % 2) / 2;
-                    // Pulse from 1 → 0 → 1 (matching opacity animation)
-                    data.glowIntensity = cycle < 0.5 
-                        ?  (cycle * 2)  // 1 to 0 (first half)
-                        :1- (cycle - 0.5) * 2;  // 0 to 1 (second half)
-                } else {
-                    data.glowIntensity = 0;
-                    data.pulseTime = 0;
-                }
+                size: 0.2,
+                opacity: 0,
+                transparent: true,
+                depthWrite: false,
+                blending: THREE.NormalBlending,
             });
 
-            // Update particles
-            for (let i = 0; i < particleCount; i++) {
-                const i3 = i * 3;
-                
-                // Apply base drift
-                positions[i3] += velocities[i].x;
-                positions[i3 + 1] += velocities[i].y;
-                positions[i3 + 2] += velocities[i].z;
+            const particleSystem = new THREE.Points(
+                particles,
+                particleMaterial,
+            );
+            scene.add(particleSystem);
 
-                // Color influence from rising particles
-                let colorInfluence = 0;
-                for (let r = 0; r < riserCount; r++) {
-                    const r3 = r * 3;
-                    const dx = riserPositions[r3] - positions[i3];
-                    const dy = riserPositions[r3 + 1] - positions[i3 + 1];
-                    const dz = riserPositions[r3 + 2] - positions[i3 + 2];
-                    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                    const targetX = riserPositions[r3];
-                    const targetY = riserPositions[r3 + 1];
-                    const targetZ = riserPositions[r3 + 2];
+            // Rising particle system (ember-like)
+            const riserCount = 3;
+            const risers = new THREE.BufferGeometry();
+            const riserPositions = new Float32Array(riserCount * 3);
+            const riserVelocities = [];
+            const riserLifetimes = [];
+            const riserColors = new Float32Array(riserCount * 3);
+            const riserSizes = new Float32Array(riserCount);
+            const emberColor = new THREE.Color(0xffbf00);
 
-
-                    
-                    if (distance < 15) {
-                        // const influence = (1 - distance / 25) ;
-                        // colorInfluence = Math.max(colorInfluence, influence);
-                        colorInfluence = 1;
-                        const force = (1 - distance / 15) * 0.1;
-
-                        positions[i3] += dx * force * 1.5;
-                        positions[i3 + 1] += dy * force * 0.1;
-                        positions[i3 + 2] += dz * force * 1.5;
-                    }
-                }
-                
-                // Interpolate between base color and ember color
-                colors[i3] = baseColor.r + (emberColor.r - baseColor.r) * colorInfluence;
-                colors[i3 + 1] = baseColor.g + (emberColor.g - baseColor.g) * colorInfluence;
-                colors[i3 + 2] = baseColor.b + (emberColor.b - baseColor.b) * colorInfluence;
-
-
-                                /// UNCOMMENT FOR BLINKING EFFECT THAT SORTA WORKS
-                // const distanceFromBandY = Math.abs(positions[i3 + 1] - bandCenterY);
-                // const distanceFromBandXZ = Math.sqrt(positions[i3] * positions[i3] + positions[i3 + 2] * positions[i3 + 2]);
-                // let bandInfluence = 0;
-                // const closeness = distanceFromBandXZ / bandRadius;
-                
-                // if (distanceFromBandY < 5 && closeness < 1 && closeness > .6   && distanceFromBandXZ <= bandRadius) {
-                //     // bandInfluence = (distanceFromBandXZ  / bandRadius) ;
-                //                     const bandColor = new THREE.Color(0xffffff);
-                //                     // const bandColor = emberColor  // Cyan example
-                // colors[i3] += (bandColor.r - colors[i3]) * maxGlowIntensity * closeness;
-                // colors[i3 + 1] += (bandColor.g - colors[i3 + 1]) * maxGlowIntensity * closeness;
-                // colors[i3 + 2] += (bandColor.b - colors[i3 + 2]) * maxGlowIntensity * closeness;
-                // }
-                
-                // Apply band color (could be a different color than ember)
-
-
-                // Apply attraction to glowing links
-                // linkData.forEach(data => {
-                //     if (data.glowIntensity > 0) {
-                //         const targetX = data.position.x * 50;
-                //         const targetY = data.position.y * 50;
-                        
-                //         const dx = targetX - positions[i3];
-                //         const dy = targetY - positions[i3 + 1];
-                //         const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                //         if (distance < 10) {
-                //             const force = (1 - distance / 30) * 0.5 * data.glowIntensity;
-                //             positions[i3] += dx * force * 0.1;
-                //             positions[i3 + 1] += dy * force * 0.1;
-                //         }
-                //     }
-                // });
-
-                // Return to original position slowly
-                const returnForce = 0.005;
-                positions[i3] += (originalPositions[i3] - positions[i3]) * returnForce*.4;
-                positions[i3 + 1] += (originalPositions[i3 + 1] - positions[i3 + 1]) * returnForce;
-                positions[i3 + 2] += (originalPositions[i3 + 2] - positions[i3 + 2]) * returnForce*.4;
-
-                // Wrap around boundaries
-                if (Math.abs(positions[i3]) > 50) velocities[i].x *= -1;
-                if (Math.abs(positions[i3 + 1]) > 50) velocities[i].y *= -1;
-                if (Math.abs(positions[i3 + 2]) > 25) velocities[i].z *= -1;
-            }
-
-            particles.attributes.position.needsUpdate = true;
-            particles.attributes.color.needsUpdate = true;
-
-            // Update rising particles
             for (let i = 0; i < riserCount; i++) {
                 const i3 = i * 3;
-                riserVelocities[i].x += (Math.random() - .5) * .05;
-                riserVelocities[i].z += (Math.random() - .5) * .05;
-                riserPositions[i3] += riserVelocities[i].x;
-                riserPositions[i3 + 1] += riserVelocities[i].y;
-                riserPositions[i3 + 2] += riserVelocities[i].z;
-                
-                // Decay lifetime based on vertical velocity so it reaches top
-                riserLifetimes[i] -= riserVelocities[i].y / 120;
-                
-                // Reset particle when it goes too high or fades out
-                if (riserPositions[i3 + 1] > 60 || riserLifetimes[i] <= 0) {
-                    riserPositions[i3] = (Math.random() - 0.5) * 100;
-                    riserPositions[i3 + 1] = -60;
-                    riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
-                    riserLifetimes[i] = 1.0;
-                    riserVelocities[i].x = (Math.random() - 0.5) * 0.02;
-                    riserVelocities[i].y = 0.15 + Math.random() * 0.1;
-                    riserVelocities[i].z = (Math.random() - 0.5) * 0.02;
-                }
+                // Start below screen
+                riserPositions[i3] = (Math.random() - 0.5) * 100;
+                riserPositions[i3 + 1] = -60;
+                riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
+
+                riserVelocities.push({
+                    x: (Math.random() - 0.5) * 0.02,
+                    y: 0.15 + Math.random() * 0.1,
+                    z: (Math.random() - 0.5) * 0.02,
+                });
+
+                riserLifetimes.push;
+                riserSizes[i] = Math.random() * 0.8 + 0.4;
+
+                riserColors[i3] = emberColor.r;
+                riserColors[i3 + 1] = emberColor.g;
+                riserColors[i3 + 2] = emberColor.b;
             }
 
-            risers.attributes.position.needsUpdate = true;
-            particleSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0002) ;
-            riserSystem.rotation.y += ((0.0005 * mouse.sign) + mouse.velocityX * 0.0002) ;
+            risers.setAttribute(
+                "position",
+                new THREE.BufferAttribute(riserPositions, 3),
+            );
+            risers.setAttribute(
+                "color",
+                new THREE.BufferAttribute(riserColors, 3),
+            );
+            risers.setAttribute(
+                "size",
+                new THREE.BufferAttribute(riserSizes, 1),
+            );
 
-            renderer.render(scene, camera);
-        }
+            const riserMaterial = new THREE.PointsMaterial({
+                size: 0.3,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                vertexColors: true,
+            });
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            const riserSystem = new THREE.Points(risers, riserMaterial);
+            scene.add(riserSystem);
+
+            // Update link positions and hover states
+            function updateLinkPositions() {
+                linkData.forEach((data, index) => {
+                    const rect = data.element.getBoundingClientRect();
+                    data.position.x =
+                        ((rect.left + rect.width / 2) / window.innerWidth) * 2 -
+                        1;
+                    data.position.y =
+                        -((rect.top + rect.height / 2) / window.innerHeight) *
+                            2 +
+                        1;
+                });
+            }
+
+            // Add hover listeners
+            linkElements.forEach((element, index) => {
+                element.addEventListener("mouseenter", () => {
+                    linkData[index].isHovered = true;
+                });
+
+                element.addEventListener("mouseleave", () => {
+                    linkData[index].isHovered = false;
+                });
+            });
+            container.addEventListener("scroll", updateLinkOpacity);
+            updateLinkOpacity();
             updateLinkPositions();
-        });
+            let clock = new THREE.Clock();
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
 
-        animate();
-    </script>
-</body>
+                calculateMouseAcceleration();
+                particleMaterial.uniforms.uTime.value = clock.getElapsedTime();
+                const positions = particles.attributes.position.array;
+                let bandCenterY = 0; // The Y level of the color band
+                let bandRadius = 5; // How thick the band is
+                let bandPulse = 0; // Pulse value that syncs with link glow
+
+                // In your animation loop, sync with link glow
+                let maxGlowIntensity = 0;
+                linkData.forEach((data) => {
+                    maxGlowIntensity = Math.max(
+                        maxGlowIntensity,
+                        data.glowIntensity,
+                    );
+                });
+                bandPulse = maxGlowIntensity;
+                bandRadius = maxGlowIntensity * 50; // Or use your own pulsing logic
+
+                // Expand/contract the band radius
+                const currentBandRadius = bandPulse * 5;
+                // Update glow intensity
+                linkData.forEach((data) => {
+                    if (data.isHovered) {
+                        if (!data.pulseTime) data.pulseTime = 0;
+                        data.pulseTime += 0.016;
+
+                        // const cycle = (data.pulseTime % 2.5) / 2.5;
+                        const cycle = (clock.getElapsedTime() % 2) / 2;
+                        // Pulse from 1 → 0 → 1 (matching opacity animation)
+                        data.glowIntensity =
+                            cycle < 0.5
+                                ? cycle * 2 // 1 to 0 (first half)
+                                : 1 - (cycle - 0.5) * 2; // 0 to 1 (second half)
+                    } else {
+                        data.glowIntensity = 0;
+                        data.pulseTime = 0;
+                    }
+                });
+
+                // Update particles
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+
+                    // Apply base drift
+                    positions[i3] += velocities[i].x;
+                    positions[i3 + 1] += velocities[i].y;
+                    positions[i3 + 2] += velocities[i].z;
+
+                    // Color influence from rising particles
+                    let colorInfluence = 0;
+                    for (let r = 0; r < riserCount; r++) {
+                        const r3 = r * 3;
+                        const dx = riserPositions[r3] - positions[i3];
+                        const dy = riserPositions[r3 + 1] - positions[i3 + 1];
+                        const dz = riserPositions[r3 + 2] - positions[i3 + 2];
+                        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        const targetX = riserPositions[r3];
+                        const targetY = riserPositions[r3 + 1];
+                        const targetZ = riserPositions[r3 + 2];
+
+                        if (distance < 15) {
+                            // const influence = (1 - distance / 25) ;
+                            // colorInfluence = Math.max(colorInfluence, influence);
+                            colorInfluence = 1;
+                            const force = (1 - distance / 15) * 0.1;
+
+                            positions[i3] += dx * force * 1.5;
+                            positions[i3 + 1] += dy * force * 0.1;
+                            positions[i3 + 2] += dz * force * 1.5;
+                        }
+                    }
+
+                    // Interpolate between base color and ember color
+                    colors[i3] =
+                        baseColor.r +
+                        (emberColor.r - baseColor.r) * colorInfluence;
+                    colors[i3 + 1] =
+                        baseColor.g +
+                        (emberColor.g - baseColor.g) * colorInfluence;
+                    colors[i3 + 2] =
+                        baseColor.b +
+                        (emberColor.b - baseColor.b) * colorInfluence;
+
+                    /// UNCOMMENT FOR BLINKING EFFECT THAT SORTA WORKS
+                    // const distanceFromBandY = Math.abs(positions[i3 + 1] - bandCenterY);
+                    // const distanceFromBandXZ = Math.sqrt(positions[i3] * positions[i3] + positions[i3 + 2] * positions[i3 + 2]);
+                    // let bandInfluence = 0;
+                    // const closeness = distanceFromBandXZ / bandRadius;
+
+                    // if (distanceFromBandY < 5 && closeness < 1 && closeness > .6   && distanceFromBandXZ <= bandRadius) {
+                    //     // bandInfluence = (distanceFromBandXZ  / bandRadius) ;
+                    //                     const bandColor = new THREE.Color(0xffffff);
+                    //                     // const bandColor = emberColor  // Cyan example
+                    // colors[i3] += (bandColor.r - colors[i3]) * maxGlowIntensity * closeness;
+                    // colors[i3 + 1] += (bandColor.g - colors[i3 + 1]) * maxGlowIntensity * closeness;
+                    // colors[i3 + 2] += (bandColor.b - colors[i3 + 2]) * maxGlowIntensity * closeness;
+                    // }
+
+                    // Apply band color (could be a different color than ember)
+
+                    // Apply attraction to glowing links
+                    // linkData.forEach(data => {
+                    //     if (data.glowIntensity > 0) {
+                    //         const targetX = data.position.x * 50;
+                    //         const targetY = data.position.y * 50;
+
+                    //         const dx = targetX - positions[i3];
+                    //         const dy = targetY - positions[i3 + 1];
+                    //         const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    //         if (distance < 10) {
+                    //             const force = (1 - distance / 30) * 0.5 * data.glowIntensity;
+                    //             positions[i3] += dx * force * 0.1;
+                    //             positions[i3 + 1] += dy * force * 0.1;
+                    //         }
+                    //     }
+                    // });
+
+                    // Return to original position slowly
+                    const returnForce = 0.005;
+                    positions[i3] +=
+                        (originalPositions[i3] - positions[i3]) *
+                        returnForce *
+                        0.4;
+                    positions[i3 + 1] +=
+                        (originalPositions[i3 + 1] - positions[i3 + 1]) *
+                        returnForce;
+                    positions[i3 + 2] +=
+                        (originalPositions[i3 + 2] - positions[i3 + 2]) *
+                        returnForce *
+                        0.4;
+
+                    // Wrap around boundaries
+                    if (Math.abs(positions[i3]) > 50) velocities[i].x *= -1;
+                    if (Math.abs(positions[i3 + 1]) > 50) velocities[i].y *= -1;
+                    if (Math.abs(positions[i3 + 2]) > 25) velocities[i].z *= -1;
+                }
+
+                particles.attributes.position.needsUpdate = true;
+                particles.attributes.color.needsUpdate = true;
+
+                // Update rising particles
+                for (let i = 0; i < riserCount; i++) {
+                    const i3 = i * 3;
+                    riserVelocities[i].x += (Math.random() - 0.5) * 0.05;
+                    riserVelocities[i].z += (Math.random() - 0.5) * 0.05;
+                    riserPositions[i3] += riserVelocities[i].x;
+                    riserPositions[i3 + 1] += riserVelocities[i].y;
+                    riserPositions[i3 + 2] += riserVelocities[i].z;
+
+                    // Decay lifetime based on vertical velocity so it reaches top
+                    riserLifetimes[i] -= riserVelocities[i].y / 120;
+
+                    // Reset particle when it goes too high or fades out
+                    if (riserPositions[i3 + 1] > 60 || riserLifetimes[i] <= 0) {
+                        riserPositions[i3] = (Math.random() - 0.5) * 100;
+                        riserPositions[i3 + 1] = -60;
+                        riserPositions[i3 + 2] = (Math.random() - 0.5) * 100;
+                        riserLifetimes[i] = 1.0;
+                        riserVelocities[i].x = (Math.random() - 0.5) * 0.02;
+                        riserVelocities[i].y = 0.15 + Math.random() * 0.1;
+                        riserVelocities[i].z = (Math.random() - 0.5) * 0.02;
+                    }
+                }
+
+                risers.attributes.position.needsUpdate = true;
+                particleSystem.rotation.y +=
+                    0.0005 * mouse.sign + mouse.velocityX * 0.0002;
+                riserSystem.rotation.y +=
+                    0.0005 * mouse.sign + mouse.velocityX * 0.0002;
+
+                renderer.render(scene, camera);
+            }
+
+            // Handle window resize
+            window.addEventListener("resize", () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                updateLinkPositions();
+            });
+
+            animate();
+        </script>
+    </body>
 </html>
