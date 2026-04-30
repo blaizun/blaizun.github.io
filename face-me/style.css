@@ -1,0 +1,151 @@
+:root {
+    --ink: #3a3822;
+    --paper: #e6fefd;
+    --bg: #f0ecd8; /* warm cream page */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bg);
+    font-family: "Indie Flower", cursive;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Back Home button override (shared CSS uses dark-mode glass) ── */
+.back-home-btn {
+    background: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: var(--ink) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    font-size: 1.9rem !important;
+    padding: 24px 48px !important;
+    opacity: 0.5;
+    transition: opacity 0.15s !important;
+}
+.back-home-btn:hover {
+    background: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 1;
+}
+
+/* ── Page layout ── */
+.page-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 100px 20px 48px;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+
+    color: var(--ink);
+    opacity: 0.85;
+}
+
+/* ── Character wrapper ── */
+.char-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+#faceCanvas {
+    display: block;
+    width: 400px;
+    height: 520px;
+    background: var(--bg);
+}
+
+/* ── Arrow buttons — bare carets, no box ── */
+.arr {
+    position: absolute;
+    top: var(--row-top);
+    translate: 0 -50%;
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-size: 3rem;
+    font-family: "Indie Flower", cursive;
+    line-height: 1;
+    padding: 4px 10px;
+    cursor: pointer;
+    opacity: 0.45;
+    transition:
+        opacity 0.15s,
+        transform 0.1s;
+}
+
+.arr.left {
+    right: calc(100% + 2px);
+}
+.arr.right {
+    left: calc(100% + 2px);
+}
+
+.arr:hover {
+    opacity: 1;
+    transform: scale(1.2) translateY(-50%);
+    translate: none;
+}
+.arr:active {
+    opacity: 0.7;
+    transform: scale(1) translateY(-50%);
+    translate: none;
+}
+
+/* ── Action bar — plain text ── */
+.action-bar {
+    display: flex;
+    gap: 32px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-family: "Indie Flower", cursive;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+
+    cursor: pointer;
+    opacity: 0.5;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(58, 56, 34, 0.35);
+    transition: opacity 0.15s;
+    padding: 4px 0;
+}
+
+.action-btn:hover {
+    opacity: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    #faceCanvas {
+        width: 280px;
+        height: 364px;
+    }
+
+    .arr {
+        top: calc(var(--row-top) * 0.7);
+        font-size: 1.5rem;
+    }
+}
