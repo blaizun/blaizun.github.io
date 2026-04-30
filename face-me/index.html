@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>faceMe</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../assets/homeButton.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="glass-overlay" id="glassOverlay"></div>
+        <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+            <span class="arrow">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </span>
+            <span>Back Home</span>
+        </a>
+
+        <main class="page-center">
+            <h1 class="page-title">face me</h1>
+
+            <!--
+            Arrow rows align to face features.
+            data-cat  = which part to cycle
+            data-dir  = -1 (prev) or 1 (next)
+        -->
+            <div class="char-wrap">
+                <canvas id="faceCanvas" width="400" height="520"></canvas>
+
+                <!-- Hair row -->
+                <button
+                    class="arr left"
+                    style="--row-top: 80px"
+                    data-cat="brows"
+                    data-dir="-1"
+                >
+                    &#8249;
+                </button>
+                <button
+                    class="arr right"
+                    style="--row-top: 80px"
+                    data-cat="brows"
+                    data-dir="1"
+                >
+                    &#8250;
+                </button>
+
+                <!-- Eyes row -->
+                <button
+                    class="arr left"
+                    style="--row-top: 240px"
+                    data-cat="eyes"
+                    data-dir="-1"
+                >
+                    &#8249;
+                </button>
+                <button
+                    class="arr right"
+                    style="--row-top: 240px"
+                    data-cat="eyes"
+                    data-dir="1"
+                >
+                    &#8250;
+                </button>
+
+                <!-- Mouth row -->
+                <button
+                    class="arr left"
+                    style="--row-top: 340px"
+                    data-cat="nose"
+                    data-dir="-1"
+                >
+                    &#8249;
+                </button>
+                <button
+                    class="arr right"
+                    style="--row-top: 340px"
+                    data-cat="nose"
+                    data-dir="1"
+                >
+                    &#8250;
+                </button>
+
+                <!-- Outfit row -->
+                <button
+                    class="arr left"
+                    style="--row-top: 456px"
+                    data-cat="mouth"
+                    data-dir="-1"
+                >
+                    &#8249;
+                </button>
+                <button
+                    class="arr right"
+                    style="--row-top: 456px"
+                    data-cat="mouth"
+                    data-dir="1"
+                >
+                    &#8250;
+                </button>
+            </div>
+
+            <div class="action-bar">
+                <button class="action-btn" id="randomBtn">Randomize</button>
+                <button class="action-btn" id="saveBtn">Save</button>
+            </div>
+        </main>
+
+        <script>
+            const backHomeBtn = document.getElementById("backHomeBtn");
+            const glassOverlay = document.getElementById("glassOverlay");
+            backHomeBtn.addEventListener("mouseenter", () =>
+                glassOverlay.classList.add("active"),
+            );
+            backHomeBtn.addEventListener("mouseleave", () =>
+                glassOverlay.classList.remove("active"),
+            );
+        </script>
+        <script type="module" src="face-builder.js"></script>
+    </body>
+</html>
