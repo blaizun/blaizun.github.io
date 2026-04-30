@@ -10,7 +10,8 @@
 <body>
     <div id="info">
         <h2>KEEBO by Chad Holmes</h2>
-        <p>Drag to rotate • Scroll to zoom</p>
+        <p class="hint-mouse">Drag to rotate • Scroll to zoom • Space to flip</p>
+        <p class="hint-touch">Drag to rotate • Pinch to zoom • Double-tap to flip</p>
     </div>
     <div class="glass-overlay" id="glassOverlay"></div>
     <a href="../index.html" class="back-home-btn" id="backHomeBtn">
@@ -51,6 +52,10 @@
         let currentRotationX = -0.3;
         let cameraDistance = 15;
         let targetCameraDistance = 15;
+
+        // Touch state
+        let initialPinchDistance = 0;
+        let lastTapTime = 0;
         
         const settings = {
             autoRotate: true,
@@ -154,7 +159,12 @@
             renderer.domElement.addEventListener('mouseup', onMouseUp);
             renderer.domElement.addEventListener('mouseleave', onMouseUp);
             renderer.domElement.addEventListener('wheel', onWheel);
-            
+
+            // Touch controls
+            renderer.domElement.addEventListener('touchstart',  onTouchStart, { passive: true });
+            renderer.domElement.addEventListener('touchmove',   onTouchMove,  { passive: false });
+            renderer.domElement.addEventListener('touchend',    onTouchEnd,   { passive: true });
+
             window.addEventListener('resize', onResize);
             
             animate();
@@ -350,6 +360,50 @@
             e.preventDefault();
             targetCameraDistance += e.deltaY * 0.01;
             targetCameraDistance = Math.max(8, Math.min(30, targetCameraDistance));
+        }
+
+        function onTouchStart(e) {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                previousMouseX = e.touches[0].clientX;
+                previousMouseY = e.touches[0].clientY;
+                settings.autoRotate = false;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+            }
+        }
+
+        function onTouchMove(e) {
+            e.preventDefault();
+            if (e.touches.length === 1 && isDragging) {
+                const deltaX = e.touches[0].clientX - previousMouseX;
+                const deltaY = e.touches[0].clientY - previousMouseY;
+                targetRotationY += deltaX * 0.01;
+                targetRotationX += deltaY * 0.01;
+                targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, targetRotationX));
+                previousMouseX = e.touches[0].clientX;
+                previousMouseY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                targetCameraDistance += (initialPinchDistance - dist) * 0.05;
+                targetCameraDistance = Math.max(8, Math.min(30, targetCameraDistance));
+                initialPinchDistance = dist;
+            }
+        }
+
+        function onTouchEnd(e) {
+            isDragging = false;
+            // Double-tap to flip
+            if (e.changedTouches.length === 1) {
+                const now = Date.now();
+                if (now - lastTapTime < 300 && !isFlipping) flip = true;
+                lastTapTime = now;
+            }
         }
 
         window.addEventListener('keydown', onKeyDown);
