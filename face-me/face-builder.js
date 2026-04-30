@@ -49,38 +49,12 @@ const state = {
 };
 
 // ── Base head (code-drawn so skin tone stays adjustable) ──
-function drawBase() {
-  const s = skin();
-  // neck
-  ctx.beginPath();
-  ctx.roundRect(CX - 28, 316, 56, 48, 8);
-  ctx.fillStyle = shade(s, -10);
-  ctx.fill();
-  // head oval
-  ctx.beginPath();
-  ctx.ellipse(CX, 220, 114, 130, 0, 0, Math.PI * 2);
-  ctx.fillStyle = s;
-  ctx.fill();
-  // ears
-  for (const [ex, inner] of [
-    [86, true],
-    [314, false],
-  ]) {
-    ctx.beginPath();
-    ctx.ellipse(ex, 220, 24, 32, 0, 0, Math.PI * 2);
-    ctx.fillStyle = s;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(ex, 220, 14, 20, 0, 0, Math.PI * 2);
-    ctx.fillStyle = shade(s, -18);
-    ctx.fill();
-  }
-}
 
 // ── Render ─────────────────────────────────────
 function render() {
   ctx.clearRect(0, 0, W, H);
-  //drawBase();
+  ctx.fillStyle = "#F0ECD8";
+  ctx.fillRect(0, 0, W, H);
   for (const key of DRAW_ORDER) {
     const img = SLOTS[key][state.selections[key]]._img;
     if (img.complete && img.naturalWidth) ctx.drawImage(img, 0, 0, W, H);
