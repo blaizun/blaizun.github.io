@@ -137,8 +137,24 @@ body {
     opacity: 1;
 }
 
+/* Prevent double-tap zoom on all interactive elements */
+.arr,
+.action-btn,
+.back-home-btn {
+    touch-action: manipulation;
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
+    .back-home-btn {
+        font-size: 1.1rem !important;
+        padding: 12px 20px !important;
+    }
+
+    .page-center {
+        padding-top: 80px;
+    }
+
     #faceCanvas {
         width: 280px;
         height: 364px;
