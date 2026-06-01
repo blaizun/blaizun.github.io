@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>American Decline — Blaizun</title>
+    <link rel="stylesheet" href="../assets/homeButton.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glass-overlay" id="glassOverlay"></div>
+    <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+        <span class="arrow">
+            <svg viewBox="0 0 24 24">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </span>
+        <span>Back Home</span>
+    </a>
+
+    <main class="page">
+        <header class="page-header">
+            <h1 class="page-title">American Decline</h1>
+            <p class="page-subtitle">Key indicators, sourced from federal data</p>
+        </header>
+
+        <nav class="dataset-nav" id="datasetNav"></nav>
+
+        <div class="chart-container" id="chartContainer">
+            <div class="chart-meta">
+                <div class="chart-meta-left">
+                    <h2 class="chart-title" id="chartTitle"></h2>
+                    <p class="chart-unit" id="chartUnit"></p>
+                </div>
+                <div class="chart-latest" id="chartLatest"></div>
+            </div>
+
+            <div class="chart-wrap">
+                <svg id="chart"></svg>
+            </div>
+
+            <p class="chart-note" id="chartNote"></p>
+            <p class="chart-source" id="chartSource"></p>
+        </div>
+    </main>
+
+    <div class="tooltip" id="tooltip">
+        <span class="tooltip-year" id="tooltipYear"></span>
+        <span class="tooltip-value" id="tooltipValue"></span>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="graphs.js"></script>
+    <script>
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const glassOverlay = document.getElementById('glassOverlay');
+        backHomeBtn.addEventListener('mouseenter', () => glassOverlay.classList.add('active'));
+        backHomeBtn.addEventListener('mouseleave', () => glassOverlay.classList.remove('active'));
+    </script>
+</body>
+</html>
