@@ -1,0 +1,216 @@
+@font-face {
+    font-family: "Binchotan";
+    src: url("../fonts/Binchotan_Sharp__400__(v_000_526)_.ttf") format("truetype");
+}
+
+:root {
+    --bg:      #0b0b0b;
+    --surface: #111111;
+    --border:  rgba(255, 255, 255, 0.07);
+    --text:    #cccccc;
+    --dim:     rgba(204, 204, 204, 0.38);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* ── Back button override for dark bg ── */
+.back-home-btn {
+    color: #fff !important;
+    background: rgba(255,255,255,0.06) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+.back-home-btn:hover {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.3) !important;
+}
+
+/* ── Layout ── */
+.page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 140px 32px 80px;
+}
+
+/* ── Header ── */
+.page-header { margin-bottom: 48px; }
+
+.page-title {
+    font-family: "Binchotan", sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: #fff;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ── Dataset nav ── */
+.dataset-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.dataset-btn {
+    padding: 7px 18px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.dataset-btn:hover {
+    color: #fff;
+    border-color: rgba(255,255,255,0.25);
+}
+
+.dataset-btn.active {
+    color: var(--active-color, #ff3d41);
+    border-color: var(--active-color, #ff3d41);
+    background: color-mix(in srgb, var(--active-color, #ff3d41) 8%, transparent);
+}
+
+/* ── Chart container ── */
+.chart-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 28px 24px;
+}
+
+.chart-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.chart-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.chart-unit {
+    font-size: 0.72rem;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.chart-latest {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.chart-latest-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.chart-latest-label {
+    font-size: 0.7rem;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+}
+
+/* ── SVG ── */
+.chart-wrap { width: 100%; }
+
+#chart { width: 100%; display: block; overflow: visible; }
+
+/* Axes */
+.axis text {
+    fill: var(--dim);
+    font-size: 11px;
+}
+.axis path, .axis line {
+    stroke: rgba(255,255,255,0.1);
+}
+.axis .domain { display: none; }
+
+/* Grid */
+.grid line {
+    stroke: rgba(255,255,255,0.05);
+    stroke-dasharray: 3,4;
+}
+.grid .domain, .grid path { display: none; }
+
+/* ── Tooltip ── */
+.tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: #1c1c1c;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 100;
+}
+
+.tooltip-year { color: var(--dim); font-size: 0.72rem; }
+.tooltip-value { color: #fff; font-weight: 600; font-size: 1rem; }
+
+/* ── Notes / source ── */
+.chart-note {
+    margin-top: 20px;
+    font-size: 0.82rem;
+    color: rgba(204,204,204,0.55);
+    line-height: 1.6;
+    max-width: 680px;
+}
+
+.chart-source {
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: var(--dim);
+    font-style: italic;
+}
+
+.chart-source a {
+    color: var(--dim);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
+}
+
+.chart-source a:hover {
+    color: #ccc;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .page { padding: 100px 16px 60px; }
+    .chart-container { padding: 18px 14px 18px; }
+    .chart-meta { flex-direction: column; }
+    .chart-latest { text-align: left; }
+}
