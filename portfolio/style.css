@@ -74,44 +74,11 @@ body {
     }
 }
 
-/* Filters */
-.filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 3rem;
-}
-
-.filter-pill {
-    font-family: inherit;
-    font-size: 0.85rem;
-    letter-spacing: 0.02rem;
-    color: rgba(242, 240, 234, 0.7);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 0.5rem 1.1rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.filter-pill:hover {
-    border-color: rgba(255, 191, 0, 0.5);
-    color: #fff;
-}
-
-.filter-pill.active {
-    background: #ffbf00;
-    border-color: #ffbf00;
-    color: #14120a;
-    font-weight: 600;
-}
-
 /* Masonry gallery — CSS columns so any image size/aspect ratio just flows in */
 .masonry {
     columns: 4 260px;
     column-gap: 1.4rem;
+    margin-top: 3rem;
 }
 
 .portfolio-item {
@@ -135,10 +102,6 @@ body {
 .portfolio-item.in-view {
     opacity: 1;
     transform: translateY(0);
-}
-
-.portfolio-item.is-hidden {
-    display: none;
 }
 
 .portfolio-item:hover {
@@ -193,10 +156,6 @@ body {
 .item-caption {
     position: absolute;
     inset: auto 0 0 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.75rem;
     padding: 1.6rem 1rem 0.9rem;
     background: linear-gradient(
         to top,
@@ -218,12 +177,27 @@ body {
     font-weight: 600;
 }
 
-.item-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.05rem;
-    text-transform: uppercase;
-    color: #ffbf00;
-    white-space: nowrap;
+/* Small format indicator, top-left, for non-static-image items */
+.media-badge {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.7rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06rem;
+    color: #14120a;
+    background: #ffbf00;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    z-index: 1;
+}
+
+/* PDF items: the whole frame is a link that opens the file in a new tab */
+.pdf-frame {
+    display: block;
+    position: relative;
+    color: inherit;
+    text-decoration: none;
 }
 
 /* Other work */
