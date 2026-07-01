@@ -8,6 +8,70 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
+        <!-- Adobe app icon sprite — referenced via <use> in each figure's
+             .app-tags slot, see the gallery comment below for usage -->
+        <svg
+            aria-hidden="true"
+            style="position: absolute; width: 0; height: 0; overflow: hidden"
+        >
+            <symbol id="icon-ps" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="5" fill="#001E36" />
+                <text
+                    x="12"
+                    y="16.5"
+                    text-anchor="middle"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="10.5"
+                    font-weight="700"
+                    fill="#31A8FF"
+                >
+                    Ps
+                </text>
+            </symbol>
+            <symbol id="icon-ai" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="5" fill="#001E36" />
+                <text
+                    x="12"
+                    y="16.5"
+                    text-anchor="middle"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="10.5"
+                    font-weight="700"
+                    fill="#FF9A00"
+                >
+                    Ai
+                </text>
+            </symbol>
+            <symbol id="icon-ae" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="5" fill="#00005B" />
+                <text
+                    x="12"
+                    y="16.5"
+                    text-anchor="middle"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="10.5"
+                    font-weight="700"
+                    fill="#9999FF"
+                >
+                    Ae
+                </text>
+            </symbol>
+            <symbol id="icon-id" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="5" fill="#001E36" />
+                <text
+                    x="12"
+                    y="16.5"
+                    text-anchor="middle"
+                    font-family="Arial, Helvetica, sans-serif"
+                    font-size="10.5"
+                    font-weight="700"
+                    fill="#FF3366"
+                >
+                    Id
+                </text>
+            </symbol>
+        </svg>
+
         <div class="glass-overlay" id="glassOverlay"></div>
         <a href="../index.html" class="back-home-btn" id="backHomeBtn">
             <span class="arrow">
@@ -23,151 +87,390 @@
                 <p class="hero-kicker">Selected Work</p>
                 <h1 class="hero-title">Blaizun Diamond</h1>
                 <p class="hero-subtitle">
-                    Graphic design, illustration and cover art — alongside a
-                    handful of interactive & code-driven experiments.
+                    Graphic design, illustration and cover art
                 </p>
             </header>
 
             <!--
-                GALLERY — how to add a real file:
+                GALLERY — how to add another file:
 
-                STATIC IMAGE (jpg/png/webp) or GIF — identical either way,
-                animated gifs just play natively inside <img>:
-                    1. Drop your file in ./assets (any size/aspect ratio is fine).
-                    2. Inside the matching <figure>, delete the
-                       <div class="placeholder">…</div> and replace it with:
-                            <img src="assets/your-file.gif" alt="Project title" loading="lazy">
-                    3. Done — the masonry columns size themselves to the file's
-                       natural aspect ratio, nothing else needs to change.
+                STATIC IMAGE or GIF — identical either way, animated gifs
+                just play natively inside <img>:
+                        <figure class="portfolio-item">
+                            <img src="assets/your-file.webp" alt="Project title" loading="lazy">
+                            <figcaption class="item-caption"><h3>Project title</h3></figcaption>
+                        </figure>
+                    (add <span class="media-badge">GIF</span> as a sibling of
+                    the <img> if you want the format badge)
 
-                PDF — a raw PDF can't sit inside <img>, so the item instead
-                wraps a preview thumbnail in a link that opens the PDF in a
-                new tab (see the "PDF example" figure below):
-                    1. Drop the PDF and a preview image (e.g. an exported
-                       screenshot of the first page) in ./assets.
-                    2. Set the <a class="pdf-frame"> href to the PDF path.
-                    3. Replace that figure's <div class="placeholder"> with
-                       an <img> the same way as above.
+                PDF — a raw PDF can't sit inside <img>, so it's wrapped in a
+                link to the file with a preview-image thumbnail:
+                        <figure class="portfolio-item" data-type="pdf">
+                            <a class="pdf-frame" href="assets/your-file.pdf" target="_blank" rel="noopener">
+                                <img src="assets/your-file-preview.webp" alt="Project title (PDF preview)" loading="lazy">
+                                <span class="media-badge">PDF</span>
+                            </a>
+                            <figcaption class="item-caption"><h3>Project title</h3></figcaption>
+                        </figure>
+
+                SOFTWARE TAGS — every item has an empty <div class="app-tags">
+                slot. Drop one (or more, if a piece used multiple apps) of
+                these inside it:
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe InDesign"><use href="#icon-id"></use></svg>
             -->
             <section class="masonry" id="masonry">
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 3/4">
-                        <span>Add image</span>
+                    <img
+                        src="assets/Charlesvol1.webp"
+                        alt="Charles Vol. 1"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Charles Vol. 1</h3>
                     </figcaption>
                 </figure>
 
-                <!-- GIF example -->
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 1/1">
-                        <span>Add gif</span>
+                    <img
+                        src="assets/Charlesvol2.webp"
+                        alt="Charles Vol. 2"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
                     </div>
+                    <figcaption class="item-caption">
+                        <h3>Charles Vol. 1</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/charlesvol3final.webp"
+                        alt="Charles Vol. 3"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Charles Vol. 3</h3>
+                    </figcaption>
+                </figure>
+                <!--<svg class="app-icon" aria-label="Adobe Photoshop"><use href="assets/Photoshop.svg"></use></svg>
+                <svg class="app-icon" aria-label="Adobe Illustrator"><use href="assets/Illustrator.svg"></use></svg>
+                <svg class="app-icon" aria-label="Adobe After Effects"><use href="assets/AfterEffects.svg"></use></svg>
+                <svg class="app-icon" aria-label="Adobe InDesign"><use href="assets/InDesign.svg"></use></svg>-->
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/4thofJuly.webp"
+                        alt="4th of July"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>4th of July</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/juneteenthFinalHighNoise.webp"
+                        alt="Juneteenth"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Juneteenth</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/oceanscenenew.webp"
+                        alt="Ocean Scene"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Ocean Illustration</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/oneCatr.webp"
+                        alt="Cat Illustration"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Cat Illustration</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/HouseAdWithInfo.webp"
+                        alt="House Ad"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>House Ad</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/FindUsOnAd.gif"
+                        alt="Find Us On Ad"
+                        loading="lazy"
+                    />
                     <span class="media-badge">GIF</span>
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe After Effects">
+                            <use href="assets/AfterEffects.svg"></use>
+                        </svg>
+                    </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Find Us On Ad</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 4/5">
-                        <span>Add image</span>
+                    <img
+                        src="assets/PodcastAd2.gif"
+                        alt="Podcast Ad"
+                        loading="lazy"
+                    />
+                    <span class="media-badge">GIF</span>
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe After Effects">
+                            <use href="assets/AfterEffects.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Podcast Ad</h3>
                     </figcaption>
                 </figure>
 
-                <!-- PDF example -->
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/bookcover-preview.webp"
+                        alt="Book Cover"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Book Cover</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/senator-BlaizunDiamond-preview.webp"
+                        alt="Senator"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Senator</h3>
+                    </figcaption>
+                </figure>
+
                 <figure class="portfolio-item" data-type="pdf">
                     <a
                         class="pdf-frame"
-                        href="assets/your-file.pdf"
+                        href="assets/MAGAZINE/magazineBlaizunDiamond.pdf"
                         target="_blank"
                         rel="noopener"
                     >
-                        <div class="placeholder" style="--ar: 2/3">
-                            <span>Add PDF preview image</span>
-                        </div>
+                        <img
+                            src="assets/MAGAZINE/magazineBlaizunDiamond-preview.webp"
+                            alt="Magazine (PDF preview)"
+                            loading="lazy"
+                        />
                         <span class="media-badge">PDF</span>
                     </a>
-                    <figcaption class="item-caption">
-                        <h3>Project Title</h3>
-                    </figcaption>
-                </figure>
-
-                <!-- GIF example -->
-                <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 1/1">
-                        <span>Add gif</span>
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Photoshop">
+                            <use href="assets/Photoshop.svg"></use></svg
+                        ><svg class="app-icon" aria-label="Adobe InDesign">
+                            <use href="assets/InDesign.svg"></use>
+                        </svg>
                     </div>
-                    <span class="media-badge">GIF</span>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Magazine</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 3/4">
-                        <span>Add image</span>
+                    <img
+                        src="assets/REGRESSION-preview.webp"
+                        alt="Regression"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Regression</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 16/10">
-                        <span>Add image</span>
+                    <img
+                        src="assets/final-preview.webp"
+                        alt="Final"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Dewed 4</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 5/7">
-                        <span>Add image</span>
+                    <img
+                        src="assets/draft1-preview.webp"
+                        alt="Draft 1"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Dewed 1</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 4/3">
-                        <span>Add image</span>
+                    <img
+                        src="assets/draft2-preview.webp"
+                        alt="Draft 2"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Dewed 2</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 1/1">
-                        <span>Add image</span>
+                    <img
+                        src="assets/draft3-preview.webp"
+                        alt="Dewed 3"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Dewed 3</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 3/5">
-                        <span>Add image</span>
+                    <img
+                        src="assets/rough1-preview.webp"
+                        alt="Regression 1"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Regression 2</h3>
                     </figcaption>
                 </figure>
 
                 <figure class="portfolio-item">
-                    <div class="placeholder" style="--ar: 1/1">
-                        <span>Add image</span>
+                    <img
+                        src="assets/rough2-preview.webp"
+                        alt="Rough 2"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
                     </div>
                     <figcaption class="item-caption">
-                        <h3>Project Title</h3>
+                        <h3>Compression</h3>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item">
+                    <img
+                        src="assets/rough3-preview.webp"
+                        alt="Rough 3"
+                        loading="lazy"
+                    />
+                    <div class="app-tags">
+                        <svg class="app-icon" aria-label="Adobe Illustrator">
+                            <use href="assets/Illustrator.svg"></use>
+                        </svg>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Sublimation</h3>
                     </figcaption>
                 </figure>
             </section>
@@ -191,10 +494,7 @@
                         </div>
                     </a>
 
-                    <a
-                        class="project-card"
-                        href="../shellTexturing/index.html"
-                    >
+                    <a class="project-card" href="../shellTexturing/index.html">
                         <div class="thumb thumb-2"></div>
                         <div class="project-info">
                             <h3>Shell Texturing</h3>
@@ -214,7 +514,10 @@
                         <div class="thumb thumb-4"></div>
                         <div class="project-info">
                             <h3>Particle Text</h3>
-                            <p>Typography rebuilt from a Three.js particle field.</p>
+                            <p>
+                                Typography rebuilt from a Three.js particle
+                                field.
+                            </p>
                         </div>
                     </a>
 
