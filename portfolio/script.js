@@ -32,34 +32,15 @@ setTimeout(() => {
     items.forEach((item) => item.classList.add("in-view"));
 }, 1000);
 
-// Category filtering
-const filterButtons = document.querySelectorAll(".filter-pill");
-
-filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        filterButtons.forEach((b) => b.classList.remove("active"));
-        button.classList.add("active");
-
-        const filter = button.dataset.filter;
-
-        items.forEach((item) => {
-            const matches = filter === "all" || item.dataset.category === filter;
-            item.classList.toggle("is-hidden", !matches);
-
-            // Re-trigger the reveal animation for items coming back into view
-            if (matches && !item.classList.contains("in-view")) {
-                revealObserver.observe(item);
-            }
-        });
-    });
-});
-
-// Lightbox — only opens for items that contain a real <img>
+// Lightbox — only opens for items that contain a real <img>.
+// PDF items link out to the file itself, so they're left alone here.
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
 
 items.forEach((item) => {
+    if (item.dataset.type === "pdf") return;
+
     item.addEventListener("click", () => {
         const img = item.querySelector("img");
         if (!img) return;

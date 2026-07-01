@@ -28,153 +28,146 @@
                 </p>
             </header>
 
-            <!-- Category filters: add/remove pills to match the
-                 data-category values used on the .portfolio-item figures below -->
-            <nav class="filters" id="filters">
-                <button class="filter-pill active" data-filter="all">
-                    All
-                </button>
-                <button class="filter-pill" data-filter="branding">
-                    Branding
-                </button>
-                <button class="filter-pill" data-filter="cover-art">
-                    Cover Art
-                </button>
-                <button class="filter-pill" data-filter="illustration">
-                    Illustration
-                </button>
-                <button class="filter-pill" data-filter="poster">
-                    Posters
-                </button>
-            </nav>
-
             <!--
-                GALLERY — how to add a real image:
-                1. Drop your file in ./assets (any size/aspect ratio is fine).
-                2. Inside the matching <figure>, delete the <div class="placeholder">…</div>
-                   and replace it with:
-                        <img src="assets/your-file.jpg" alt="Project title" loading="lazy">
-                3. That's it — the masonry columns size themselves to the image's
-                   natural aspect ratio, so nothing else needs to change.
+                GALLERY — how to add a real file:
+
+                STATIC IMAGE (jpg/png/webp) or GIF — identical either way,
+                animated gifs just play natively inside <img>:
+                    1. Drop your file in ./assets (any size/aspect ratio is fine).
+                    2. Inside the matching <figure>, delete the
+                       <div class="placeholder">…</div> and replace it with:
+                            <img src="assets/your-file.gif" alt="Project title" loading="lazy">
+                    3. Done — the masonry columns size themselves to the file's
+                       natural aspect ratio, nothing else needs to change.
+
+                PDF — a raw PDF can't sit inside <img>, so the item instead
+                wraps a preview thumbnail in a link that opens the PDF in a
+                new tab (see the "PDF example" figure below):
+                    1. Drop the PDF and a preview image (e.g. an exported
+                       screenshot of the first page) in ./assets.
+                    2. Set the <a class="pdf-frame"> href to the PDF path.
+                    3. Replace that figure's <div class="placeholder"> with
+                       an <img> the same way as above.
             -->
             <section class="masonry" id="masonry">
-                <figure class="portfolio-item" data-category="branding">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 3/4">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Branding</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="cover-art">
+                <!-- GIF example -->
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 1/1">
-                        <span>Add image</span>
+                        <span>Add gif</span>
                     </div>
+                    <span class="media-badge">GIF</span>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Cover Art</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="illustration">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 4/5">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Illustration</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="poster">
-                    <div class="placeholder" style="--ar: 2/3">
-                        <span>Add image</span>
-                    </div>
+                <!-- PDF example -->
+                <figure class="portfolio-item" data-type="pdf">
+                    <a
+                        class="pdf-frame"
+                        href="assets/your-file.pdf"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <div class="placeholder" style="--ar: 2/3">
+                            <span>Add PDF preview image</span>
+                        </div>
+                        <span class="media-badge">PDF</span>
+                    </a>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Poster</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="illustration">
+                <!-- GIF example -->
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 1/1">
-                        <span>Add image</span>
+                        <span>Add gif</span>
                     </div>
+                    <span class="media-badge">GIF</span>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Illustration</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="cover-art">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 3/4">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Cover Art</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="branding">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 16/10">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Branding</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="poster">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 5/7">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Poster</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="illustration">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 4/3">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Illustration</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="cover-art">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 1/1">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Cover Art</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="branding">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 3/5">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Branding</span>
                     </figcaption>
                 </figure>
 
-                <figure class="portfolio-item" data-category="poster">
+                <figure class="portfolio-item">
                     <div class="placeholder" style="--ar: 1/1">
                         <span>Add image</span>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Project Title</h3>
-                        <span class="item-tag">Poster</span>
                     </figcaption>
                 </figure>
             </section>
