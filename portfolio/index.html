@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio — Blaizun</title>
+        <link rel="stylesheet" href="../assets/homeButton.css" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="glass-overlay" id="glassOverlay"></div>
+        <a href="../index.html" class="back-home-btn" id="backHomeBtn">
+            <span class="arrow">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </span>
+            <span>Back Home</span>
+        </a>
+
+        <main class="page">
+            <header class="hero">
+                <p class="hero-kicker">Selected Work</p>
+                <h1 class="hero-title">Blaizun Diamond</h1>
+                <p class="hero-subtitle">
+                    Graphic design, illustration and cover art — alongside a
+                    handful of interactive & code-driven experiments.
+                </p>
+            </header>
+
+            <!-- Category filters: add/remove pills to match the
+                 data-category values used on the .portfolio-item figures below -->
+            <nav class="filters" id="filters">
+                <button class="filter-pill active" data-filter="all">
+                    All
+                </button>
+                <button class="filter-pill" data-filter="branding">
+                    Branding
+                </button>
+                <button class="filter-pill" data-filter="cover-art">
+                    Cover Art
+                </button>
+                <button class="filter-pill" data-filter="illustration">
+                    Illustration
+                </button>
+                <button class="filter-pill" data-filter="poster">
+                    Posters
+                </button>
+            </nav>
+
+            <!--
+                GALLERY — how to add a real image:
+                1. Drop your file in ./assets (any size/aspect ratio is fine).
+                2. Inside the matching <figure>, delete the <div class="placeholder">…</div>
+                   and replace it with:
+                        <img src="assets/your-file.jpg" alt="Project title" loading="lazy">
+                3. That's it — the masonry columns size themselves to the image's
+                   natural aspect ratio, so nothing else needs to change.
+            -->
+            <section class="masonry" id="masonry">
+                <figure class="portfolio-item" data-category="branding">
+                    <div class="placeholder" style="--ar: 3/4">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Branding</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="cover-art">
+                    <div class="placeholder" style="--ar: 1/1">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Cover Art</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="illustration">
+                    <div class="placeholder" style="--ar: 4/5">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Illustration</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="poster">
+                    <div class="placeholder" style="--ar: 2/3">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Poster</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="illustration">
+                    <div class="placeholder" style="--ar: 1/1">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Illustration</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="cover-art">
+                    <div class="placeholder" style="--ar: 3/4">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Cover Art</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="branding">
+                    <div class="placeholder" style="--ar: 16/10">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Branding</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="poster">
+                    <div class="placeholder" style="--ar: 5/7">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Poster</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="illustration">
+                    <div class="placeholder" style="--ar: 4/3">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Illustration</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="cover-art">
+                    <div class="placeholder" style="--ar: 1/1">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Cover Art</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="branding">
+                    <div class="placeholder" style="--ar: 3/5">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Branding</span>
+                    </figcaption>
+                </figure>
+
+                <figure class="portfolio-item" data-category="poster">
+                    <div class="placeholder" style="--ar: 1/1">
+                        <span>Add image</span>
+                    </div>
+                    <figcaption class="item-caption">
+                        <h3>Project Title</h3>
+                        <span class="item-tag">Poster</span>
+                    </figcaption>
+                </figure>
+            </section>
+
+            <!-- OTHER WORK — cards linking out to the interactive / code
+                 experiments elsewhere on the site. Swap the .thumb div for an
+                 <img> the same way as the gallery above if you want a real
+                 screenshot instead of the gradient placeholder. -->
+            <section class="other-work">
+                <header class="section-header">
+                    <p class="hero-kicker">Other Work</p>
+                    <h2>Interactive &amp; Code</h2>
+                </header>
+
+                <div class="project-row">
+                    <a class="project-card" href="../keebo/index.html">
+                        <div class="thumb thumb-1"></div>
+                        <div class="project-info">
+                            <h3>KEEBO</h3>
+                            <p>3D keyboard model, built with Three.js.</p>
+                        </div>
+                    </a>
+
+                    <a
+                        class="project-card"
+                        href="../shellTexturing/index.html"
+                    >
+                        <div class="thumb thumb-2"></div>
+                        <div class="project-info">
+                            <h3>Shell Texturing</h3>
+                            <p>Real-time fur/shell texturing shader study.</p>
+                        </div>
+                    </a>
+
+                    <a class="project-card" href="../SIGNALS/index.html">
+                        <div class="thumb thumb-3"></div>
+                        <div class="project-info">
+                            <h3>Signals</h3>
+                            <p>Generative visual noise & signal patterns.</p>
+                        </div>
+                    </a>
+
+                    <a class="project-card" href="../particleText/index.html">
+                        <div class="thumb thumb-4"></div>
+                        <div class="project-info">
+                            <h3>Particle Text</h3>
+                            <p>Typography rebuilt from a Three.js particle field.</p>
+                        </div>
+                    </a>
+
+                    <a class="project-card" href="../face-me/index.html">
+                        <div class="thumb thumb-5"></div>
+                        <div class="project-info">
+                            <h3>Face Me</h3>
+                            <p>A playful, build-a-face interactive toy.</p>
+                        </div>
+                    </a>
+
+                    <a
+                        class="project-card"
+                        href="../americanDecline/index.html"
+                    >
+                        <div class="thumb thumb-6"></div>
+                        <div class="project-info">
+                            <h3>American Decline</h3>
+                            <p>Data visualization built on federal datasets.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <footer class="page-footer">
+                <a href="../resume/index.html">Resume</a>
+                <span class="dot">·</span>
+                <a href="../index.html">Home</a>
+            </footer>
+        </main>
+
+        <!-- Lightbox for full-size view (activates on items with a real <img>) -->
+        <div class="modal" id="modal">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <img class="modal-content" id="modalImage" alt="Expanded work" />
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
