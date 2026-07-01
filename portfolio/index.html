@@ -115,11 +115,14 @@
 
                 SOFTWARE TAGS — every item has an empty <div class="app-tags">
                 slot. Drop one (or more, if a piece used multiple apps) of
-                these inside it:
-                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
-                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
-                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
-                        <svg class="app-icon" aria-label="Adobe InDesign"><use href="#icon-id"></use></svg>
+                these inside it. Note the #fragment on each href — Chrome
+                will render these fine without it, but Firefox/Safari won't
+                render a cross-file <use> at all unless it points at a
+                specific id inside the target file, so always keep it:
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="assets/Photoshop.svg#Layer_1"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="assets/Illustrator.svg#a"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="assets/AfterEffects.svg#icon"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe InDesign"><use href="assets/InDesign.svg#icon"></use></svg>
             -->
             <section class="masonry" id="masonry">
                 <figure class="portfolio-item">
@@ -130,7 +133,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -146,7 +149,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -162,17 +165,17 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Charles Vol. 3</h3>
                     </figcaption>
                 </figure>
-                <!--<svg class="app-icon" aria-label="Adobe Photoshop"><use href="assets/Photoshop.svg"></use></svg>
-                <svg class="app-icon" aria-label="Adobe Illustrator"><use href="assets/Illustrator.svg"></use></svg>
-                <svg class="app-icon" aria-label="Adobe After Effects"><use href="assets/AfterEffects.svg"></use></svg>
-                <svg class="app-icon" aria-label="Adobe InDesign"><use href="assets/InDesign.svg"></use></svg>-->
+                <!--<svg class="app-icon" aria-label="Adobe Photoshop"><use href="assets/Photoshop.svg#Layer_1"></use></svg>
+                <svg class="app-icon" aria-label="Adobe Illustrator"><use href="assets/Illustrator.svg#a"></use></svg>
+                <svg class="app-icon" aria-label="Adobe After Effects"><use href="assets/AfterEffects.svg#icon"></use></svg>
+                <svg class="app-icon" aria-label="Adobe InDesign"><use href="assets/InDesign.svg#icon"></use></svg>-->
 
                 <figure class="portfolio-item">
                     <img
@@ -182,7 +185,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -198,7 +201,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -214,7 +217,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -230,7 +233,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use>
+                            <use href="assets/Photoshop.svg#Layer_1"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -246,7 +249,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -263,7 +266,7 @@
                     <span class="media-badge">GIF</span>
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe After Effects">
-                            <use href="assets/AfterEffects.svg"></use>
+                            <use href="assets/AfterEffects.svg#icon"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -280,7 +283,7 @@
                     <span class="media-badge">GIF</span>
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe After Effects">
-                            <use href="assets/AfterEffects.svg"></use>
+                            <use href="assets/AfterEffects.svg#icon"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -296,7 +299,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -312,7 +315,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -336,9 +339,9 @@
                     </a>
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
-                            <use href="assets/Photoshop.svg"></use></svg
+                            <use href="assets/Photoshop.svg#Layer_1"></use></svg
                         ><svg class="app-icon" aria-label="Adobe InDesign">
-                            <use href="assets/InDesign.svg"></use>
+                            <use href="assets/InDesign.svg#icon"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -354,7 +357,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -370,7 +373,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -386,7 +389,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -402,7 +405,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -418,7 +421,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -434,7 +437,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -450,7 +453,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
@@ -466,7 +469,7 @@
                     />
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Illustrator">
-                            <use href="assets/Illustrator.svg"></use>
+                            <use href="assets/Illustrator.svg#a"></use>
                         </svg>
                     </div>
                     <figcaption class="item-caption">
