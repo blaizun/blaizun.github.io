@@ -8,67 +8,72 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <!-- Adobe app icon sprite — referenced via <use> in each figure's
-             .app-tags slot, see the gallery comment below for usage -->
+        <!-- Adobe app icon sprite — real Wikimedia vector artwork, inlined
+             directly (not <use>'d from an external file) so it stays crisp
+             and colors always apply, in every browser. Referenced via
+             same-document <use href="#icon-..."> in each figure's
+             .app-tags slot — see the gallery comment below for usage.
+             Colors are plain fill= attributes rather than a <style> block
+             on purpose: these symbols share one document, so class names
+             like .st0/.st1 would collide across icons and all resolve to
+             whichever one was parsed last. -->
         <svg
             aria-hidden="true"
             style="position: absolute; width: 0; height: 0; overflow: hidden"
         >
-            <symbol id="icon-ps" viewBox="0 0 24 24">
-                <rect width="24" height="24" rx="5" fill="#001E36" />
-                <text
-                    x="12"
-                    y="16.5"
-                    text-anchor="middle"
-                    font-family="Arial, Helvetica, sans-serif"
-                    font-size="10.5"
-                    font-weight="700"
+            <symbol id="icon-ps" viewBox="0 0 240 234">
+                <path
+                    fill="#001E36"
+                    d="M42.5,0h155C221,0,240,19,240,42.5v149c0,23.5-19,42.5-42.5,42.5h-155C19,234,0,215,0,191.5v-149C0,19,19,0,42.5,0z"
+                />
+                <path
                     fill="#31A8FF"
-                >
-                    Ps
-                </text>
+                    d="M54,164.1V61.2c0-0.7,0.3-1.1,1-1.1c1.7,0,3.3,0,5.6-0.1c2.4-0.1,4.9-0.1,7.6-0.2c2.7-0.1,5.6-0.1,8.7-0.2c3.1-0.1,6.1-0.1,9.1-0.1c8.2,0,15,1,20.6,3.1c5,1.7,9.6,4.5,13.4,8.2c3.2,3.2,5.7,7.1,7.3,11.4c1.5,4.2,2.3,8.5,2.3,13c0,8.6-2,15.7-6,21.3c-4,5.6-9.6,9.8-16.1,12.2c-6.8,2.5-14.3,3.4-22.5,3.4c-2.4,0-4,0-5-0.1c-1-0.1-2.4-0.1-4.3-0.1v32.1c0.1,0.7-0.4,1.3-1.1,1.4c-0.1,0-0.2,0-0.4,0H55.2C54.4,165.4,54,165,54,164.1z M75.8,79.4V113c1.4,0.1,2.7,0.2,3.9,0.2H85c3.9,0,7.8-0.6,11.5-1.8c3.2-0.9,6-2.8,8.2-5.3c2.1-2.5,3.1-5.9,3.1-10.3c0.1-3.1-0.7-6.2-2.3-8.9c-1.7-2.6-4.1-4.6-7-5.7c-3.7-1.5-7.7-2.1-11.8-2c-2.6,0-4.9,0-6.8,0.1C77.9,79.2,76.5,79.3,75.8,79.4L75.8,79.4z"
+                />
+                <path
+                    fill="#31A8FF"
+                    d="M192,106.9c-3-1.6-6.2-2.7-9.6-3.4c-3.7-0.8-7.4-1.3-11.2-1.3c-2-0.1-4.1,0.2-6,0.7c-1.3,0.3-2.4,1-3.1,2c-0.5,0.8-0.8,1.8-0.8,2.7c0,0.9,0.4,1.8,1,2.6c0.9,1.1,2.1,2,3.4,2.7c2.3,1.2,4.7,2.3,7.1,3.3c5.4,1.8,10.6,4.3,15.4,7.3c3.3,2.1,6,4.9,7.9,8.3c1.6,3.2,2.4,6.7,2.3,10.3c0.1,4.7-1.3,9.4-3.9,13.3c-2.8,4-6.7,7.1-11.2,8.9c-4.9,2.1-10.9,3.2-18.1,3.2c-4.6,0-9.1-0.4-13.6-1.3c-3.5-0.6-7-1.7-10.2-3.2c-0.7-0.4-1.2-1.1-1.1-1.9v-17.4c0-0.3,0.1-0.7,0.4-0.9c0.3-0.2,0.6-0.1,0.9,0.1c3.9,2.3,8,3.9,12.4,4.9c3.8,1,7.8,1.5,11.8,1.5c3.8,0,6.5-0.5,8.3-1.4c1.6-0.7,2.7-2.4,2.7-4.2c0-1.4-0.8-2.7-2.4-4c-1.6-1.3-4.9-2.8-9.8-4.7c-5.1-1.8-9.8-4.2-14.2-7.2c-3.1-2.2-5.7-5.1-7.6-8.5c-1.6-3.2-2.4-6.7-2.3-10.2c0-4.3,1.2-8.4,3.4-12.1c2.5-4,6.2-7.2,10.5-9.2c4.7-2.4,10.6-3.5,17.7-3.5c4.1,0,8.3,0.3,12.4,0.9c3,0.4,5.9,1.2,8.6,2.3c0.4,0.1,0.8,0.5,1,0.9c0.1,0.4,0.2,0.8,0.2,1.2v16.3c0,0.4-0.2,0.8-0.5,1C192.9,107.1,192.4,107.1,192,106.9z"
+                />
             </symbol>
-            <symbol id="icon-ai" viewBox="0 0 24 24">
-                <rect width="24" height="24" rx="5" fill="#001E36" />
-                <text
-                    x="12"
-                    y="16.5"
-                    text-anchor="middle"
-                    font-family="Arial, Helvetica, sans-serif"
-                    font-size="10.5"
-                    font-weight="700"
-                    fill="#FF9A00"
-                >
-                    Ai
-                </text>
+            <symbol id="icon-ai" viewBox="0 0 250 250">
+                <rect fill="#330000" width="250" height="250" rx="42.74" ry="42.74" />
+                <path
+                    fill="#ff9a00"
+                    d="M122.11,66.15h-37.41l-42.97,115.62h33.48l5.58-17.27h42.98l5.58,17.27h34.5l-41.73-115.62ZM102.27,135.65h-12.17l12.17-37.69,12.17,37.69h-12.17Z"
+                />
+                <rect fill="#ff9a00" x="168.12" y="90.74" width="30.98" height="91.03" />
+                <path
+                    fill="#ff9a00"
+                    d="M200.12,74.28c.09,8.49-6.78,14.49-16.5,14.41-9.73.08-16.59-5.92-16.5-14.41-.09-8.49,6.78-14.49,16.5-14.41,9.73-.08,16.59,5.92,16.5,14.41Z"
+                />
             </symbol>
-            <symbol id="icon-ae" viewBox="0 0 24 24">
-                <rect width="24" height="24" rx="5" fill="#00005B" />
-                <text
-                    x="12"
-                    y="16.5"
-                    text-anchor="middle"
-                    font-family="Arial, Helvetica, sans-serif"
-                    font-size="10.5"
-                    font-weight="700"
+            <symbol id="icon-ae" viewBox="0 0 240 234">
+                <path
+                    fill="#00005B"
+                    d="M42.5,0h155C221,0,240,19,240,42.5v149c0,23.5-19,42.5-42.5,42.5h-155C19,234,0,215,0,191.5v-149      C0,19,19,0,42.5,0z"
+                />
+                <path
                     fill="#9999FF"
-                >
-                    Ae
-                </text>
+                    d="m96.4 140h-37.2l-7.6 23.6c-0.2 0.9-1 1.5-1.9 1.4h-18.8c-1.1 0-1.4-0.6-1.1-1.8l32.2-92.3c0.3-1 0.6-1.9 1-3.1 0.4-2.1 0.6-4.3 0.6-6.5-0.1-0.5 0.3-1 0.8-1.1h0.3 25.6c0.7 0 1.2 0.3 1.3 0.8l36.5 102c0.3 1.1 0 1.6-1 1.6h-20.9c-0.7 0.1-1.4-0.4-1.6-1.1l-8.2-24zm-31.4-19.9h25.4c-0.6-2.1-1.4-4.6-2.3-7.2-0.9-2.7-1.8-5.6-2.7-8.6-1-3.1-1.9-6.1-2.9-9.2s-1.9-6-2.7-8.9c-0.8-2.8-1.5-5.4-2.2-7.8h-0.2c-0.9 4.3-2 8.6-3.4 12.9-1.5 4.8-3 9.8-4.6 14.8-1.3 5.1-2.9 9.8-4.4 14z"
+                />
+                <path
+                    fill="#9999FF"
+                    d="m187 131h-31.7c0.4 3.1 1.4 6.2 3.1 8.9 1.8 2.7 4.3 4.8 7.3 6 4 1.7 8.4 2.6 12.8 2.5 3.5-0.1 7-0.4 10.4-1.1 3.1-0.4 6.1-1.2 8.9-2.3 0.5-0.4 0.8-0.2 0.8 0.8v15.3c0 0.4-0.1 0.8-0.2 1.2-0.2 0.3-0.4 0.5-0.7 0.7-3.2 1.4-6.5 2.4-10 3-4.7 0.9-9.4 1.3-14.2 1.2-7.6 0-14-1.2-19.2-3.5-4.9-2.1-9.2-5.4-12.6-9.5-3.2-3.9-5.5-8.3-6.9-13.1-1.4-4.7-2.1-9.6-2.1-14.6 0-5.4 0.8-10.7 2.5-15.9 1.6-5 4.1-9.6 7.5-13.7 3.3-4 7.4-7.2 12.1-9.5s10.3-3.1 16.7-3.1c5.3-0.1 10.6 0.9 15.5 3.1 4.1 1.8 7.7 4.5 10.5 8 2.6 3.4 4.7 7.2 6 11.4 1.3 4 1.9 8.1 1.9 12.2 0 2.4-0.1 4.5-0.2 6.4-0.2 1.9-0.3 3.3-0.4 4.2-0.1 0.7-0.7 1.3-1.4 1.3-0.6 0-1.7 0.1-3.3 0.2-1.6 0.2-3.5 0.3-5.8 0.3s-4.7-0.4-7.3-0.4zm-31.7-14.6h21.1c2.6 0 4.5 0 5.7-0.1 0.8-0.1 1.6-0.3 2.3-0.8v-1c0-1.3-0.2-2.5-0.6-3.7-1.8-5.6-7.1-9.4-13-9.2-5.5-0.3-10.7 2.6-13.3 7.6-1.2 2.3-1.9 4.7-2.2 7.2z"
+                />
             </symbol>
-            <symbol id="icon-id" viewBox="0 0 24 24">
-                <rect width="24" height="24" rx="5" fill="#001E36" />
-                <text
-                    x="12"
-                    y="16.5"
-                    text-anchor="middle"
-                    font-family="Arial, Helvetica, sans-serif"
-                    font-size="10.5"
-                    font-weight="700"
+            <symbol id="icon-id" viewBox="0 0 240 234">
+                <path
+                    fill="#49021F"
+                    d="M42.5,0h155C221,0,240,19,240,42.5v149c0,23.5-19,42.5-42.5,42.5h-155C19,234,0,215,0,191.5v-149   C0,19,19,0,42.5,0z"
+                />
+                <path
                     fill="#FF3366"
-                >
-                    Id
-                </text>
+                    d="m87.2 61.2v103c0 1.1-0.5 1.6-1.4 1.6h-19.6c-0.9 0-1.3-0.5-1.3-1.6v-103c0-0.9 0.5-1.3 1.4-1.3h19.5c0.6-0.1 1.2 0.3 1.3 1 0.1 0.1 0.1 0.2 0.1 0.3z"
+                />
+                <path
+                    fill="#FF3366"
+                    d="m145 167c-7.4 0.1-14.8-1.4-21.5-4.5-6.3-2.9-11.5-7.7-15.1-13.6-3.7-6.1-5.5-13.7-5.5-22.8-0.1-7.4 1.8-14.7 5.5-21.1 3.8-6.5 9.3-11.9 15.9-15.5 7-3.9 15.4-5.8 25.3-5.8 0.5 0 1.2 0 2.1 0.1s1.9 0.1 3.1 0.2v-31.6c0-0.7 0.3-1.1 1-1.1h20.3c0.5-0.1 0.9 0.3 1 0.7v0.2 95.2c0 1.8 0.1 3.8 0.2 6 0.2 2.1 0.3 4.1 0.4 5.8 0 0.7-0.3 1.3-1 1.6-5.2 2.2-10.7 3.8-16.3 4.8-5 0.9-10.2 1.4-15.4 1.4zm9.8-20v-44c-0.9-0.2-1.8-0.4-2.7-0.5-1.1-0.1-2.2-0.2-3.3-0.2-3.9 0-7.8 0.8-11.3 2.6-3.4 1.7-6.3 4.2-8.5 7.4s-3.3 7.5-3.3 12.7c-0.1 3.5 0.5 7 1.7 10.3 1 2.7 2.5 5.1 4.5 7.1 1.9 1.8 4.2 3.2 6.8 4 2.7 0.9 5.5 1.3 8.3 1.3 1.5 0 2.9-0.1 4.2-0.2 1.3 0.1 2.5-0.1 3.6-0.5z"
+                />
             </symbol>
         </svg>
 
@@ -115,14 +120,16 @@
 
                 SOFTWARE TAGS — every item has an empty <div class="app-tags">
                 slot. Drop one (or more, if a piece used multiple apps) of
-                these inside it. Note the #fragment on each href — Chrome
-                will render these fine without it, but Firefox/Safari won't
-                render a cross-file <use> at all unless it points at a
-                specific id inside the target file, so always keep it:
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
-                        <img class="app-icon" src="assets/AfterEffects.svg" alt="Adobe After Effects" loading="lazy" />
-                        <img class="app-icon" src="assets/InDesign.svg" alt="Adobe InDesign" loading="lazy" />
+                these inside it. These reference the icon sprite defined at
+                the top of <body> (same document, not an external file) —
+                keep it that way: referencing an external .svg file via
+                <use> loses crispness and its colors silently fail to
+                apply in Firefox/Safari, since those browsers don't import
+                a cross-document <style> block through <use>:
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
+                        <svg class="app-icon" aria-label="Adobe InDesign"><use href="#icon-id"></use></svg>
             -->
             <section class="masonry" id="masonry">
                 <figure class="portfolio-item">
@@ -132,7 +139,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Charles Vol. 1</h3>
@@ -146,7 +153,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Charles Vol. 1</h3>
@@ -160,16 +167,16 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Charles Vol. 3</h3>
                     </figcaption>
                 </figure>
-                <!--<img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
-                <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
-                <img class="app-icon" src="assets/AfterEffects.svg" alt="Adobe After Effects" loading="lazy" />
-                <img class="app-icon" src="assets/InDesign.svg" alt="Adobe InDesign" loading="lazy" />-->
+                <!--<svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
+                <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
+                <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
+                <svg class="app-icon" aria-label="Adobe InDesign"><use href="#icon-id"></use></svg>-->
 
                 <figure class="portfolio-item">
                     <img
@@ -178,7 +185,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>4th of July</h3>
@@ -192,7 +199,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Juneteenth</h3>
@@ -206,7 +213,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Ocean Illustration</h3>
@@ -220,7 +227,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Photoshop.svg" alt="Adobe Photoshop" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Photoshop"><use href="#icon-ps"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Cat Illustration</h3>
@@ -234,7 +241,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>House Ad</h3>
@@ -249,7 +256,7 @@
                     />
                     <span class="media-badge">GIF</span>
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/AfterEffects.svg" alt="Adobe After Effects" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Find Us On Ad</h3>
@@ -264,7 +271,7 @@
                     />
                     <span class="media-badge">GIF</span>
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/AfterEffects.svg" alt="Adobe After Effects" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe After Effects"><use href="#icon-ae"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Podcast Ad</h3>
@@ -278,7 +285,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Book Cover</h3>
@@ -292,7 +299,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Senator</h3>
@@ -316,7 +323,7 @@
                     <div class="app-tags">
                         <svg class="app-icon" aria-label="Adobe Photoshop">
                             <use href="assets/Photoshop.svg#Layer_1"></use></svg
-                        ><img class="app-icon" src="assets/InDesign.svg" alt="Adobe InDesign" loading="lazy" />
+                        ><svg class="app-icon" aria-label="Adobe InDesign"><use href="#icon-id"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Magazine</h3>
@@ -330,7 +337,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Regression</h3>
@@ -344,7 +351,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Dewed 4</h3>
@@ -358,7 +365,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Dewed 1</h3>
@@ -372,7 +379,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Dewed 2</h3>
@@ -386,7 +393,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Dewed 3</h3>
@@ -400,7 +407,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Regression 2</h3>
@@ -414,7 +421,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Compression</h3>
@@ -428,7 +435,7 @@
                         loading="lazy"
                     />
                     <div class="app-tags">
-                        <img class="app-icon" src="assets/Illustrator.svg" alt="Adobe Illustrator" loading="lazy" />
+                        <svg class="app-icon" aria-label="Adobe Illustrator"><use href="#icon-ai"></use></svg>
                     </div>
                     <figcaption class="item-caption">
                         <h3>Sublimation</h3>
