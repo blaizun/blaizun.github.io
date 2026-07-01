@@ -7,10 +7,6 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <!-- <header>
-        <h1></h1>
-    </header> -->
-
         <div class="glass-overlay" id="glassOverlay"></div>
         <a href="../index.html" class="back-home-btn" id="backHomeBtn">
             <span class="arrow">
@@ -21,22 +17,17 @@
             <span>Back Home</span>
         </a>
 
-        <div class="loading-screen" id="loadingScreen">
-            <div class="loading-content">
-                <div class="spinner"></div>
-                <p class="loading-text">Loading Images</p>
-                <p class="loading-counter">
-                    <span id="loadedCount">0</span> /
-                    <span id="totalCount">0</span>
-                </p>
-            </div>
-        </div>
+        <header class="page-header">
+            <h1>Art</h1>
+        </header>
 
+        <!-- Masonry gallery — CSS columns so images of any size/aspect
+             ratio flow in without needing to measure them in JS first -->
         <div class="gallery" id="gallery"></div>
 
         <!-- Modal for full-size view -->
         <div class="modal" id="modal">
-            <span class="modal-close" id="modalClose"></span>
+            <span class="modal-close" id="modalClose">&times;</span>
             <img class="modal-content" id="modalImage" alt="Expanded artwork" />
         </div>
 
@@ -53,138 +44,91 @@
             });
 
             const images = [
-                { url: "assets/art/Charlesvol2.webp", aspect: "square" },
-                { url: "assets/art/Charlesvol1.webp", aspect: "square" },
-                { url: "assets/art/Charlesvol3.webp", aspect: "square" },
-                { url: "assets/art/HomeInvasion.webp", aspect: "square" },
-                { url: "assets/art/FlowerFarmer.webp", aspect: "square" },
-                { url: "assets/art/KingofRing1.webp", aspect: "square" },
-                { url: "assets/art/MAL-1.webp", aspect: "square" },
-                { url: "assets/art/MAL-2.webp", aspect: "square" },
-                { url: "assets/art/MAL-3.webp", aspect: "square" },
-                { url: "assets/art/MAL-4.webp", aspect: "square" },
-                { url: "assets/art/pugnate2.webp", aspect: "square" },
-                { url: "assets/art/WheelsFallOffFinal.webp", aspect: "square" },
-                { url: "assets/art/Windmills3.webp", aspect: "square" },
-                { url: "assets/art/WLG2REAL.webp", aspect: "square" },
-                { url: "assets/work/SwankyCover-1.jpg", aspect: "tall" },
-                { url: "assets/art/ItsAllUnderControl.webp", aspect: "square" },
-                { url: "assets/art/happyguppy.webp", aspect: "wide" },
-                { url: "assets/art/BreakupFINAL.webp", aspect: "square" },
-                { url: "assets/IMGClass/1.webp", aspect: "square" },
-                {
-                    url: "assets/work/CruelOilBlaizunDiamond.jpg",
-                    aspect: "tall",
-                },
-                { url: "assets/IMGClass/8.webp", aspect: "square" },
-                { url: "assets/IMGClass/DumbJealous.webp", aspect: "wide" },
-                {
-                    url: "assets/IMGClass/FeelsLikeADream.webp",
-                    aspect: "square",
-                },
-                { url: "assets/IMGClass/honestly.webp", aspect: "square" },
-                {
-                    url: "assets/IMGClass/Iknowyouredownbad.webp",
-                    aspect: "square",
-                },
-                {
-                    url: "assets/IMGClass/JumpedInTooDeepREALFINAL.webp",
-                    aspect: "square",
-                },
-                { url: "assets/IMGClass/proj7.webp", aspect: "square" },
-                { url: "assets/IMGClass/proj9.webp", aspect: "square" },
-                {
-                    url: "assets/IMGClass/ReachingOutToMe.webp",
-                    aspect: "square",
-                },
+                "assets/optimized/art/Charlesvol2.webp",
+                "assets/optimized/art/Charlesvol1.webp",
+                "assets/optimized/art/Charlesvol3.webp",
+                "assets/optimized/art/HomeInvasion.webp",
+                "assets/optimized/art/FlowerFarmer.webp",
+                "assets/optimized/art/KingofRing1.webp",
+                "assets/optimized/art/MAL-1.webp",
+                "assets/optimized/art/MAL-2.webp",
+                "assets/optimized/art/MAL-3.webp",
+                "assets/optimized/art/MAL-4.webp",
+                "assets/optimized/art/pugnate2.webp",
+                "assets/optimized/art/WheelsFallOffFinal.webp",
+                "assets/optimized/art/Windmills3.webp",
+                "assets/optimized/art/WLG2REAL.webp",
+                "assets/optimized/work/SwankyCover-1.webp",
+                "assets/optimized/art/ItsAllUnderControl.webp",
+                "assets/optimized/art/happyguppy.webp",
+                "assets/optimized/art/BreakupFINAL.webp",
+                "assets/optimized/IMGClass/1.webp",
+                "assets/optimized/work/CruelOilBlaizunDiamond.webp",
+                "assets/optimized/IMGClass/8.webp",
+                "assets/optimized/IMGClass/DumbJealous.webp",
+                "assets/optimized/IMGClass/FeelsLikeADream.webp",
+                "assets/optimized/IMGClass/honestly.webp",
+                "assets/optimized/IMGClass/Iknowyouredownbad.webp",
+                "assets/optimized/IMGClass/JumpedInTooDeepREALFINAL.webp",
+                "assets/optimized/IMGClass/proj7.webp",
+                "assets/optimized/IMGClass/proj9.webp",
+                "assets/optimized/IMGClass/ReachingOutToMe.webp",
             ];
 
             const gallery = document.getElementById("gallery");
-            const loadingScreen = document.getElementById("loadingScreen");
-            const loadedCountEl = document.getElementById("loadedCount");
-            const totalCountEl = document.getElementById("totalCount");
+            const modal = document.getElementById("modal");
+            const modalImage = document.getElementById("modalImage");
+            const modalClose = document.getElementById("modalClose");
 
-            let loadedImages = 0;
-            const totalImages = images.length;
+            const revealObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("in-view");
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+            );
 
-            // Set total count
-            totalCountEl.textContent = totalImages;
-
-            // Load images
-            images.forEach((image, index) => {
-                const item = document.createElement("div");
-                item.className = `gallery-item loading ${image.aspect}`;
+            images.forEach((url, index) => {
+                const item = document.createElement("figure");
+                item.className = "gallery-item";
 
                 const img = document.createElement("img");
-                img.src = image.url;
+                img.src = url;
                 img.alt = `Artwork ${index + 1}`;
+                img.loading = "lazy";
 
-                img.onload = () => {
-                    item.classList.remove("loading");
-                    loadedImages++;
-                    loadedCountEl.textContent = loadedImages;
-
-                    // Auto-detect aspect ratio if not specified
-                    const aspectRatio = img.naturalWidth / img.naturalHeight;
-
-                    if (!image.aspect || image.aspect === "auto") {
-                        if (aspectRatio > 1.5) {
-                            item.classList.add("wide");
-                        } else if (aspectRatio < 0.7) {
-                            item.classList.add("tall");
-                        } else if (
-                            aspectRatio > 1.3 &&
-                            img.naturalWidth > 1000
-                        ) {
-                            item.classList.add("large");
-                        }
-                    }
-                    if (loadedImages === totalImages) {
-                        setTimeout(() => {
-                            loadingScreen.classList.add("hidden");
-                        }, 300);
-                    }
-                };
-                img.onerror = () => {
-                    // Count failed images too so loading screen doesn't hang
-                    loadedImages++;
-                    loadedCountEl.textContent = loadedImages;
-
-                    if (loadedImages === totalImages) {
-                        setTimeout(() => {
-                            loadingScreen.classList.add("hidden");
-                        }, 300);
-                    }
-                };
-
-                // Click to expand
                 item.addEventListener("click", () => {
-                    document.getElementById("modalImage").src = image.url;
-                    document.getElementById("modal").classList.add("active");
+                    modalImage.src = url;
+                    modal.classList.add("active");
                 });
 
                 item.appendChild(img);
                 gallery.appendChild(item);
+                revealObserver.observe(item);
             });
 
-            // Modal controls
+            // Safety net: guarantee the gallery is visible even if the
+            // observer never fires (e.g. slow first paint)
+            setTimeout(() => {
+                document
+                    .querySelectorAll(".gallery-item")
+                    .forEach((item) => item.classList.add("in-view"));
+            }, 1000);
+
             function closeModal() {
-                document.getElementById("modal").classList.remove("active");
+                modal.classList.remove("active");
             }
 
-            document
-                .getElementById("modalClose")
-                .addEventListener("click", closeModal);
-            document.getElementById("modal").addEventListener("click", (e) => {
-                if (e.target.id === "modal") {
-                    closeModal();
-                }
+            modalClose.addEventListener("click", closeModal);
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal();
             });
-
             document.addEventListener("keydown", (e) => {
-                if (e.key === "Escape") {
-                    closeModal();
-                }
+                if (e.key === "Escape") closeModal();
             });
         </script>
     </body>

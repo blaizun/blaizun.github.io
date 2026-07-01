@@ -60,6 +60,8 @@ const modalImage = document.getElementById("modalImage");
 const modalClose = document.getElementById("modalClose");
 
 items.forEach((item) => {
+  if (item.dataset.type === "pdf") return;
+
   item.addEventListener("click", () => {
     const img = item.querySelector("img");
     if (!img) return;

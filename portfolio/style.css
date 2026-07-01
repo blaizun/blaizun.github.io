@@ -14,11 +14,8 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: radial-gradient(
-            circle at 15% 0%,
-            #1a1710 0%,
-            transparent 45%
-        ),
+    background:
+        radial-gradient(circle at 15% 0%, #1a1710 0%, transparent 45%),
         linear-gradient(160deg, #050506 0%, #0c0d10 55%, #131318 100%);
     color: #f2f0ea;
     min-height: 100vh;
@@ -190,6 +187,25 @@ body {
     padding: 0.25rem 0.55rem;
     border-radius: 6px;
     z-index: 1;
+}
+
+/* Adobe app tags, top-right — populate manually, see the gallery
+   comment in index.html for the icon markup to drop in */
+.app-tags {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    display: flex;
+    gap: 0.35rem;
+    z-index: 1;
+}
+
+.app-icon {
+    width: 30px;
+    height: 30px;
+    display: block;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 
 /* PDF items: the whole frame is a link that opens the file in a new tab */
