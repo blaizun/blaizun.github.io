@@ -201,14 +201,13 @@ body {
 }
 
 /* Scoped to .app-tags so this reliably beats .portfolio-item img's
-   width:100% rule regardless of whether the badge is an <svg> (old
-   inline sprite icons) or an <img> (Wikimedia file icons) */
+   width:100% rule. No border-radius/box-shadow here — the icon artwork
+   already has its own rounded-square shape baked in, and layering CSS
+   rounding + a shadow on top of that produced a faint mismatched edge. */
 .app-tags .app-icon {
     width: 30px;
     height: 30px;
     display: block;
-    border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 
 /* PDF items: the whole frame is a link that opens the file in a new tab */
